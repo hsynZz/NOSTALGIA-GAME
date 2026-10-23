@@ -1,0 +1,9 @@
+Ich möchte mein eigenständiges Unreal-Engine-5-Spiel NOSTALGIA jetzt tatsächlich produzieren – nicht bloß weiter brainstormen. Lies zuerst den beigefügten Projektbrief NOSTALGIA_Projektbrief_v01.md vollständig; er enthält verbindliche kreative, spielmechanische, technische und Qualitätsanforderungen.
+
+Du übernimmst als ChatGPT Work die technische Projektkoordination. Nutze Codex bzw. geeignete Entwicklungswerkzeuge für echten Unreal-Code, Repository-Arbeit und Tests. Ziel 1 ist nicht das fertige Spiel, sondern der im Projektbrief definierte, tatsächlich spielbare First-Person-Prototyp von Endless Summer (2004).
+
+Starte mit einer Überprüfung der verfügbaren Umgebung und Ressourcen, erstelle die reale Projektstruktur, den technischen Implementierungsplan mit Abnahmekriterien und beginne anschließend – soweit die verfügbaren Tools und Zugriffe es erlauben – mit der konkreten Umsetzung. Falls der Unreal Editor/Windows/GPU fehlt, tue nicht so, als sei ein Unreal-Build getestet oder lauffähig. Erstelle dann trotzdem die hierfür vorbereitbaren Projektdateien, Code und Asset-/Lizenzplanung. Nenne den genau fehlenden Zugriff und die einfachste Möglichkeit, ihn herzustellen.
+
+Entwickle kein generisches KI-Spiel. Die Optik soll realistisch, die Nostalgie authentisch, die Sounds räumlich und sparsam, die Horrorereignisse orts-/zustandsabhängig sein. A/B/C-Escape (dunkle Laterne, nicht existierendes Haus, ewiger Kindergeburtstag) sind verpflichtende Teile des langfristigen ersten Kapitels, nicht alle zwingend im ersten Mini-Build. Änderungen gegenüber den Anforderungen nur begründet und explizit kennzeichnen.
+
+Liefere nach dem ersten Durchlauf: (1) konkrete angelegte Dateien/Repo, (2) bereits implementierte Funktionalität, (3) Testergebnisse und Ungetestetes, (4) Assetliste samt Lizenzstatus, (5) die nächsten drei konkreten Aufgaben. Beginne direkt mit der tatsächlich verfügbaren Arbeit, anstatt nur einen weiteren allgemeinen Plan zu schreiben.

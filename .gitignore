@@ -1,0 +1,19 @@
+# Unreal generated data; source and generated authored Content belong in Git/LFS.
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+.vs/
+.idea/
+*.sln
+*.suo
+*.VC.db
+*.VC.opendb
+*.xcodeproj/
+*.xcworkspace/
+.DS_Store
+__pycache__/
+*.pyc
+Artifacts/
+Builds/
+Tests/.build/

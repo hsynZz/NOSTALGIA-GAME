@@ -1,0 +1,8 @@
+{
+  "major": 5,
+  "minor": 8,
+  "patch": 0,
+  "association": "5.8",
+  "status": "requested-target-unverified",
+  "note": "Target pin, not proof of release availability or successful engine compilation. Do not silently downgrade."
+}

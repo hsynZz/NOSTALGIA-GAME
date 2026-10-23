@@ -1,0 +1,29 @@
+PASS initial state is valid, summer afternoon, reproducible seed
+PASS escape chain requires all causal steps
+PASS early loops remain recoverable
+PASS loop debounce rejects repeated overlap without mutation
+PASS lamp clue requires darkness
+PASS completed quest cannot regress or retrigger
+PASS clock advances deterministically and stops before midnight
+PASS bad time deltas leave state untouched
+PASS night boundary is explicit
+PASS all default event rules validate with unique IDs
+PASS garden laughter is local, delayed and single use
+PASS safe zones suppress all event mutation
+PASS active threat blocks stacked events
+PASS homecomer is progress gated and one shot
+PASS global scare spacing applies across event IDs
+PASS audio event respects phase and movement speed
+PASS invalid context cannot consume events
+PASS critical event outranks cosmetic priority
+PASS custom repeat cooldown is enforced
+PASS seeded ties reproduce through a state snapshot
+PASS restored consumed events do not replay
+PASS restored loop debounce remains active
+PASS invalid save stages and progression are rejected
+PASS invalid save clock and seed are rejected
+PASS corrupt event history and future timestamps rejected
+PASS invalid door bits and loop overflow rejected
+PASS invalid data rules fail closed without indexing outside history
+PASS every quest stage has an objective and a recovery hint
+CORE_RESULT passed=28 failed=0 total=28
