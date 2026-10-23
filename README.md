@@ -4,13 +4,15 @@
 
 Dieses Repository enthält implementierte technische Grundsysteme, einen nativen Blockout-Aufbau, Tests und die Schritte zur ersten Ausführung in Unreal. Auf der Entwicklungsmaschine stehen Linux, GCC, Python und Git LFS zur Verfügung; Unreal Editor, Windows-Toolchain und eine nachgewiesene GPU-Laufzeit fehlen. Es gibt deshalb noch keinen getesteten Windows-Build, kein Gameplay-Video und keine im Editor gespeicherte Karte.
 
-Die Zielversion **5.8.0** ist in `Config/EngineVersion.json` festgelegt; `.uproject` verwendet die Unreal-Zuordnung `5.8`. Das ist eine Anforderung, keine Bestätigung einer verfügbaren stabilen Engine-Veröffentlichung. Der Abruf der offiziellen 5.8-Release-Notes war hier mit HTTP 403 gesperrt. Die Windows-Skripte prüfen die tatsächlich installierte `Build.version` und konvertieren das Projekt nicht stillschweigend auf eine andere Version.
+Die Zielversion **5.8.0** ist in `Config/EngineVersion.json` festgelegt; `.uproject` verwendet die Unreal-Zuordnung `5.8`. Der Nutzer bestätigt diese Version als auf seinem Windows-PC installiert. Die Cloud-Sitzung hat weiterhin keine Live-Verbindung zu diesem Editor. Die Windows-Skripte prüfen die tatsächliche `Build.version` und konvertieren das Projekt nicht stillschweigend auf eine andere Version.
+
+**Fortsetzung für schwache PCs:** DX11, einfache Beleuchtung ohne Lumen/Raytracing, 720p-Fenster, 30-FPS-Limit; Wohnbereich mit zweiter Tür und Schlafzimmerfenster ergänzt. Die Einstellungen begrenzen Kosten, garantieren keine gemessene Bildrate. [Lokalen Zugriff herstellen und erstmals spielen](Docs/LOCAL_UNREAL_ACCESS.md) · [Änderungsprotokoll](Docs/CHANGES_LOW_SPEC.md).
 
 ## Enthalten
 
 - First-Person-Charakter: Gehen, leichter Sprint, Sprung, Ducken; Kamera und Maus/Tastatur-Eingaben.
 - Einheitliches Interaktionsinterface; bewegliche Tür mit Spieler-Kollisionsprüfung und interaktive Questobjekte.
-- Kinderzimmer, Vorgarten, Straße, sechs Hausfassaden, Geburtstagsgarten und ein übergroßer Hausinnenraum als zur Laufzeit erzeugter Blockout.
+- Kinderzimmer mit Fenster, Wohnbereich, zwei Türen, Vorgarten, Straße, sechs Hausfassaden, Geburtstagsgarten und ein übergroßer Hausinnenraum als zur Laufzeit erzeugter Blockout.
 - Datum/Uhrzeit `17.08.2004`, Uhranzeige, Tag-/Nachtzustand und Laternen.
 - Kausale Mini-Quest: Foto → fehlendes Haus erkennen → Geburtstagserinnerung verändern → Straßenschleife öffnet Route → dunkle Laterne → Spielhaus/Abschluss.
 - Dream Director mit Datenasset-Konfiguration, festen Event-IDs, Seed, lokalen Bedingungen, Cooldowns, Ruhezeiten und Wiederholungslimits.
@@ -44,6 +46,7 @@ Die Ordner unter `Content/` sind bewusst noch leer. Es werden keine erfundenen `
 ## Dokumentation
 
 - [Windows: Installation, Öffnen, Build und Packaging](Docs/SETUP_WINDOWS.md)
+- [Windows-MCP-Verbindung, Vorabcheck und sparsamer Spielstart](Docs/LOCAL_UNREAL_ACCESS.md)
 - [Architektur und Zustandsmodelle](Docs/ARCHITECTURE.md)
 - [Umfang, Backlog und Abnahmekriterien](Docs/BACKLOG.md)
 - [Testergebnisse und offene Fehler/Risiken](Docs/VALIDATION.md)

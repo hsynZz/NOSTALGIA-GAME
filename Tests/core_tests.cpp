@@ -98,6 +98,22 @@ int main()
             for (const auto minute : {0., 359.99, 1200., 1439.}) { state.minute = minute; Check(IsNight(state), "expected night"); }
             for (const auto minute : {360., 900., 1199.99}) { state.minute = minute; Check(!IsNight(state), "expected day"); }
         }},
+        {"authored home, loop landing and portal anchors keep their intended districts", [] {
+            Check(DistrictAt(-1200, 0) == District::Bedroom, "bedroom spawn");
+            Check(DistrictAt(200, 0) == District::Bedroom, "living room lost safe home classification");
+            Check(DistrictAt(590, 0) == District::Bedroom, "inside front door");
+            Check(DistrictAt(950, 0) == District::Street, "loop landing must be outside house");
+            Check(DistrictAt(-1700, 3200) == District::Interior, "interior portal classified as home");
+            Check(DistrictAt(7200, 0) == District::Finale, "unlocked route destination");
+            Check(DistrictAt(8500, 330) == District::Finale, "dark lamp");
+        }},
+        {"garden source stays local and invalid positions cannot trigger a scare district", [] {
+            Check(DistrictAt(2050, 900) == District::Garden, "photo comparison district");
+            Check(DistrictAt(2400, 1100) == District::Garden, "birthday table district");
+            Check(DistrictAt(2200, 450) == District::Street, "garden laughter leaked to street");
+            Check(DistrictAt(std::nan(""), 1000) == District::Bedroom, "invalid position must fail safe");
+            Check(DistrictAt(1000, std::numeric_limits<double>::infinity()) == District::Bedroom, "infinite position must fail safe");
+        }},
         {"all default event rules validate with unique IDs", [] {
             std::array<bool, EventCount> ids{};
             for (const auto& rule : DefaultRules()) {

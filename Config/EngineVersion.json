@@ -3,6 +3,6 @@
   "minor": 8,
   "patch": 0,
   "association": "5.8",
-  "status": "requested-target-unverified",
-  "note": "Target pin, not proof of release availability or successful engine compilation. Do not silently downgrade."
+  "status": "user-reported-installed-build-unverified",
+  "note": "User reports UE 5.8.0 installed on Windows. This cloud session has no live-editor connection; engine compilation remains unverified. Do not silently downgrade."
 }

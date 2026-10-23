@@ -1,6 +1,8 @@
 param(
     [Parameter(Mandatory=$true)][string]$EngineRoot,
-    [ValidateSet("Build", "Prepare", "Test", "Package", "Editor", "All")][string]$Action = "All"
+    [ValidateSet("Build", "Prepare", "Test", "Package", "Editor", "Play", "All")][string]$Action = "All",
+    [ValidateRange(1, 16)][int]$MaxParallelActions = 2,
+    [switch]$StartMcp
 )
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
@@ -27,7 +29,7 @@ function Invoke-Checked([string]$Program, [string[]]$Arguments) {
 }
 
 if ($Action -in @("Build", "All")) {
-    Invoke-Checked -Program $Build -Arguments @("NOSTALGIAEditor", "Win64", "Development", "-Project=$Project", "-WaitMutex", "-NoHotReloadFromIDE")
+    Invoke-Checked -Program $Build -Arguments @("NOSTALGIAEditor", "Win64", "Development", "-Project=$Project", "-WaitMutex", "-NoHotReloadFromIDE", "-MaxParallelActions=$MaxParallelActions")
 }
 if ($Action -in @("Prepare", "All")) {
     $PrepareReport = Join-Path $Output "prepare.json"
@@ -38,7 +40,7 @@ if ($Action -in @("Prepare", "All")) {
     $Prepared = Get-Content $PrepareReport -Raw | ConvertFrom-Json
     if (!$Prepared.prepared) { throw "Preparation incomplete" }
 }
-if ($Action -in @("Test", "Package", "Editor", "All")) {
+if ($Action -in @("Test", "Package", "Editor", "Play", "All")) {
     if (!(Test-Path (Join-Path $ProjectRoot "Content/Maps/EndlessSummer.umap"))) {
         throw "Map missing. Run -Action Prepare after building the editor target."
     }
@@ -63,4 +65,11 @@ if ($Action -eq "Package") {
         "-clientconfig=Development", "-build", "-cook", "-map=/Game/Maps/EndlessSummer", "-stage", "-pak", "-archive",
         "-archivedirectory=$ProjectRoot/Builds/Win64", "-utf8output")
 }
-if ($Action -eq "Editor") { Invoke-Checked -Program $Editor -Arguments @($Project, "/Game/Maps/EndlessSummer") }
+if ($Action -in @("Editor", "Play")) {
+    # User settings from older runs may exist; apply the low-spec test profile to this process explicitly.
+    $Quality = "sg.ViewDistanceQuality 1,sg.AntiAliasingQuality 1,sg.ShadowQuality 1,sg.GlobalIlluminationQuality 0,sg.ReflectionQuality 0,sg.PostProcessQuality 0,sg.TextureQuality 1,sg.EffectsQuality 0,sg.FoliageQuality 0,sg.ShadingQuality 1,r.ScreenPercentage 75,t.MaxFPS 30"
+    $LaunchArgs = @($Project, "/Game/Maps/EndlessSummer", "-d3d11", "-windowed", "-ResX=1280", "-ResY=720", "-ExecCmds=$Quality")
+    if ($Action -eq "Play") { $LaunchArgs += "-game" }
+    if ($StartMcp -and $Action -eq "Editor") { $LaunchArgs += "-ModelContextProtocolStartServer" }
+    Invoke-Checked -Program $Editor -Arguments $LaunchArgs
+}

@@ -64,6 +64,7 @@ struct EventRule
 };
 
 const std::array<EventRule, EventCount>& DefaultRules();
+District DistrictAt(double x, double y);
 bool IsNight(const State& state);
 bool Validate(const State& state);
 bool ValidateRule(const EventRule& rule);

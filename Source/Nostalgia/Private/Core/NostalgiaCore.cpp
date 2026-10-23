@@ -36,6 +36,17 @@ const std::array<EventRule, EventCount>& DefaultRules()
 
 bool IsNight(const State& state) { return state.minute >= 20.0 * 60.0 || state.minute < 6.0 * 60.0; }
 
+District DistrictAt(double x, double y)
+{
+    // Shared with the actual blockout adapter: the new living room is part of the safe home.
+    if (!std::isfinite(x) || !std::isfinite(y)) return District::Bedroom;
+    if (x < 200 && y > 2500) return District::Interior;
+    if (x < 600 && std::abs(y) < 420) return District::Bedroom;
+    if (x > 6500) return District::Finale;
+    if (x > 1550 && x < 2850 && y > 500 && y < 1650) return District::Garden;
+    return District::Street;
+}
+
 bool Validate(const State& state)
 {
     if (!ValidStage(state.stage) || !std::isfinite(state.minute) || state.minute < 0.0 || state.minute >= 1440.0 ||

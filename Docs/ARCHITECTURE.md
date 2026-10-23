@@ -52,11 +52,13 @@ Kataloge werden vollständig validiert: genau drei eindeutige, gültige IDs. Feh
 
 ## Übergänge und Blockout
 
-Einheiten: Zentimeter. Raumstart `(-1200,0,100)`, Zimmerausgang bei X=-200. Straße entlang +X, Garten um `(2200,1100,0)`, Haus-10-Eingang bei `(1200,-1130,120)`, größerer Innenraum um `(-1000,3200,0)`. STOP bei X=5700 führt zunächst nach X=600, nach Erinnerungsänderung nach X=7200. Finale mit dunkler Laterne X=8500 und Spielhaus X=8900.
+Einheiten: Zentimeter. Raumstart `(-1200,0,100)`, Zimmerausgang bei X=-200, Wohnbereich bis zur Haustür X=600. Der Wohnbereich gehört zum sicheren Zuhause. Straße entlang +X, Garten um `(2200,1100,0)`, Haus-10-Eingang bei `(1200,-1130,120)`, größerer Innenraum um `(-1000,3200,0)`. STOP bei X=5700 führt zunächst nach X=950 außerhalb der Haustür, nach Erinnerungsänderung nach X=7200. Finale mit dunkler Laterne X=8500 und Spielhaus X=8900.
 
 Der Straßenübergang behält seitliche Position und Blickrichtung. Erst erfolgreiche kollisionsgeprüfte Platzierung schreibt den Fortschritt. Drei Sekunden Übergangsschutz verhindern Trigger-Kaskaden; auch der Core speichert seine Schleifen-Abklingzeit. Bei einem Fall unter Z=-500 Rückkehr zum Zimmer mit erhaltenem Fortschritt. Die Rückkehr setzt die Fallgeschwindigkeit zurück.
 
 Hausinnenräume sind feste separate Geometrie mit expliziten Toren, keine zufälligen Teleports. Es gibt noch kein Level-Streaming, keine nahtlose Portalansicht und keine Übergangsanimation. Physische Straßen-/Türkollision, Orientierung, Raumgefühl und Rückweg müssen in PIE abgenommen werden. Die Fassade ist ein Blockout; nur Haus 10 besitzt einen Innenraum.
+
+Grafikprofil für den ersten schwachen PC: DX11/SM5, TAA, keine Lumen-GI/-Reflexionen, kein Raytracing und keine virtuellen Schatten. 1280×720, 75 % interne Auflösung und 30-FPS-Limit. Punktlichter ohne eigene Schatten; eine schattenlose Richtungsaufhellung unterstützt den Nachtpfad. Sky-Capture nur beim Aufbau. Keine Performance-Messung vorhanden. Details im [Änderungsprotokoll](CHANGES_LOW_SPEC.md).
 
 ## Speicherung
 

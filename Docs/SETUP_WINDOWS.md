@@ -2,12 +2,14 @@
 
 Stand: 23.10.2026. Diese Anleitung ist vorbereitet, aber ohne Windows/Unreal hier **nicht ausgeführt**. Der ausführbare Linux-Prüfweg steht im README.
 
+UE 5.8.0 ist laut Nutzer inzwischen auf dem PC installiert. Für die Fortsetzung mit dieser Installation, Live-MCP-Verbindung und schwacher Hardware zuerst [LOCAL_UNREAL_ACCESS.md](LOCAL_UNREAL_ACCESS.md) verwenden. Diese Seite bleibt die vollständige Referenz für Build, Asset-Erzeugung und Packaging.
+
 ## 1. Voraussetzungen
 
 1. Git und Git LFS installieren; `git --version` und `git lfs version` prüfen.
 2. Unreal Engine **5.8.0** über einen offiziellen Epic-Vertriebsweg installieren. Die Verfügbarkeit dieser konkreten Version wurde hier nicht bestätigt. Wenn sie nicht angeboten wird, das Projekt als Quellprojekt behalten und die Versionsentscheidung separat klären; keine automatische Umstellung auf 5.7 oder eine Preview. Eine bewusste spätere Änderung muss `Config/EngineVersion.json`, `.uproject`, Anleitung und Tests gemeinsam aktualisieren.
 3. Die von **dieser UE-Version** verlangte Windows-C++-Toolchain installieren: Visual-Studio-Workload für Spieleentwicklung mit C++, passendes MSVC und Windows SDK. Konkrete MSVC-/SDK-Versionen sind ohne zugängliche 5.8-Dokumentation und echten Build noch nicht verifiziert; die Anforderungen im Launcher/UBT und in [Epics Visual-Studio-Anleitung](https://dev.epicgames.com/documentation/en-us/unreal-engine/setting-up-visual-studio-development-environment-for-cplusplus-projects-in-unreal-engine) prüfen. Ein reiner Blueprint-Editor ohne C++-Werkzeuge genügt nicht.
-4. Für den sichtbaren Test eine geeignete DX12-GPU und aktuelle Treiber bereitstellen. Hardware, RAM, Speicherplatz und GPU des Benutzer-PCs wurden nicht untersucht. `-NullRHI` bei Automation benötigt keine sichtbare Ausgabe, beweist aber auch kein korrektes Rendering.
+4. Für den sichtbaren Test eine für UE 5.8 geeignete **DX11-/SM5-GPU** und aktuelle Treiber bereitstellen. Der Testpfad verwendet kein Lumen/Raytracing. Hardware, RAM, Speicherplatz und GPU des Benutzer-PCs wurden nicht untersucht. `-NullRHI` bei Automation benötigt keine sichtbare Ausgabe, beweist aber auch kein korrektes Rendering.
 
 Es werden keine GitHub-/Epic-Passwörter in Projektdateien hinterlegt. Eine eigene Engine-Installation erfolgt außerhalb des Repositories; Engine-Binaries gehören nicht in Git.
 

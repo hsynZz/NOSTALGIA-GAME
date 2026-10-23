@@ -60,38 +60,61 @@ UTextRenderComponent* ANostalgiaBlockout::Text(const FVector& Location, const FS
     return Label;
 }
 
-void ANostalgiaBlockout::Room(const FVector& Center, const FVector& Size, bool bDoorway)
+void ANostalgiaBlockout::Room(const FVector& Center, const FVector& Size, bool bDoorway, bool bRearDoorway, bool bWindow)
 {
     Box(Center + FVector(0, 0, -10), FVector(Size.X, Size.Y, 20));
-    Box(Center + FVector(-Size.X/2, 0, 160), FVector(20, Size.Y, 320));
     Box(Center + FVector(0, -Size.Y/2, 160), FVector(Size.X, 20, 320));
-    Box(Center + FVector(0, Size.Y/2, 160), FVector(Size.X, 20, 320));
-    if (bDoorway)
+    if (bWindow)
     {
-        const float SideWidth = (Size.Y - 240) / 2;
+        // An actual opening instead of a painted window; invisible collision prevents escaping through it.
+        const float SideWidth = (Size.X - 300) / 2;
         for (float Sign : {-1.0f, 1.0f})
-            Box(Center + FVector(Size.X/2, Sign * (120 + SideWidth/2), 160), FVector(20, SideWidth, 320));
-        Box(Center + FVector(Size.X/2, 0, 280), FVector(20, 240, 80));
+            Box(Center + FVector(Sign * (150 + SideWidth/2), Size.Y/2, 160), FVector(SideWidth, 20, 320));
+        Box(Center + FVector(0, Size.Y/2, 45), FVector(300, 20, 90));
+        Box(Center + FVector(0, Size.Y/2, 280), FVector(300, 20, 80));
+        auto* WindowCollision = Box(Center + FVector(0, Size.Y/2, 165), FVector(300, 10, 150));
+        WindowCollision->SetVisibility(false);
+        WindowCollision->SetCastShadow(false);
     }
-    else Box(Center + FVector(Size.X/2, 0, 160), FVector(20, Size.Y, 320));
+    else Box(Center + FVector(0, Size.Y/2, 160), FVector(Size.X, 20, 320));
+    for (float End : {-1.0f, 1.0f})
+    {
+        const bool bOpen = End > 0 ? bDoorway : bRearDoorway;
+        if (bOpen)
+        {
+            const float SideWidth = (Size.Y - 240) / 2;
+            for (float Sign : {-1.0f, 1.0f})
+                Box(Center + FVector(End * Size.X/2, Sign * (120 + SideWidth/2), 160), FVector(20, SideWidth, 320));
+            Box(Center + FVector(End * Size.X/2, 0, 280), FVector(20, 240, 80));
+        }
+        else Box(Center + FVector(End * Size.X/2, 0, 160), FVector(20, Size.Y, 320));
+    }
     Box(Center + FVector(0, 0, 330), FVector(Size.X, Size.Y, 20));
     auto* Light = NewObject<UPointLightComponent>(this);
     AddInstanceComponent(Light);
+    Light->SetMobility(EComponentMobility::Movable);
     Light->SetupAttachment(RootComponent);
     Light->SetRelativeLocation(Center + FVector(0, 0, 270));
     Light->SetIntensity(2500);
-    Light->SetAttenuationRadius(FMath::Max(Size.X, Size.Y));
+    Light->SetAttenuationRadius(FMath::Min(1200.0, FMath::Max(Size.X, Size.Y)));
+    Light->SetCastShadows(false);
     Light->SetLightColor(FLinearColor(1.0, 0.86, 0.63));
     Light->RegisterComponent();
 }
 
 void ANostalgiaBlockout::Build()
 {
-    Room(FVector(-1000, 0, 0), FVector(1600, 800, 320), true);
+    Room(FVector(-1000, 0, 0), FVector(1600, 800, 320), true, false, true);
+    // Continue the existing bedroom into a small residential hall/living room, then the front garden.
+    Room(FVector(200, 0, 0), FVector(800, 800, 320), true, true);
+    Box(FVector(100, 270, 40), FVector(280, 100, 80)); // sofa, clear of the central walking route
+    Box(FVector(250, -240, 35), FVector(120, 90, 70)); // low table
+    Text(FVector(0, 380, 210), TEXT("ZU HAUSE - SOMMER 2004"), -90);
     Box(FVector(-1300, -260, 35), FVector(300, 150, 70)); // bed
     Box(FVector(-850, 280, 45), FVector(200, 100, 90)); // desk
     Box(FVector(-600, 300, 110), FVector(100, 70, 80)); // CRT placeholder
-    Box(FVector(300, 0, -10), FVector(1000, 800, 20)); // front yard / porch
+    Box(FVector(850, 0, -10), FVector(500, 800, 20)); // front yard / porch
+    Box(FVector(-600, 0, -30), FVector(2600, 1800, 20)); // ground visible through the bedroom window
     Box(FVector(3100, 0, -12), FVector(6200, 800, 24)); // street
     Box(FVector(3000, 0, -30), FVector(6400, 4600, 20)); // lawns
     // Walkable continuous ground under the destination; no need to jump at transitions.
@@ -99,6 +122,8 @@ void ANostalgiaBlockout::Build()
     Box(FVector(6500, 0, 180), FVector(30, 1800, 360)); // separates curated route from free walking
     auto* Door = GetWorld()->SpawnActor<ANostalgiaDoor>(FVector(-200, -110, 0), FRotator::ZeroRotator);
     Door->DoorId = 0;
+    auto* FrontDoor = GetWorld()->SpawnActor<ANostalgiaDoor>(FVector(600, -110, 0), FRotator::ZeroRotator);
+    FrontDoor->DoorId = 1;
     Text(FVector(-1500, 380, 210), TEXT("ENDLESS SUMMER - 2004"), -90);
 
     const float HousesX[] = {1200, 3200, 5000};
@@ -153,10 +178,12 @@ void ANostalgiaBlockout::Build()
         if (Index == 4) continue; // the deliberately dark final lamp
         auto* Light = NewObject<UPointLightComponent>(this);
         AddInstanceComponent(Light);
+        Light->SetMobility(EComponentMobility::Movable);
         Light->SetupAttachment(RootComponent);
         Light->SetRelativeLocation(Base + FVector(0, 0, 420));
         Light->SetIntensity(3000);
-        Light->SetAttenuationRadius(1500);
+        Light->SetAttenuationRadius(1100);
+        Light->SetCastShadows(false);
         Light->SetLightColor(FLinearColor(1.0, .8, .45));
         Light->SetVisibility(false);
         Light->RegisterComponent();
@@ -172,6 +199,13 @@ void ANostalgiaBlockout::Build()
     auto* SunComponent = CastChecked<UDirectionalLightComponent>(Sun->GetLightComponent());
     SunComponent->bAtmosphereSunLight = true;
     SunComponent->SetIntensity(8);
+    NightFill = GetWorld()->SpawnActor<ADirectionalLight>(FVector(0, 0, 1000), FRotator(-25, 145, 0));
+    auto* NightComponent = CastChecked<UDirectionalLightComponent>(NightFill->GetLightComponent());
+    NightComponent->SetMobility(EComponentMobility::Movable);
+    NightComponent->bAtmosphereSunLight = false;
+    NightComponent->SetCastShadows(false);
+    NightComponent->SetLightColor(FLinearColor(.35f, .45f, .7f));
+    NightComponent->SetIntensity(0);
     GetWorld()->SpawnActor<ASkyAtmosphere>();
     Sky = GetWorld()->SpawnActor<ASkyLight>();
     Sky->GetLightComponent()->SetMobility(EComponentMobility::Movable);
@@ -191,18 +225,14 @@ void ANostalgiaBlockout::BeginPlay()
 
 Nostalgia::District ANostalgiaBlockout::DistrictAt(const FVector& Location)
 {
-    if (Location.X < 200 && Location.Y > 2500) return Nostalgia::District::Interior;
-    if (Location.X < 0) return Nostalgia::District::Bedroom;
-    if (Location.X > 6500) return Nostalgia::District::Finale;
-    if (Location.X > 1550 && Location.X < 2850 && Location.Y > 500 && Location.Y < 1650) return Nostalgia::District::Garden;
-    return Nostalgia::District::Street;
+    return Nostalgia::DistrictAt(Location.X, Location.Y);
 }
 
 void ANostalgiaBlockout::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
     auto* Player = Cast<ANostalgiaCharacter>(UGameplayStatics::GetPlayerPawn(this, 0));
-    if (!Player || !Homecomer || !Sun) return;
+    if (!Player || !Homecomer || !Sun || !NightFill) return;
     auto* Session = GetGameInstance()->GetSubsystem<UNostalgiaStateSubsystem>();
     if (Session->LoadRevision != SeenLoadRevision)
     {
@@ -219,16 +249,26 @@ void ANostalgiaBlockout::Tick(float DeltaSeconds)
     Audio->UpdateListener(Player->GetActorLocation(), District);
     if (Event == Nostalgia::EventId::HomecomerSighting) Homecomer->Show();
     const auto& State = Session->GetState();
-    ChangedNumber->SetText(FText::FromString(State.loops > 0 ? TEXT("HAUS 13 1/2") : TEXT("")));
-    MemoryHouse->SetVisibility(State.stage >= Nostalgia::Stage::BirthdayRestored);
+    if (DisplayedLoops != State.loops)
+    {
+        DisplayedLoops = State.loops;
+        ChangedNumber->SetText(FText::FromString(State.loops > 0 ? TEXT("HAUS 13 1/2") : TEXT("")));
+    }
+    if (DisplayedStage != State.stage)
+    {
+        DisplayedStage = State.stage;
+        MemoryHouse->SetVisibility(State.stage >= Nostalgia::Stage::BirthdayRestored);
+    }
     const bool bNight = Nostalgia::IsNight(State);
     if (bNight != bWasNight)
     {
         bWasNight = bNight;
+        // Keep the captured sky; a second expensive runtime capture is unnecessary for this blockout.
+        // A dim directional fill keeps the final unlit lamp navigable without Lumen.
         Sun->SetActorRotation(bNight ? FRotator(15, -35, 0) : FRotator(-40, -35, 0));
         Sun->GetLightComponent()->SetIntensity(bNight ? 0.15f : 8.0f);
-        Sky->GetLightComponent()->SetIntensity(bNight ? 0.08f : 0.8f);
-        Sky->GetLightComponent()->RecaptureSky();
+        NightFill->GetLightComponent()->SetIntensity(bNight ? 0.3f : 0.0f);
+        Sky->GetLightComponent()->SetIntensity(bNight ? 0.12f : 0.8f);
         for (const auto& Light : StreetLights) Light->SetVisibility(bNight);
     }
     if (State.stage == Nostalgia::Stage::Complete) Audio->StopTransientAudio();

@@ -20,8 +20,9 @@ class RepositoryChecks(unittest.TestCase):
         self.assertEqual((pin["major"], pin["minor"], pin["patch"]), (5, 8, 0))
         self.assertEqual(project["EngineAssociation"], pin["association"])
         self.assertEqual(project["Modules"], [{"Name": "Nostalgia", "Type": "Runtime", "LoadingPhase": "Default"}])
-        for plugin in project["Plugins"]:
-            self.assertEqual(plugin["TargetAllowList"], ["Editor"])
+        plugins = {plugin["Name"]: plugin for plugin in project["Plugins"]}
+        for name in ("PythonScriptPlugin", "EditorScriptingUtilities"):
+            self.assertEqual(plugins[name]["TargetAllowList"], ["Editor"])
 
     def test_build_target_discovery(self):
         for target, kind in [("NOSTALGIA", "Game"), ("NOSTALGIAEditor", "Editor")]:

@@ -27,7 +27,8 @@ void ANostalgiaWorldLoop::Enter(UPrimitiveComponent*, AActor* Other, UPrimitiveC
     auto Candidate = State->GetState();
     if (!Nostalgia::TraverseLoop(Candidate)) return;
     const bool bUnlocked = Candidate.stage >= Nostalgia::Stage::RoadUnlocked;
-    const FVector Target(bUnlocked ? 7200 : 600, FMath::Clamp(Player->GetActorLocation().Y, -250.0, 250.0), 96);
+    // X=600 is now the residential front door. The loop lands safely outside the house.
+    const FVector Target(bUnlocked ? 7200 : 950, FMath::Clamp(Player->GetActorLocation().Y, -250.0, 250.0), 96);
     const FRotator View = Player->GetControlRotation();
     if (!Player->TeleportTo(Target, FRotator(0, View.Yaw, 0), false, false)) return;
     Player->GetCharacterMovement()->StopMovementImmediately();

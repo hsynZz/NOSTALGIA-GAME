@@ -25,6 +25,7 @@ void ANostalgiaDoor::Tick(float DeltaSeconds)
     Super::Tick(DeltaSeconds);
     const auto* State = GetGameInstance()->GetSubsystem<UNostalgiaStateSubsystem>();
     const float Target = State->IsDoorOpen(DoorId) ? -90.0f : 0.0f;
+    if (FMath::IsNearlyEqual(Hinge->GetRelativeRotation().Yaw, Target)) return;
     const float NextYaw = FMath::FInterpConstantTo(Hinge->GetRelativeRotation().Yaw, Target, DeltaSeconds, 100);
     const FQuat NextRotation = FRotator(0, NextYaw, 0).Quaternion();
     const FVector Center = GetActorLocation() + NextRotation.RotateVector(FVector(0, 110, 120));

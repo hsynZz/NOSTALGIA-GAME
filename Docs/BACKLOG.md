@@ -2,6 +2,8 @@
 
 **Status:** technischer Quellprototyp 0.1; keine bestätigte Spielbarkeit. Kreative Grundlage ist der unverändert archivierte Projektbrief. Keine weiteren Kapitelinhalte oder neue Lore implementiert.
 
+Fortsetzung 23.10.2026: Nutzer bestätigt UE 5.8.0 auf Windows. Cloud-Zugriff auf den lokalen Editor bleibt blockiert. Sparsames Grafikprofil, Wohnbereich, zweite Tür und Fenster sind im bestehenden Code ergänzt; siehe [CHANGES_LOW_SPEC.md](CHANGES_LOW_SPEC.md) und [lokale Anleitung](LOCAL_UNREAL_ACCESS.md).
+
 ## Implementiert, Engine-Integration noch ungetestet
 
 | ID | Lieferumfang | Abnahmekriterium |
@@ -30,7 +32,7 @@ Die reine Quest-/Director-/Zeitlogik aus P04–P10 ist bereits mit real kompilie
 - Platzhalter durch eigene/lizenzierte Foto-, Zimmer-, Geburtstags-, Garten- und Audioassets ersetzen; Lizenzregister je konkretem Asset vervollständigen.
 - Tatsächliches Kinderlachen, Umgebungsvarianten, Schritte und sparsame Atmung; räumliche Mischung und Occlusion hören.
 - Tür-/Handanimationen, Kamera- und Übergangsgefühl, Controller-/Enhanced-Input-Anbindung, nutzbare Menüs.
-- Schlafzimmerfenster, sichtbare Vorstadt, glaubwürdiger Garten, bessere Silhouette; Bildsprache ohne permanente VHS-Verzerrung.
+- Vorhandenes Blockout-Fenster und Außenblick visuell abnehmen; glaubwürdiger Garten, bessere Silhouette; Bildsprache ohne permanente VHS-Verzerrung.
 - Zeit-/Lichtinterpolation und Performance-Messung mit realer GPU; Cookgröße und Speicherverbrauch messen.
 
 ## P2 — späterer Kapitelumfang
