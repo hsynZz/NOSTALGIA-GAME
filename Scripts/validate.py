@@ -1,9 +1,12 @@
 """Run all checks available without Unreal. Never labels these as an engine build."""
 import argparse
 import datetime
+import hashlib
+import io
 import json
 import os
 from pathlib import Path
+import platform
 import re
 import shutil
 import subprocess
@@ -22,11 +25,26 @@ def run():
     output.mkdir(parents=True, exist_ok=True)
     report = {"started_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
               "unreal_build": "not_run", "unreal_automation": "not_run", "human_playtest": "not_run",
-              "sanitizers": args.sanitize}
+              "sanitizers": args.sanitize, "platform": platform.platform(),
+              "command": "python3 Scripts/validate.py" + (" --sanitize" if args.sanitize else ""),
+              "base_commit": None}
     result_code = 1
     try:
+        if shutil.which("git"):
+            head = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True)
+            if head.returncode == 0:
+                report["base_commit"] = head.stdout.strip()
+        inputs = [ROOT / "NOSTALGIA.uproject"]
+        for directory, extensions in {"Source": {".cpp", ".h", ".cs"}, "Config": {".ini", ".json"},
+                                      "Scripts": {".py", ".ps1"}, "Tests": {".cpp", ".py"}}.items():
+            inputs.extend(path for path in (ROOT / directory).rglob("*") if path.suffix in extensions)
+        report["input_sha256"] = {path.relative_to(ROOT).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+                                  for path in sorted(inputs)}
         suite = unittest.defaultTestLoader.discover(str(ROOT / "Tests"), pattern="test_*.py")
-        result = unittest.TextTestRunner(verbosity=2).run(suite)
+        python_log = io.StringIO()
+        result = unittest.TextTestRunner(stream=python_log, verbosity=2).run(suite)
+        (output / "python.log").write_text(python_log.getvalue(), encoding="utf-8")
+        print(python_log.getvalue(), end="", file=sys.stderr)
         report["python"] = {"run": result.testsRun, "failed": len(result.failures), "errors": len(result.errors), "skipped": len(result.skipped)}
         compiler = os.environ.get("CXX") or shutil.which("g++") or shutil.which("clang++")
         if not compiler:
@@ -36,7 +54,7 @@ def run():
         executable.parent.mkdir(parents=True, exist_ok=True)
         command = [compiler, "-std=c++20", "-Wall", "-Wextra", "-Werror", "-Wpedantic", "-O1", "-g",
                    "-I", str(ROOT / "Source/Nostalgia/Public"), str(ROOT / "Tests/core_tests.cpp"),
-                   str(ROOT / "Source/Nostalgia/Private/Core/NostalgiaCore.cpp"), "-o", str(executable)]
+                   *map(str, sorted((ROOT / "Source/Nostalgia/Private/Core").glob("*.cpp"))), "-o", str(executable)]
         if args.sanitize:
             command += ["-fsanitize=address,undefined", "-fno-omit-frame-pointer"]
         subprocess.run(command, check=True)

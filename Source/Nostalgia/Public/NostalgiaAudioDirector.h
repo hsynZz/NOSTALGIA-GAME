@@ -15,7 +15,9 @@ class NOSTALGIA_API UNostalgiaAudioDirector : public UActorComponent
 public:
     UNostalgiaAudioDirector();
     virtual void BeginPlay() override;
-    void Play(Nostalgia::EventId Event);
+    virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+    bool CanPlay(Nostalgia::EventId Event, const FVector& Location) const;
+    bool Play(Nostalgia::EventId Event);
     void UpdateListener(const FVector& Location, Nostalgia::District District);
     void StopTransientAudio();
 private:
@@ -24,5 +26,8 @@ private:
     UPROPERTY() TObjectPtr<USoundAttenuation> Attenuation;
     UPROPERTY() TObjectPtr<UAudioComponent> ActiveGarden;
     UPROPERTY() TObjectPtr<UAudioComponent> ActiveKnock;
+    bool bGardenFading = false;
+    bool bKnockFading = false;
     const FVector GardenOrigin = FVector(2400, 1250, 110);
+    const FVector KnockOrigin = FVector(-900, 3650, 150);
 };

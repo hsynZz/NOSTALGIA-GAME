@@ -17,8 +17,9 @@ public:
     bool TransitionReady() const;
     void ProtectTransition();
     bool bClockVisible = false;
-    bool bDebugVisible = true;
+    bool bDebugVisible = false;
     bool bHintVisible = false;
+    bool bMemoryVisible = false;
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly) TObjectPtr<UCameraComponent> Camera;
 
 private:
@@ -36,6 +37,7 @@ private:
     void ToggleClock();
     void ToggleDebug();
     void ToggleHint();
+    void ToggleMemory();
     void Save();
     void Load();
 };

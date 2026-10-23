@@ -27,16 +27,30 @@ void UNostalgiaStateSubsystem::SetContext(Nostalgia::District District, bool bSa
 
 Nostalgia::EventId UNostalgiaStateSubsystem::Step(float DeltaSeconds)
 {
+    PendingEvent = Nostalgia::EventPlan{};
     if (State.stage == Nostalgia::Stage::Complete) return Nostalgia::EventId::Count;
     Nostalgia::Advance(State, DeltaSeconds);
-    const auto Event = Nostalgia::SelectEvent(State, Context, Rules);
-    if (Event != Nostalgia::EventId::Count)
+    PendingEvent = Nostalgia::PlanEvent(State, Context, Rules);
+    return PendingEvent.GetEvent();
+}
+
+void UNostalgiaStateSubsystem::SetEventAvailable(Nostalgia::EventId Event, bool bAvailable)
+{
+    if (Event < Nostalgia::EventId::Count) Context.available[static_cast<size_t>(Event)] = bAvailable;
+}
+
+bool UNostalgiaStateSubsystem::AcknowledgeEvent(bool bDelivered)
+{
+    const auto Event = PendingEvent.GetEvent();
+    const bool bCommitted = Nostalgia::CommitEvent(State, PendingEvent, bDelivered);
+    PendingEvent = Nostalgia::EventPlan{};
+    if (bCommitted)
     {
         LastEvent = UTF8_TO_TCHAR(Nostalgia::EventName(Event).data());
         UE_LOG(LogNostalgia, Log, TEXT("Event=%s Stage=%d Time=%.2f Seed=%u"), *LastEvent,
             static_cast<int32>(State.stage), State.elapsed, State.randomState);
     }
-    return Event;
+    return bCommitted;
 }
 
 bool UNostalgiaStateSubsystem::Perform(Nostalgia::Action Action)
@@ -153,6 +167,7 @@ bool UNostalgiaStateSubsystem::Load(ANostalgiaCharacter* Player)
     Player->ProtectTransition();
     State = Candidate;
     Context = Nostalgia::Context{};
+    PendingEvent = Nostalgia::EventPlan{};
     LastEvent = TEXT("Load.Restored");
     LastMessage = TEXT("Spielstand geladen; Uhr, Quest, Schleifen, Tueren und Event-Historie wiederhergestellt.");
     ++LoadRevision;

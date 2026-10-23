@@ -6,18 +6,20 @@ Dieses Repository enthält implementierte technische Grundsysteme, einen nativen
 
 Die Zielversion **5.8.0** ist in `Config/EngineVersion.json` festgelegt; `.uproject` verwendet die Unreal-Zuordnung `5.8`. Der Nutzer bestätigt diese Version als auf seinem Windows-PC installiert. Die Cloud-Sitzung hat weiterhin keine Live-Verbindung zu diesem Editor. Die Windows-Skripte prüfen die tatsächliche `Build.version` und konvertieren das Projekt nicht stillschweigend auf eine andere Version.
 
-**Fortsetzung für schwache PCs:** DX11, einfache Beleuchtung ohne Lumen/Raytracing, 720p-Fenster, 30-FPS-Limit; Wohnbereich mit zweiter Tür und Schlafzimmerfenster ergänzt. Die Einstellungen begrenzen Kosten, garantieren keine gemessene Bildrate. [Lokalen Zugriff herstellen und erstmals spielen](Docs/LOCAL_UNREAL_ACCESS.md) · [Änderungsprotokoll](Docs/CHANGES_LOW_SPEC.md).
+**Aktuelle Cloud-Fortsetzung:** Fotoansicht, sichtbare Geburtstagsänderung, längerer Hausinnenraum, Spielhausflur mit Rückwegen, bestätigte Ereignisstarts und Heimkehrer mit Sichtprüfung und begrenzter Annäherung. **47 native C++-Tests und 9 Python-Tests bestanden.** [Änderungen und Grenzen](Docs/CHANGES_CLOUD_GAMEPLAY.md) · [Prüfbericht](Docs/VALIDATION.md).
+
+Das sparsame Profil bleibt bei DX11, einfacher Beleuchtung ohne Lumen/Raytracing, 720p-Fenster und 30-FPS-Limit. Es gibt noch keine gemessene Bildrate. Die aktuelle Entwicklung erfolgt in der Cloud; lokale Installationsversuche sind nicht Teil dieser Iteration.
 
 ## Enthalten
 
 - First-Person-Charakter: Gehen, leichter Sprint, Sprung, Ducken; Kamera und Maus/Tastatur-Eingaben.
 - Einheitliches Interaktionsinterface; bewegliche Tür mit Spieler-Kollisionsprüfung und interaktive Questobjekte.
-- Kinderzimmer mit Fenster, Wohnbereich, zwei Türen, Vorgarten, Straße, sechs Hausfassaden, Geburtstagsgarten und ein übergroßer Hausinnenraum als zur Laufzeit erzeugter Blockout.
+- Kinderzimmer mit Fenster, Wohnbereich, zwei Türen, Vorgarten, Straße, sechs Hausfassaden, Geburtstagsgarten, übergroßer Hausinnenraum und Spielhausflur als zur Laufzeit erzeugter Blockout.
 - Datum/Uhrzeit `17.08.2004`, Uhranzeige, Tag-/Nachtzustand und Laternen.
-- Kausale Mini-Quest: Foto → fehlendes Haus erkennen → Geburtstagserinnerung verändern → Straßenschleife öffnet Route → dunkle Laterne → Spielhaus/Abschluss.
-- Dream Director mit Datenasset-Konfiguration, festen Event-IDs, Seed, lokalen Bedingungen, Cooldowns, Ruhezeiten und Wiederholungslimits.
+- Kausale Mini-Quest: Foto (mit J erneut ansehen) → fehlendes Haus erkennen → Geburtstagserinnerung verändern → Straßenschleife öffnet Route → dunkle Laterne → Spielhausflur/Abschluss.
+- Dream Director mit Datenasset-Konfiguration, festen Event-IDs, Seed, lokalen Bedingungen, Cooldowns, Ruhezeiten und Wiederholungslimits. Historie und RNG werden erst nach bestätigtem Präsentationsstart verändert.
 - Räumliches Audio mit Annäherungs-Abbruch und Occlusion; **synthetische Testsignale**, noch kein aufgenommenes Kinderlachen.
-- Zeitlich begrenzte Heimkehrer-Sichtung mit Zustandsautomat; keine Verfolgung oder Kampfmechanik.
+- Heimkehrer-Sichtung mit Sichtstrahl, Bildschirm-/Entfernungsprüfung, höchstens 150 cm Annäherung beim Wegsehen und begrenztem Rückzug; keine vollständige Verfolgung oder Kampfmechanik.
 - Versioniertes Savegame für Quest, Zeit, Türen, Position, Schleifen und Ereignishistorie; Debug-HUD und Hinweise.
 
 ## Jetzt prüfen — ohne Unreal
@@ -28,23 +30,19 @@ Voraussetzungen: Python **3.10+**, GCC/Clang mit C++20. Keine Python-Pakete nöt
 python3 Scripts/validate.py --sanitize
 ```
 
-Der Runner kompiliert **dieselbe** reine C++-Spiellogik, die das Unreal-Modul verwendet. Er führt außerdem Repository-/Werkzeugtests aus. Ergebnisdateien liegen in `Artifacts/Validation/`. Diese Prüfung ersetzt weder UHT/UBT noch einen Spieltest.
+Der Runner kompiliert **dieselben** reinen C++-Module für Quest/Director und Begegnungen, die das Unreal-Modul verwendet. Er führt außerdem Repository-/Werkzeugtests aus. Ergebnisdateien einschließlich Quellcode-Hashes sowie C++-/Python-Logs liegen in `Artifacts/Validation/`. Diese Prüfung ersetzt weder UHT/UBT noch einen Spieltest.
 
 ## Später in Unreal öffnen
 
-Nach Installation der passenden Engine und Windows-C++-Werkzeuge im Repository-Verzeichnis:
+Der vorhandene Ablauf ist in [SETUP_WINDOWS.md](Docs/SETUP_WINDOWS.md) dokumentiert. Er bleibt für eine spätere funktionsfähige UE-5.8.0-Umgebung vorbereitet. Der Auftrag zur Cloud-Weiterentwicklung setzt keine erneute lokale Installation voraus.
 
-```powershell
-.\Scripts\unreal.ps1 -EngineRoot "C:\Program Files\Epic Games\UE_5.8" -Action All
-.\Scripts\unreal.ps1 -EngineRoot "C:\Program Files\Epic Games\UE_5.8" -Action Editor
-```
-
-`All` kompiliert das Editor-Target, erzeugt mit Unreal selbst die echte Karte, Audio-Pakete, das Material und Ereignis-Datenasset und führt die vier vorbereiteten Unreal-Automationstests aus. Diese Schritte sind **hier noch nicht ausgeführt**. Erst danach die manuelle Abnahme durchführen. Im Editor erscheint die Geometrie beim Start von **Play**, da der native Blockout-Actor sie in `BeginPlay` aufbaut.
+`Scripts/unreal.ps1 -Action All` ist für Editor-Build, echte Asset-Erzeugung und vier Unreal-Automationstests vorgesehen; diese Schritte sind **hier noch nicht ausgeführt**. Im Editor entsteht die Geometrie erst beim Start von **Play**, da der native Blockout-Actor sie in `BeginPlay` aufbaut.
 
 Die Ordner unter `Content/` sind bewusst noch leer. Es werden keine erfundenen `.umap`-/`.uasset`-Dateien geliefert. Ihre reproduzierbare Erzeugung liegt in `Scripts/prepare_unreal.py`; die daraus in Unreal tatsächlich erzeugten Pakete anschließend mit Git LFS committen.
 
 ## Dokumentation
 
+- [Aktuelle Cloud-Iteration: Änderungen, Belege und offene Abnahme](Docs/CHANGES_CLOUD_GAMEPLAY.md)
 - [Windows: Installation, Öffnen, Build und Packaging](Docs/SETUP_WINDOWS.md)
 - [Windows-MCP-Verbindung, Vorabcheck und sparsamer Spielstart](Docs/LOCAL_UNREAL_ACCESS.md)
 - [Architektur und Zustandsmodelle](Docs/ARCHITECTURE.md)

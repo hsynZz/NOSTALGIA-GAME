@@ -2,11 +2,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Core/NostalgiaEncounter.h"
 #include "NostalgiaHomecomer.generated.h"
 
 class UStaticMeshComponent;
-UENUM()
-enum class EHomecomerState : uint8 { Dormant, Observing, Retreating, Cooldown };
+class UCapsuleComponent;
+class ANostalgiaCharacter;
 
 UCLASS()
 class NOSTALGIA_API ANostalgiaHomecomer : public AActor
@@ -15,14 +16,18 @@ class NOSTALGIA_API ANostalgiaHomecomer : public AActor
 public:
     ANostalgiaHomecomer();
     virtual void BeginPlay() override;
-    virtual void Tick(float DeltaSeconds) override;
-    void Show();
+    bool CanShow(const ANostalgiaCharacter* Player, bool bSafe) const;
+    bool Show(const ANostalgiaCharacter* Player, bool bSafe);
+    void UpdateEncounter(const ANostalgiaCharacter* Player, bool bSafe, float DeltaSeconds);
     void ResetPresentation();
-    EHomecomerState GetEntityState() const { return State; }
-    bool IsVisibleThreat() const { return State == EHomecomerState::Observing || State == EHomecomerState::Retreating; }
+    Nostalgia::EncounterPhase GetEntityState() const { return Encounter.phase; }
+    bool IsVisibleThreat() const { return Nostalgia::EncounterActive(Encounter); }
 private:
+    UPROPERTY() TObjectPtr<UCapsuleComponent> Body;
     UPROPERTY() TArray<TObjectPtr<UStaticMeshComponent>> Parts;
-    EHomecomerState State = EHomecomerState::Dormant;
-    float Remaining = 0;
+    Nostalgia::Encounter Encounter;
+    Nostalgia::Perception Sense(const ANostalgiaCharacter* Player, bool bSafe) const;
+    bool bBlocked = false;
+    bool bPresentationReady = false;
     FVector Anchor;
 };

@@ -5,7 +5,8 @@ GEN001,Synthetisches Garten-Testsignal,Generator nativ getestet,Scripts/make_pla
 GEN002,Synthetisches Klopfsignal,Generator nativ getestet,Scripts/make_placeholder_audio.py,NOSTALGIA-Projekt,Original prozedural erzeugt; keine Fremdsamples,0,Projektintern,Audio-Test,Generator ja; WAV und uasset erst nach Prepare
 GEN003,Silhouettenmaterial und Ereigniskatalog,UE-Erzeugung ungetestet,Scripts/prepare_unreal.py,NOSTALGIA-Projekt,Projektintern erzeugt; keine importierten Drittinhalte,0,Projektintern,Heimkehrer und Dream Director,Generator ja; uasset noch nicht erzeugt
 GEN004,Blockout-Karte,UE-Erzeugung ungetestet,Source/Nostalgia/Private/NostalgiaBlockout.cpp,NOSTALGIA-Projekt,Projektgeometrie mit Engine-Grundformen,0,Projektintern,Endless Summer,Quellcode ja; umap noch nicht erzeugt
-REQ001,Foto und Kindheitsobjekte,fehlt,Noch keine Quelle gewählt,Offen,Lizenz und kommerzielle Nutzung offen,Offen,Offen,Kinderzimmer und Geburtstag,Nein
+GEN005,Schematische Geburtstagsfoto-Ansicht,implementiert UE-Darstellung ungetestet,Source/Nostalgia/Private/NostalgiaHUD.cpp,NOSTALGIA-Projekt,Original aus Canvas-Grundformen; keine Fremdbilder,0,Projektintern,Foto-Hinweis,Ja als Code
+REQ001,Fertiges Foto und Kindheitsobjekte,fehlt,Noch keine Quelle gewählt,Offen,Lizenz und kommerzielle Nutzung offen,Offen,Offen,Kinderzimmer und Geburtstag,Nein
 REQ002,Kinderlachen und Umweltaufnahmen,fehlt,Noch keine Aufnahme gewählt,Offen,Lizenz und Einwilligungen je konkreter Aufnahme prüfen,Offen,Offen,Garten und AudioDirector,Nein
 REQ003,Hände und Bewegungsanimationen,fehlt,Noch keine Quelle gewählt,Offen,Lizenz und kommerzielle Nutzung offen,Offen,Offen,Interaktion und Bewegung,Nein
 CAND001,PBR-Materialien und HDRI,Kandidat ungeprüft,https://polyhaven.com,Je Asset dokumentieren,Anbieter wirbt mit CC0; konkretes Asset und Herkunft noch prüfen,Typisch kostenlos,Erst nach Prüfung,Späteres Environment,Nein

@@ -33,12 +33,14 @@ private:
     UPROPERTY() TArray<TObjectPtr<UPointLightComponent>> StreetLights;
     UPROPERTY() TObjectPtr<UTextRenderComponent> ChangedNumber;
     UPROPERTY() TObjectPtr<UStaticMeshComponent> MemoryHouse;
+    UPROPERTY() TObjectPtr<UStaticMeshComponent> BirthdayChair;
+    UPROPERTY() TObjectPtr<UTextRenderComponent> MemoryClue;
     uint32 SeenLoadRevision = 0;
     bool bWasNight = false;
     uint32 DisplayedLoops = MAX_uint32;
     Nostalgia::Stage DisplayedStage = static_cast<Nostalgia::Stage>(255);
     int32 ComponentCounter = 0;
-    UStaticMeshComponent* Box(const FVector& Center, const FVector& Size);
+    UStaticMeshComponent* Box(const FVector& Center, const FVector& Size, bool bMovable = false);
     UTextRenderComponent* Text(const FVector& Location, const FString& Value, float Yaw = 180);
     void Room(const FVector& Center, const FVector& Size, bool bDoorway, bool bRearDoorway = false, bool bWindow = false);
     void Build();

@@ -8,6 +8,9 @@
 
 ANostalgiaWorldLoop::ANostalgiaWorldLoop()
 {
+    PrimaryActorTick.bCanEverTick = true;
+    PrimaryActorTick.bStartWithTickEnabled = false;
+    PrimaryActorTick.TickInterval = .1f;
     Trigger = CreateDefaultSubobject<UBoxComponent>(TEXT("StreetBoundary"));
     SetRootComponent(Trigger);
     Trigger->SetBoxExtent(FVector(100, 470, 160));
@@ -20,8 +23,31 @@ ANostalgiaWorldLoop::ANostalgiaWorldLoop()
 
 void ANostalgiaWorldLoop::Enter(UPrimitiveComponent*, AActor* Other, UPrimitiveComponent*, int32, bool, const FHitResult&)
 {
-    auto* Player = Cast<ANostalgiaCharacter>(Other);
-    if (!Player || !Player->TransitionReady()) return;
+    if (auto* Player = Cast<ANostalgiaCharacter>(Other))
+    {
+        PendingPlayer = Player;
+        SetActorTickEnabled(true);
+        TryTransition();
+    }
+}
+
+void ANostalgiaWorldLoop::Tick(float DeltaSeconds)
+{
+    Super::Tick(DeltaSeconds);
+    TryTransition();
+}
+
+void ANostalgiaWorldLoop::TryTransition()
+{
+    auto* Player = PendingPlayer.Get();
+    if (!Player || !Trigger->IsOverlappingActor(Player))
+    {
+        PendingPlayer.Reset();
+        SetActorTickEnabled(false);
+        return;
+    }
+    // An overlap during the transition cooldown is retried while still inside the boundary.
+    if (!Player->TransitionReady()) return;
     auto* State = GetGameInstance()->GetSubsystem<UNostalgiaStateSubsystem>();
     // Preflight the exact core operation, commit it only after successful placement.
     auto Candidate = State->GetState();
@@ -35,4 +61,6 @@ void ANostalgiaWorldLoop::Enter(UPrimitiveComponent*, AActor* Other, UPrimitiveC
     if (Player->GetController()) Player->GetController()->SetControlRotation(View);
     Player->ProtectTransition();
     State->TraverseLoop();
+    PendingPlayer.Reset();
+    SetActorTickEnabled(false);
 }

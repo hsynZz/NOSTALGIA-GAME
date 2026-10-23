@@ -27,15 +27,17 @@ ANostalgiaBlockout::ANostalgiaBlockout()
 {
     PrimaryActorTick.bCanEverTick = true;
     SetRootComponent(CreateDefaultSubobject<USceneComponent>(TEXT("BlockoutRoot")));
+    RootComponent->SetMobility(EComponentMobility::Static);
     Audio = CreateDefaultSubobject<UNostalgiaAudioDirector>(TEXT("AudioDirector"));
     static ConstructorHelpers::FObjectFinder<UStaticMesh> CubeAsset(TEXT("/Engine/BasicShapes/Cube.Cube"));
     Cube = CubeAsset.Object;
 }
 
-UStaticMeshComponent* ANostalgiaBlockout::Box(const FVector& Center, const FVector& Size)
+UStaticMeshComponent* ANostalgiaBlockout::Box(const FVector& Center, const FVector& Size, bool bMovable)
 {
     auto* Mesh = NewObject<UStaticMeshComponent>(this, *FString::Printf(TEXT("Block_%d"), ComponentCounter++));
     AddInstanceComponent(Mesh);
+    Mesh->SetMobility(bMovable ? EComponentMobility::Movable : EComponentMobility::Static);
     Mesh->SetupAttachment(RootComponent);
     Mesh->SetStaticMesh(Cube);
     Mesh->SetCollisionProfileName(TEXT("BlockAll"));
@@ -120,6 +122,15 @@ void ANostalgiaBlockout::Build()
     // Walkable continuous ground under the destination; no need to jump at transitions.
     Box(FVector(8000, 0, -12), FVector(3000, 1400, 24));
     Box(FVector(6500, 0, 180), FVector(30, 1800, 360)); // separates curated route from free walking
+    // Authored garden boundaries prevent walking around the loop into an unearned dead end.
+    for (float Sign : {-1.0f, 1.0f})
+    {
+        Box(FVector(2100, Sign * 2350, 160), FVector(8000, 40, 320));
+        Box(FVector(8000, Sign * 720, 160), FVector(3000, 40, 320));
+    }
+    Box(FVector(-1900, 0, 160), FVector(40, 4700, 320));
+    Box(FVector(6100, 0, 160), FVector(40, 4700, 320));
+    Box(FVector(9500, 0, 160), FVector(40, 1440, 320));
     auto* Door = GetWorld()->SpawnActor<ANostalgiaDoor>(FVector(-200, -110, 0), FRotator::ZeroRotator);
     Door->DoorId = 0;
     auto* FrontDoor = GetWorld()->SpawnActor<ANostalgiaDoor>(FVector(600, -110, 0), FRotator::ZeroRotator);
@@ -147,13 +158,26 @@ void ANostalgiaBlockout::Build()
     QuestObject(FVector(-850, 260, 102), FVector(50, 40, 10), Nostalgia::Action::Photo, TEXT("Geburtstagsfoto ansehen"));
     QuestObject(FVector(2050, 900, 85), FVector(50, 100, 150), Nostalgia::Action::ComparePhoto, TEXT("Hier fehlt ein Haus - Foto vergleichen"));
     QuestObject(FVector(2400, 1100, 60), FVector(160, 220, 120), Nostalgia::Action::RestoreBirthday, TEXT("Geburtstagstisch: Erinnerung ordnen"));
+    // The same fourth chair and missing house shown by the photo change with the memory state.
+    for (const FVector& Offset : {FVector(-170, 0, 35), FVector(0, -220, 35), FVector(0, 220, 35)})
+        Box(FVector(2400, 1100, 0) + Offset, FVector(65, 65, 70));
+    BirthdayChair = Box(FVector(2720, 1450, 35), FVector(65, 65, 70), true);
+    BirthdayChair->SetCollisionEnabled(ECollisionEnabled::NoCollision); // Memory shift cannot trap a nearby player.
+    MemoryClue = Text(FVector(2200, 1700, 190), TEXT("FOTO: VIER STUEHLE. EIN HAUS HINTER DEM TISCH."), -90);
     MemoryHouse = Box(FVector(2450, 2050, 200), FVector(450, 450, 400));
     MemoryHouse->SetVisibility(false);
     MemoryHouse->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
     // Oversized curated interior, isolated from the outside geometry, with explicit entry/return anchors.
     Room(FVector(-1000, 3200, 0), FVector(2200, 1000, 320), false);
-    Text(FVector(-1800, 3500, 180), TEXT("Dieses Haus ist innen zu lang."));
+    Text(FVector(-1800, 3500, 180), TEXT("Dieses Haus ist innen zu lang."), -90);
+    // Repeated thresholds make the facade/interior length discrepancy readable while walking.
+    for (float X : {-1350.0f, -650.0f, 50.0f})
+    {
+        for (float Sign : {-1.0f, 1.0f})
+            Box(FVector(X, 3200 + Sign * 350, 150), FVector(20, 300, 300));
+        Box(FVector(X, 3200, 280), FVector(20, 400, 40));
+    }
     auto* Entry = GetWorld()->SpawnActor<ANostalgiaHouseInterior>(FVector(1200, -1130, 120), FRotator(0, -90, 0));
     Entry->Destination = FVector(-1700, 3200, 96);
     Entry->DestinationYaw = 0;
@@ -190,9 +214,40 @@ void ANostalgiaBlockout::Build()
         StreetLights.Add(Light);
     }
     QuestObject(FVector(8500, 330, 100), FVector(40, 60, 180), Nostalgia::Action::ExamineLamp, TEXT("Die Laterne, die nicht angeht"));
-    QuestObject(FVector(8900, 450, 100), FVector(220, 220, 200), Nostalgia::Action::EnterPlayhouse, TEXT("Spielhaus betreten - Prototype abschliessen"));
+    for (float Sign : {-1.0f, 1.0f})
+        Box(FVector(8900, 450 + Sign * 160, 120), FVector(300, 20, 240));
+    Box(FVector(9050, 450, 120), FVector(20, 320, 240));
+    Box(FVector(8900, 450, 250), FVector(320, 340, 20));
+    auto* Playhouse = GetWorld()->SpawnActor<ANostalgiaHouseInterior>(FVector(8750, 450, 120), FRotator::ZeroRotator);
+    Playhouse->Frame->SetWorldScale3D(FVector(.2, 1.4, 2.4));
+    Playhouse->Destination = FVector(7150, 3000, 96);
+    Playhouse->DestinationYaw = 0;
+    Playhouse->MinimumStage = static_cast<uint8>(Nostalgia::Stage::DarkLampFound);
+    Playhouse->Prompt = TEXT("Spielhaus betreten");
+    Playhouse->LockedPrompt = TEXT("Erst die dunkle Laterne untersuchen.");
+    Room(FVector(8000, 3000, 0), FVector(2200, 400, 320), false);
+    for (float X : {7500.0f, 8000.0f, 8500.0f})
+    {
+        for (float Sign : {-1.0f, 1.0f})
+            Box(FVector(X, 3000 + Sign * 165, 150), FVector(20, 70, 300));
+        Box(FVector(X, 3000, 280), FVector(20, 260, 40));
+    }
+    auto* CorridorReturn = GetWorld()->SpawnActor<ANostalgiaHouseInterior>(FVector(6940, 3000, 120), FRotator(0, 180, 0));
+    CorridorReturn->Frame->SetWorldScale3D(FVector(.2, 1.4, 2.4));
+    CorridorReturn->Destination = FVector(8550, 450, 96);
+    CorridorReturn->DestinationYaw = 180;
+    CorridorReturn->Prompt = TEXT("Zurueck zur dunklen Laterne");
+    QuestObject(FVector(9000, 3000, 120), FVector(20, 220, 240), Nostalgia::Action::EnterPlayhouse,
+        TEXT("Tuer am Ende des Spielhauses pruefen"));
+    // The route remains reversible after unlocking, without resetting the birthday or the clock.
+    auto* StreetReturn = GetWorld()->SpawnActor<ANostalgiaHouseInterior>(FVector(6900, -500, 120), FRotator(0, 180, 0));
+    StreetReturn->Frame->SetWorldScale3D(FVector(.2, 1.4, 2.4));
+    StreetReturn->Destination = FVector(5300, 0, 96);
+    StreetReturn->DestinationYaw = 180;
+    StreetReturn->Prompt = TEXT("Zur vertrauten Nachbarschaft zurueck");
+    Text(FVector(7050, -500, 260), TEXT("E: ZURUECK ZUR NACHBARSCHAFT"), 0);
     Text(FVector(7600, -400, 220), TEXT("Der Weg hinter dem fehlenden Haus"));
-    Homecomer = GetWorld()->SpawnActor<ANostalgiaHomecomer>(FVector(3500, 850, 0), FRotator(0, -90, 0));
+    Homecomer = GetWorld()->SpawnActor<ANostalgiaHomecomer>(FVector(3500, 850, 192), FRotator(0, -90, 0));
 
     Sun = GetWorld()->SpawnActor<ADirectionalLight>(FVector(0, 0, 1000), FRotator(-40, -35, 0));
     Sun->GetLightComponent()->SetMobility(EComponentMobility::Movable);
@@ -242,12 +297,26 @@ void ANostalgiaBlockout::Tick(float DeltaSeconds)
     }
     const auto District = DistrictAt(Player->GetActorLocation());
     const float Step = FMath::Clamp(DeltaSeconds, 0.0f, 0.25f);
-    Session->SetContext(District, District == Nostalgia::District::Bedroom || District == Nostalgia::District::Finale,
-        Homecomer->IsVisibleThreat(), Player->GetVelocity().Size(), Step);
-    const auto Event = Session->Step(Step);
-    Audio->Play(Event);
+    const bool bSafe = District == Nostalgia::District::Bedroom || District == Nostalgia::District::Finale ||
+        Session->GetState().stage == Nostalgia::Stage::Complete;
+    Homecomer->UpdateEncounter(Player, bSafe, Step);
     Audio->UpdateListener(Player->GetActorLocation(), District);
-    if (Event == Nostalgia::EventId::HomecomerSighting) Homecomer->Show();
+    Session->SetContext(District, bSafe,
+        Homecomer->IsVisibleThreat(), Player->GetVelocity().Size(), Step);
+    Session->SetEventAvailable(Nostalgia::EventId::HomecomerSighting, !Player->bMemoryVisible && Homecomer->CanShow(Player, bSafe));
+    for (const auto Id : {Nostalgia::EventId::GardenLaughter, Nostalgia::EventId::WindowKnock})
+        Session->SetEventAvailable(Id, !Player->bMemoryVisible && Audio->CanPlay(Id, Player->GetActorLocation()));
+    const auto Event = Session->Step(Step);
+    if (Event != Nostalgia::EventId::Count)
+    {
+        const bool bStarted = Event == Nostalgia::EventId::HomecomerSighting ? Homecomer->Show(Player, bSafe) : Audio->Play(Event);
+        if (!Session->AcknowledgeEvent(bStarted) && bStarted)
+        {
+            Audio->StopTransientAudio();
+            Homecomer->ResetPresentation();
+        }
+    }
+    Session->EncounterDebug = UTF8_TO_TCHAR(Nostalgia::EncounterName(Homecomer->GetEntityState()));
     const auto& State = Session->GetState();
     if (DisplayedLoops != State.loops)
     {
@@ -258,6 +327,10 @@ void ANostalgiaBlockout::Tick(float DeltaSeconds)
     {
         DisplayedStage = State.stage;
         MemoryHouse->SetVisibility(State.stage >= Nostalgia::Stage::BirthdayRestored);
+        const bool bRestored = State.stage >= Nostalgia::Stage::BirthdayRestored;
+        BirthdayChair->SetRelativeLocation(bRestored ? FVector(2570, 1100, 35) : FVector(2720, 1450, 35));
+        MemoryClue->SetText(FText::FromString(bRestored ? TEXT("VIER STUEHLE. DAS HAUS IST WIEDER DA.") :
+            TEXT("FOTO: VIER STUEHLE. EIN HAUS HINTER DEM TISCH.")));
     }
     const bool bNight = Nostalgia::IsNight(State);
     if (bNight != bWasNight)

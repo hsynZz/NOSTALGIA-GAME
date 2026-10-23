@@ -111,13 +111,19 @@ bool Eligible(const State& state, const Context& context, const EventRule& rule)
         !std::isfinite(context.dwell) || context.dwell < rule.minimumDwell ||
         !std::isfinite(context.speed) || context.speed < 0.0 || context.speed > rule.maximumSpeed) return false;
     if ((rule.phase == Phase::Day && IsNight(state)) || (rule.phase == Phase::Night && !IsNight(state))) return false;
+    if (!context.available[static_cast<std::size_t>(rule.id)]) return false;
     const auto& history = state.history[static_cast<std::size_t>(rule.id)];
     return history.count < rule.maximumPlays && state.elapsed - history.lastTime >= rule.cooldown &&
         (!rule.scare || state.elapsed - state.lastShock >= ShockGap);
 }
 
-EventId SelectEvent(State& state, const Context& context, const std::array<EventRule, EventCount>& rules)
+EventPlan PlanEvent(const State& source, const Context& context, const std::array<EventRule, EventCount>& rules)
 {
+    EventPlan plan;
+    if (!Validate(source)) return plan;
+    plan.before = source;
+    plan.after = source;
+    auto& state = plan.after;
     const EventRule* selected = nullptr;
     std::uint32_t ties = 0;
     for (const auto& rule : rules)
@@ -132,12 +138,26 @@ EventId SelectEvent(State& state, const Context& context, const std::array<Event
             if (Random(state.randomState) % ties == 0) selected = &rule;
         }
     }
-    if (!selected) return EventId::Count;
+    if (!selected) return plan;
     auto& history = state.history[static_cast<std::size_t>(selected->id)];
     ++history.count;
     history.lastTime = state.elapsed;
     if (selected->scare) state.lastShock = state.elapsed;
-    return selected->id;
+    plan.event = selected->id;
+    return plan;
+}
+
+bool CommitEvent(State& state, const EventPlan& plan, bool delivered)
+{
+    if (!delivered || plan.event == EventId::Count || !(state == plan.before)) return false;
+    state = plan.after;
+    return true;
+}
+
+EventId SelectEvent(State& state, const Context& context, const std::array<EventRule, EventCount>& rules)
+{
+    const auto plan = PlanEvent(state, context, rules);
+    return CommitEvent(state, plan, true) ? plan.GetEvent() : EventId::Count;
 }
 
 std::string_view Objective(Stage stage)
@@ -149,7 +169,7 @@ std::string_view Objective(Stage stage)
     case Stage::DiscrepancySeen: return "Stelle am Geburtstagstisch die Erinnerung wieder her.";
     case Stage::BirthdayRestored: return "Folge der Strasse erneut bis zum Stoppschild.";
     case Stage::RoadUnlocked: return "Untersuche die einzige dunkle Laterne.";
-    case Stage::DarkLampFound: return "Betritt das kleine Spielhaus neben der Laterne.";
+    case Stage::DarkLampFound: return "Betritt das Spielhaus und folge seinem viel zu langen Flur.";
     case Stage::Complete: return "Prototype 0.1 abgeschlossen. Playtime Forever folgt spaeter.";
     }
     return "Ungueltiger Quest-Zustand";
@@ -164,7 +184,7 @@ std::string_view Hint(Stage stage)
     case Stage::DiscrepancySeen: return "Am Tisch im selben Garten E druecken. Danach wird es Abend.";
     case Stage::BirthdayRestored: return "Gehe zum STOP am Ende der Strasse. Die Schleife fuehrt jetzt weiter.";
     case Stage::RoadUnlocked: return "Die unbeleuchtete Laterne steht am neuen Strassenende. E zum Untersuchen.";
-    case Stage::DarkLampFound: return "Das Spielhaus steht rechts neben der dunklen Laterne. E beendet den Prototyp.";
+    case Stage::DarkLampFound: return "E am Spielhaus, dann bis zum Flurende gehen und die letzte Tuer mit E pruefen.";
     case Stage::Complete: return "F9 laedt den letzten manuellen Spielstand. Ein Neustart beginnt einen neuen Versuch.";
     }
     return "";

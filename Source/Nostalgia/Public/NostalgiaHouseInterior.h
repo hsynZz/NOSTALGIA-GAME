@@ -17,5 +17,7 @@ public:
     UPROPERTY(EditAnywhere) FVector Destination = FVector::ZeroVector;
     UPROPERTY(EditAnywhere) float DestinationYaw = 0;
     UPROPERTY(EditAnywhere) FString Prompt = TEXT("Haus betreten");
+    UPROPERTY(EditAnywhere, meta=(ClampMin="0", ClampMax="6")) uint8 MinimumStage = 0;
+    UPROPERTY(EditAnywhere) FString LockedPrompt = TEXT("Der Weg ist noch nicht offen.");
     UPROPERTY(VisibleAnywhere) TObjectPtr<UStaticMeshComponent> Frame;
 };

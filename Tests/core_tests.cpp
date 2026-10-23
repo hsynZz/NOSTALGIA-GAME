@@ -1,4 +1,6 @@
 #include "Core/NostalgiaCore.h"
+#include "Core/NostalgiaEncounter.h"
+#include <algorithm>
 #include <cmath>
 #include <functional>
 #include <iostream>
@@ -253,6 +255,172 @@ int main()
             auto rule = DefaultRules()[0]; rule.minimumStage = Stage::Complete; Check(!ValidateRule(rule), "inverted stage interval");
             rule = DefaultRules()[0]; rule.cooldown = std::nan(""); Check(!ValidateRule(rule), "NaN cooldown");
             rule = DefaultRules()[0]; rule.maximumPlays = 0; Check(!Eligible(state, At(District::Garden), rule), "disabled rule selected");
+        }},
+        {"planning and failed delivery preserve history, peace time and RNG", [] {
+            auto state = RestoredBirthday(); const State before = state;
+            const auto plan = PlanEvent(state, At(District::Street));
+            Check(plan.GetEvent() == EventId::HomecomerSighting, "missing plan");
+            Check(state == before, "planning consumed state");
+            Check(!CommitEvent(state, plan, false) && state == before, "failed presentation consumed event");
+            Check(CommitEvent(state, PlanEvent(state, At(District::Street)), true), "failed presentation could not retry");
+            Check(state.history[1].count == 1 && state.lastShock == state.elapsed, "acknowledgment missing history");
+        }},
+        {"an event receipt cannot commit twice", [] {
+            State state; const auto plan = PlanEvent(state, At(District::Garden));
+            Check(CommitEvent(state, plan, true), "first commit");
+            const auto delivered = state;
+            Check(!CommitEvent(state, plan, true) && state == delivered, "receipt replay");
+        }},
+        {"stale receipts cannot overwrite time, quest, doors or other events", [] {
+            for (int mutation = 0; mutation < 4; ++mutation) {
+                State state; const auto plan = PlanEvent(state, At(District::Garden));
+                if (mutation == 0) Advance(state, .1);
+                if (mutation == 1) Apply(state, Action::Photo);
+                if (mutation == 2) state.openDoors = 1;
+                if (mutation == 3) SelectEvent(state, At(District::Garden));
+                const auto changed = state;
+                Check(!CommitEvent(state, plan, true) && state == changed, "stale commit overwrote live state");
+            }
+        }},
+        {"unavailable high priority presentation does not starve a ready event", [] {
+            State state; auto context = At(District::Garden); auto rules = DefaultRules();
+            rules[1] = rules[0]; rules[1].id = EventId::HomecomerSighting; rules[1].priority = 1;
+            context.available[0] = false;
+            const auto plan = PlanEvent(state, context, rules);
+            Check(plan.GetEvent() == EventId::HomecomerSighting, "unavailable candidate blocked fallback");
+            Check(CommitEvent(state, plan, true) && state.history[0].count == 0, "unavailable history changed");
+        }},
+        {"missing assets and offscreen sightings remain pending without mutation", [] {
+            auto state = RestoredBirthday(); auto context = At(District::Street);
+            context.available.fill(false); const auto before = state;
+            for (int i=0; i<100; ++i) {
+                const auto plan = PlanEvent(state, context);
+                Check(plan.GetEvent() == EventId::Count && !CommitEvent(state, plan, true), "unavailable event delivered");
+            }
+            Check(state == before, "unavailable event mutated history");
+            context.available[1] = true;
+            Check(SelectEvent(state, context) == EventId::HomecomerSighting, "ready sighting lost");
+        }},
+        {"failed seeded tie selection is stable on retry and after snapshot restore", [] {
+            State state; auto rules = DefaultRules();
+            for (size_t i=0; i<EventCount; ++i) { rules[i] = rules[0]; rules[i].id = static_cast<EventId>(i); }
+            const auto before = state; const auto first = PlanEvent(state, At(District::Garden), rules);
+            Check(!CommitEvent(state, first, false) && state == before, "failed tie changed random state");
+            const auto second = PlanEvent(state, At(District::Garden), rules);
+            Check(first.GetEvent() == second.GetEvent(), "retry rerolled event");
+            auto restored = before;
+            Check(CommitEvent(state, second, true), "retry commit");
+            SelectEvent(restored, At(District::Garden), rules);
+            Check(state == restored, "snapshot replay diverged");
+        }},
+        {"invalid states and empty plans cannot dispatch", [] {
+            State state; state.randomState = 0;
+            const auto plan = PlanEvent(state, At(District::Garden));
+            Check(plan.GetEvent() == EventId::Count && !CommitEvent(state, plan, true), "invalid state dispatched");
+            state = State{};
+            Check(!CommitEvent(state, EventPlan{}, true), "empty receipt committed");
+        }},
+        {"homecomer requires a visible authored distance outside safe zones", [] {
+            Encounter e; Perception p{1000, .9, true, false, false, true};
+            Check(CanStartEncounter(e, p), "valid sighting blocked");
+            for (int gate=0; gate<7; ++gate) {
+                auto bad = p;
+                if (gate == 0) bad.safe = true;
+                if (gate == 1) bad.lineOfSight = false;
+                if (gate == 2) bad.viewDot = .59;
+                if (gate == 3) bad.distance = 599;
+                if (gate == 4) bad.distance = 2201;
+                if (gate == 5) bad.blocked = true;
+                if (gate == 6) bad.inView = false;
+                Check(!StartEncounter(e, bad) && e.phase == EncounterPhase::Dormant, "invalid sighting started");
+            }
+            Check(StartEncounter(e, p) && !StartEncounter(e, p), "reentrant encounter");
+        }},
+        {"observed homecomer stays still then retires within eleven seconds", [] {
+            Encounter e; Perception p{1000, .9, true, false, false, true}; StartEncounter(e, p);
+            for (int frame=0; frame<44; ++frame) {
+                const double travel = StepEncounter(e, p, .25);
+                Check(travel <= 0, "observed entity approached");
+            }
+            Check(e.phase == EncounterPhase::Cooldown && !EncounterActive(e), "encounter never retired");
+            Check(!StartEncounter(e, p), "cooldown restarted without reset");
+        }},
+        {"looking away permits at most 150 cm after the quiet introduction", [] {
+            Encounter e; Perception p{1000, .9, true, false, false, true}; StartEncounter(e, p); p.viewDot = .1;
+            for (int frame=0; frame<7; ++frame) Check(StepEncounter(e, p, .25) == 0, "no introduction");
+            double approached = 0;
+            for (int frame=0; frame<29; ++frame) approached += std::max(0.0, StepEncounter(e, p, .25));
+            Check(approached == 150 && e.approachDistance == 150, "unbounded approach");
+        }},
+        {"gaze and occlusion stop approach immediately without resetting duration", [] {
+            Encounter e; Perception p{1000, .9, true, false, false, true}; StartEncounter(e, p);
+            for (int i=0; i<8; ++i) StepEncounter(e, p, .25);
+            p.viewDot = 0;
+            Check(StepEncounter(e, p, .25) > 0, "look away did not approach");
+            p.lineOfSight = false;
+            Check(StepEncounter(e, p, .25) == 0, "approached around occlusion");
+            p.lineOfSight = true; p.viewDot = .9;
+            Check(StepEncounter(e, p, .25) == 0 && e.elapsed == 2.75, "gaze failed or timer reset");
+        }},
+        {"close player and blocked motion trigger bounded retirement", [] {
+            for (bool blocked : {false, true}) {
+                Encounter e; Perception p{1000, .9, true, false, false, true}; StartEncounter(e, p);
+                p.blocked = blocked; p.distance = blocked ? 1000 : 440;
+                for (int i=0; i<8; ++i) Check(StepEncounter(e, p, .25) <= 0, "continued approaching");
+                Check(e.phase == EncounterPhase::Cooldown, "stuck encounter did not retire");
+            }
+        }},
+        {"approach step cannot cross the minimum distance", [] {
+            Encounter e; Perception p{1000, .9, true, false, false, true}; StartEncounter(e, p);
+            for (int i=0; i<8; ++i) StepEncounter(e, p, .25);
+            p.distance = 451; p.viewDot = 0;
+            Check(StepEncounter(e, p, .25) == 1, "approach overshot minimum gap");
+            p.distance = 450;
+            Check(StepEncounter(e, p, .25) == 0, "approached at minimum gap");
+        }},
+        {"safe zones end encounter immediately and reset restores dormant presentation", [] {
+            Encounter e; Perception p{1000, .9, true, false, false, true}; StartEncounter(e, p);
+            p.safe = true;
+            Check(StepEncounter(e, p, .1) == 0 && !EncounterActive(e), "threat entered safe zone");
+            e = Encounter{}; p.safe = false;
+            Check(CanStartEncounter(e, p), "load/reset did not restore presentation");
+        }},
+        {"invalid perception fails safe and invalid frame deltas do not move", [] {
+            Encounter e; Perception p{1000, .9, true, false, false, true}; StartEncounter(e, p);
+            for (double delta : {-1., 0., .251, std::nan(""), std::numeric_limits<double>::infinity()})
+                Check(StepEncounter(e, p, delta) == 0 && e.elapsed == 0, "invalid frame progressed");
+            p.distance = std::nan("");
+            Check(StepEncounter(e, p, .1) == 0 && !EncounterActive(e), "invalid sensor remained dangerous");
+            Check(!CanStartEncounter(Encounter{}, p), "invalid sensor started encounter");
+        }},
+        {"authored playhouse corridor remains in the safe final district", [] {
+            for (double x : {6940., 7150., 8000., 9000.})
+                Check(DistrictAt(x, 3000) == District::Finale, "corridor permitted scare");
+            Check(DistrictAt(5300, 0) == District::Street, "return portal lost street");
+        }},
+        {"causal sequence survives failed audio, encounter and final return visit", [] {
+            State state; Apply(state, Action::Photo);
+            auto garden = At(District::Garden);
+            auto audio = PlanEvent(state, garden);
+            Check(!CommitEvent(state, audio, false) && state.history[0].count == 0, "missing audio consumed");
+            Check(CommitEvent(state, PlanEvent(state, garden), true), "audio retry failed");
+            Apply(state, Action::ComparePhoto); Apply(state, Action::RestoreBirthday);
+            auto street = At(District::Street); street.available[1] = false;
+            Check(PlanEvent(state, street).GetEvent() == EventId::Count, "offscreen sighting consumed");
+            Encounter encounter; Perception sight{1000, .9, true, false, false, true};
+            street.available[1] = CanStartEncounter(encounter, sight);
+            auto event = PlanEvent(state, street);
+            Check(CommitEvent(state, event, StartEncounter(encounter, sight)), "encounter not acknowledged");
+            auto suppressed = garden; suppressed.threatened = EncounterActive(encounter);
+            Check(PlanEvent(state, suppressed).GetEvent() == EventId::Count, "stacked event");
+            for (int i=0; i<44; ++i) { Advance(state, .25); StepEncounter(encounter, sight, .25); }
+            Check(TraverseLoop(state) && Apply(state, Action::ExamineLamp), "lamp chain failed");
+            const auto saved = state;
+            Advance(state, 3); Check(TraverseLoop(state), "return visit loop failed");
+            Check(state.stage == Stage::DarkLampFound, "return regressed quest");
+            state = saved;
+            Check(Apply(state, Action::EnterPlayhouse) && Validate(state), "restored final action failed");
+            Check(state.history[0].count == 1 && state.history[1].count == 1, "delivery history wrong");
         }},
         {"every quest stage has an objective and a recovery hint", [] {
             for (int i=0; i<=6; ++i) {

@@ -1,5 +1,6 @@
 #include "NostalgiaQuestObject.h"
 #include "NostalgiaStateSubsystem.h"
+#include "NostalgiaCharacter.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/TextRenderComponent.h"
 #include "Engine/GameInstance.h"
@@ -34,5 +35,8 @@ void ANostalgiaQuestObject::Configure(Nostalgia::Action InAction, const FString&
 FText ANostalgiaQuestObject::InteractionText_Implementation() const { return FText::FromString(TEXT("E: ") + Prompt); }
 void ANostalgiaQuestObject::Interact_Implementation(APawn* InstigatorPawn)
 {
-    if (InstigatorPawn) GetGameInstance()->GetSubsystem<UNostalgiaStateSubsystem>()->Perform(Action);
+    if (!InstigatorPawn) return;
+    const bool bChanged = GetGameInstance()->GetSubsystem<UNostalgiaStateSubsystem>()->Perform(Action);
+    if (bChanged && Action == Nostalgia::Action::Photo)
+        if (auto* Player = Cast<ANostalgiaCharacter>(InstigatorPawn)) Player->bMemoryVisible = true;
 }

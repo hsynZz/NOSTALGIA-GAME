@@ -23,6 +23,7 @@ struct EventHistory
 {
     std::uint32_t count = 0;
     double lastTime = -1000000.0;
+    bool operator==(const EventHistory&) const = default;
 };
 
 struct State
@@ -36,6 +37,7 @@ struct State
     double lastTransition = -1000000.0;
     double lastShock = -1000000.0;
     std::array<EventHistory, EventCount> history{};
+    bool operator==(const State&) const = default;
 };
 
 struct Context
@@ -45,6 +47,8 @@ struct Context
     bool threatened = false;
     double dwell = 0.0;
     double speed = 0.0;
+    // Adapters report asset/presentation readiness before arbitration. No unavailable event starves another.
+    std::array<bool, EventCount> available{true, true, true};
 };
 
 struct EventRule
@@ -64,6 +68,21 @@ struct EventRule
 };
 
 const std::array<EventRule, EventCount>& DefaultRules();
+class EventPlan
+{
+public:
+    EventId GetEvent() const { return event; }
+private:
+    EventId event = EventId::Count;
+    State before;
+    State after;
+    friend EventPlan PlanEvent(const State&, const Context&, const std::array<EventRule, EventCount>&);
+    friend bool CommitEvent(State&, const EventPlan&, bool);
+};
+// Selection is speculative until the synchronous presentation adapter acknowledges success.
+EventPlan PlanEvent(const State& state, const Context& context,
+                    const std::array<EventRule, EventCount>& rules = DefaultRules());
+bool CommitEvent(State& state, const EventPlan& plan, bool delivered);
 District DistrictAt(double x, double y);
 bool IsNight(const State& state);
 bool Validate(const State& state);

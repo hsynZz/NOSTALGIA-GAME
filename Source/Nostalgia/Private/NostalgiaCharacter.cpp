@@ -54,14 +54,15 @@ void ANostalgiaCharacter::SetupPlayerInputComponent(UInputComponent* Input)
     Input->BindAction(TEXT("Clock"), IE_Pressed, this, &ANostalgiaCharacter::ToggleClock);
     Input->BindAction(TEXT("Debug"), IE_Pressed, this, &ANostalgiaCharacter::ToggleDebug);
     Input->BindAction(TEXT("Hint"), IE_Pressed, this, &ANostalgiaCharacter::ToggleHint);
+    Input->BindAction(TEXT("Memory"), IE_Pressed, this, &ANostalgiaCharacter::ToggleMemory);
     Input->BindAction(TEXT("Save"), IE_Pressed, this, &ANostalgiaCharacter::Save);
     Input->BindAction(TEXT("Load"), IE_Pressed, this, &ANostalgiaCharacter::Load);
 }
 
-void ANostalgiaCharacter::MoveForward(float Value) { AddMovementInput(GetActorForwardVector(), Value); }
-void ANostalgiaCharacter::MoveRight(float Value) { AddMovementInput(GetActorRightVector(), Value); }
-void ANostalgiaCharacter::Turn(float Value) { AddControllerYawInput(Value); }
-void ANostalgiaCharacter::LookUp(float Value) { AddControllerPitchInput(Value); }
+void ANostalgiaCharacter::MoveForward(float Value) { if (!bMemoryVisible) AddMovementInput(GetActorForwardVector(), Value); }
+void ANostalgiaCharacter::MoveRight(float Value) { if (!bMemoryVisible) AddMovementInput(GetActorRightVector(), Value); }
+void ANostalgiaCharacter::Turn(float Value) { if (!bMemoryVisible) AddControllerYawInput(Value); }
+void ANostalgiaCharacter::LookUp(float Value) { if (!bMemoryVisible) AddControllerPitchInput(Value); }
 void ANostalgiaCharacter::SprintStart() { bSprinting = true; }
 void ANostalgiaCharacter::SprintStop() { bSprinting = false; }
 void ANostalgiaCharacter::CrouchStart() { Crouch(); }
@@ -69,9 +70,16 @@ void ANostalgiaCharacter::CrouchStop() { UnCrouch(); }
 void ANostalgiaCharacter::ToggleClock() { bClockVisible = !bClockVisible; }
 void ANostalgiaCharacter::ToggleDebug() { bDebugVisible = !bDebugVisible; }
 void ANostalgiaCharacter::ToggleHint() { bHintVisible = !bHintVisible; }
+void ANostalgiaCharacter::ToggleMemory()
+{
+    const auto* Session = GetGameInstance()->GetSubsystem<UNostalgiaStateSubsystem>();
+    if (Session && Session->GetState().stage >= Nostalgia::Stage::PhotoFound)
+        bMemoryVisible = !bMemoryVisible;
+}
 
 AActor* ANostalgiaCharacter::FocusedActor() const
 {
+    if (bMemoryVisible) return nullptr;
     FHitResult Hit;
     FCollisionQueryParams Query(SCENE_QUERY_STAT(NostalgiaInteraction), false, this);
     const FVector Start = Camera->GetComponentLocation();
@@ -88,6 +96,10 @@ void ANostalgiaCharacter::Interact()
     if (AActor* Actor = FocusedActor()) INostalgiaInteraction::Execute_Interact(Actor, this);
 }
 void ANostalgiaCharacter::Save() { if (auto* State = GetGameInstance()->GetSubsystem<UNostalgiaStateSubsystem>()) State->Save(this); }
-void ANostalgiaCharacter::Load() { if (auto* State = GetGameInstance()->GetSubsystem<UNostalgiaStateSubsystem>()) State->Load(this); }
+void ANostalgiaCharacter::Load()
+{
+    if (auto* State = GetGameInstance()->GetSubsystem<UNostalgiaStateSubsystem>())
+        if (State->Load(this)) bMemoryVisible = false;
+}
 bool ANostalgiaCharacter::TransitionReady() const { return GetWorld()->GetTimeSeconds() >= NextTransitionTime; }
 void ANostalgiaCharacter::ProtectTransition() { NextTransitionTime = GetWorld()->GetTimeSeconds() + 3.0; }

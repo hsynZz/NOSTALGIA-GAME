@@ -2,7 +2,7 @@
 
 **Status:** technischer Quellprototyp 0.1; keine bestätigte Spielbarkeit. Kreative Grundlage ist der unverändert archivierte Projektbrief. Keine weiteren Kapitelinhalte oder neue Lore implementiert.
 
-Fortsetzung 23.10.2026: Nutzer bestätigt UE 5.8.0 auf Windows. Cloud-Zugriff auf den lokalen Editor bleibt blockiert. Sparsames Grafikprofil, Wohnbereich, zweite Tür und Fenster sind im bestehenden Code ergänzt; siehe [CHANGES_LOW_SPEC.md](CHANGES_LOW_SPEC.md) und [lokale Anleitung](LOCAL_UNREAL_ACCESS.md).
+Aktuelle Cloud-Fortsetzung 23.10.2026: bestätigte Director-Ereignisse, begrenzte Heimkehrer-Annäherung, Fotoansicht, Stuhl-/Hausänderung und Spielhausflur ergänzt; 47 Core- und 9 Python-Tests bestanden. Siehe [CHANGES_CLOUD_GAMEPLAY.md](CHANGES_CLOUD_GAMEPLAY.md). Kein Live-Editorzugriff; keine erneuten lokalen Installationsversuche im aktuellen Auftrag.
 
 ## Implementiert, Engine-Integration noch ungetestet
 
@@ -14,16 +14,18 @@ Fortsetzung 23.10.2026: Nutzer bestätigt UE 5.8.0 auf Windows. Cloud-Zugriff au
 | P04 | Uhr und Lichtzustand | Startdatum sichtbar, Tab zeigt Uhr, Erinnerungsänderung aktiviert Nacht/Laternen |
 | P05 | Lokales Gartenereignis und Audioadapter | Ereignis nur im Garten, endet bei Nähe, kein Wiederholungsspam; Platzhalter klar erkennbar |
 | P06 | WorldLoop und visuelle Änderung | Frühe Schleife kehrt orientiert zurück; nach Erinnerung neue Route; kein Trigger-Pingpong |
-| P07 | Heimkehrer-Sichtung | Kontrollierte, kurze Silhouette; sichere Räume und Ruhezeit wirken |
-| P08 | Mini-Quest und Abschluss | A/B/C-Reihenfolge erkennbar; H liefert Hinweise; Spielhaus setzt Complete |
+| P07 | Heimkehrer-Sichtung | Sicht-/Bildschirmprüfung, begrenzte Annäherung, Kollisionsabbruch; sichere Räume und Ruhezeit wirken |
+| P08 | Mini-Quest und Abschluss | Foto mit J, A/B/C-Reihenfolge, H-Hinweise; Endtür des Spielhausflurs setzt Complete |
 | P09 | Save/Load | Wesentlicher Zustand und Position erhalten; korrupte/fremde Saves abgelehnt |
 | P10 | Debug, native Tests, UE-Tests, CI | Offline-Prüfungen laufen; vier UE-Tests nach Engine-Setup, anschließend manuelle Abnahme |
 
 Die reine Quest-/Director-/Zeitlogik aus P04–P10 ist bereits mit real kompilierten nativen Tests geprüft. Alle Aussagen über Bewegung, Rendering, Audioausgabe, Physik, Map-Import, UE-Speicherung und Windows-Auslieferung benötigen weiterhin Unreal.
 
-## P0 — nächste drei Aufgaben
+## P0 — offene Engine-Abnahme auf später verfügbarer geeigneter Maschine
 
-1. **Engine und Toolchain verifizieren:** UE 5.8.0 bereitstellen, `-Action All` ausführen, UHT-/UBT-/Python-/Automationsergebnisse archivieren. Fertig, wenn der Editor-Build, die Paket-Erzeugung und alle vier UE-Tests erfolgreich sind. Gegebenenfalls API-/Buildfehler in einer eigenen Iteration beheben.
+Diese Punkte bleiben ausdrücklich offen; sie sind keine Aufforderung zu weiteren Installationsversuchen auf dem schwachen Windows-PC. Cloud-Arbeit kann unabhängig davon weitergehen.
+
+1. **Engine-Build nachweisen:** In einer verfügbaren UE-5.8.0-Umgebung `-Action All` ausführen, UHT-/UBT-/Python-/Automationsergebnisse archivieren. Fertig, wenn der Editor-Build, die Paket-Erzeugung und alle vier UE-Tests erfolgreich sind. Gegebenenfalls API-/Buildfehler in einer eigenen Iteration beheben.
 2. **Ersten PIE-Lauf abnehmen:** [Testplan](TEST_PLAN.md) vollständig durchgehen, insbesondere Türen, Übergänge, Save/Load und Audio. Fertig mit tatsächlicher Aufnahme/Screenshots, protokollierten Ergebnissen und behobenen blockierenden Fehlern. Danach generierte `.umap`-/`.uasset`-Dateien über LFS committen.
 3. **Windows-Prototyp paketieren:** UAT-Cook/Build ausführen und das Paket außerhalb des Editors testen. Fertig, wenn eine Person ohne Editorwissen den vollständigen Mini-Ablauf durchführen kann und Ergebnis/Hardware/Buildkennung dokumentiert sind.
 
@@ -38,12 +40,12 @@ Die reine Quest-/Director-/Zeitlogik aus P04–P10 ist bereits mit real kompilie
 ## P2 — späterer Kapitelumfang
 
 - Kriechen, Klettern, volle Inspektionsmechanik und passende Animationen. Für MVP0 sind zunächst Gehen/Sprint/Sprung/Ducken implementiert.
-- Vollständige Erinnerungsinszenierung: Fotoabweichung derzeit textlich, Erinnerung per Interaktion statt ausgearbeitetem Puzzle.
-- Unmöglich langer Spielhaus-Übergang: 0.1 endet mit nachvollziehbarem Abschluss, lädt noch kein zweites Kapitel.
+- Vollständige Erinnerungsinszenierung: Foto derzeit schematische Zeichnung, Erinnerung per Interaktion und Stuhländerung statt ausgearbeitetem Puzzle.
+- Spielhausflur visuell und physisch abnehmen; 0.1 endet an dessen Endtür und lädt kein zweites Kapitel.
 - Streaming mehrerer kuratierter Interiors, Ausbau Richtung 25–35 Häuser erst nach Performance- und Qualitätsnachweis.
-- Heimkehrer mit Wahrnehmung, Navigation, Suche, Verfolgung, Fluchtmöglichkeiten und Recovery bei blockierten Wegen. 0.1 hat nur Sichtung/Rückzug ohne Schaden.
+- Heimkehrer: Navigation, Suche, vollständige Verfolgung und Fluchtmöglichkeiten. 0.1 hat Wahrnehmungsadapter, begrenzte Annäherung und zeitliche Recovery bei Hindernissen, aber keine Navigation und keinen Schaden.
 - Optional seltene Varianten/Easter Eggs; später weitere Kapitel. Multiplayer, Steam und PlayStation sind keine zugesicherten 0.1-Funktionen.
 
 ## Bewusste Vereinfachungen gegenüber dem Projektbrief
 
-Grauer Code-Blockout statt hochwertiger Produktion; synthetisches Audio statt Stimmen; Textobjekt statt fertigem Geburtstagsfoto; feste Innenraumanker statt Streaming; keine Hände-/Kletteranimation; Abschlussbildschirm statt echter Weiterreise. Die A/B/C-Ursache-Wirkung-Kette ist bereits als kleine technische Version implementiert, die vollständige Kapitelinszenierung bleibt offen. Diese Einschränkungen sind kein spielbarer MVP-Nachweis.
+Grauer Code-Blockout statt hochwertiger Produktion; synthetisches Audio statt Stimmen; schematische Hinweisansicht statt fertigem Geburtstagsfoto; feste Innenraumanker statt Streaming; keine Hände-/Kletteranimation; Abschlussbildschirm statt echter Weiterreise. Die A/B/C-Ursache-Wirkung-Kette ist bereits als kleine technische Version implementiert, die vollständige Kapitelinszenierung bleibt offen. Diese Einschränkungen sind kein spielbarer MVP-Nachweis.
