@@ -1,6 +1,10 @@
 # NOSTALGIA — Prototype 0.1
 
-**Endless Summer (2004). Echtes Unreal-C++-Quellprojekt, Zielversion UE 5.8.0. Engine-Build und Spielbarkeit sind unverifiziert.**
+**Jetzt ausprobieren:** [Spielbare Browser-Testversion herunterladen (ZIP)](https://github.com/hsynZz/NOSTALGIA-GAME/raw/refs/heads/main/BrowserPrototype/Delivery/NOSTALGIA-Browser-0.1.zip). Entpacken und `index.html` mit Edge/Chrome öffnen; kein Unreal, kein lokaler Server und keine zusätzliche Installation erforderlich. Aktueller Browser mit WebGL2 vorausgesetzt.
+
+Die separate [Browserversion](BrowserPrototype/README.md) enthält einen bis zum Abschluss getesteten 3D-Testabschnitt mit Bewegung, Türen, Gartenereignis, Heimkehrer und Escape-Kette. **20 echte Chromium-/WebGL-Prüfungen und 13 Browser-Logik-/Physiktests bestanden**. Das ist ein zusätzlicher Konzepttest. Das Unreal-Projekt bleibt das langfristige Hauptprojekt; dessen Buildstatus folgt unten. [Lieferbericht und Grenzen](BrowserPrototype/VALIDATION.md).
+
+**Endless Summer (2004). Echtes Unreal-C++-Quellprojekt, Zielversion UE 5.8.0. Engine-Build und Spielbarkeit des Unreal-Projekts sind unverifiziert.**
 
 Dieses Repository enthält implementierte technische Grundsysteme, einen nativen Blockout-Aufbau, Tests und die Schritte zur ersten Ausführung in Unreal. Auf der Entwicklungsmaschine stehen Linux, GCC, Python und Git LFS zur Verfügung; Unreal Editor, Windows-Toolchain und eine nachgewiesene GPU-Laufzeit fehlen. Es gibt deshalb noch keinen getesteten Windows-Build, kein Gameplay-Video und keine im Editor gespeicherte Karte.
 

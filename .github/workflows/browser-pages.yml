@@ -1,0 +1,72 @@
+name: Browser prototype - build and GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths: ['BrowserPrototype/**', '.github/workflows/browser-pages.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nostalgia-browser-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: BrowserPrototype/package-lock.json
+      - name: Install exact browser dependencies
+        working-directory: BrowserPrototype
+        run: npm ci
+      - name: Browser core tests, including production C++ parity
+        working-directory: BrowserPrototype
+        run: npm test
+      - name: Build standalone HTML and offline ZIP
+        working-directory: BrowserPrototype
+        run: npm run build
+      - name: Exercise actual WebGL gameplay in Chromium
+        working-directory: BrowserPrototype
+        env:
+          CHROMIUM_PATH: /usr/bin/google-chrome
+        run: npm run test:browser
+      - name: Archive genuine browser-test results and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: NOSTALGIA-Browser-validation
+          path: BrowserPrototype/test-results
+          if-no-files-found: warn
+      - name: Upload downloadable test build
+        uses: actions/upload-artifact@v4
+        with:
+          name: NOSTALGIA-Browser-0.1
+          path: BrowserPrototype/Delivery/NOSTALGIA-Browser-0.1.zip
+          if-no-files-found: error
+      - name: Prepare GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: BrowserPrototype/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,33 @@
+{
+  "base_commit": "2ef77a34987ab0c951c3b6b7217aee74ac4d40ee",
+  "build": {
+    "name": "NOSTALGIA Browser Prototype",
+    "version": "0.1.0",
+    "source_base_commit": "2ef77a34987ab0c951c3b6b7217aee74ac4d40ee",
+    "html_sha256": "88729567782b6aa85c3fe348e266a9f48cfdbfcdfa3e3713b509318199181839",
+    "runtime": "standalone HTML / WebGL2",
+    "unreal_build": false
+  },
+  "zip_bytes": 146974,
+  "node_tests": 13,
+  "browser_checks": 20,
+  "native_tests": 62,
+  "python_tests": 9,
+  "cpp_js_trace_rows": 41,
+  "input_sha256": {
+    "BrowserPrototype/src/audio.js": "d3887af08d4954725f96b4dd80d619a90fd0f915c1eeabc6c24a5ae7e19a069f",
+    "BrowserPrototype/src/core.js": "54be656e5c0e4c25a3fe00ba3296bb7eb4247058e367733f978cb3fc977fb06a",
+    "BrowserPrototype/src/main.js": "1fed87d8a579f3e52db8d31301cbcd8a84cefed41587ee2ef8f54ad10ea9b228",
+    "BrowserPrototype/src/physics.js": "458af76aba5b8ac009ec26166af90e3be449cbdd31bc730091197b659080af0b",
+    "BrowserPrototype/src/style.css": "20d2e0586dff8dc45b78d4f8c4cdb73c0da9fecf27f8a895f427fb6700a99c16",
+    "BrowserPrototype/src/world.js": "5f20a6aace08009ea56ab82b1b6cc61f72acb0858a0440ba5dda9fe464291919",
+    "BrowserPrototype/index.html": "7b1f6513bba1446fac2d6b8619dd8ee677e942f5873f8aca2ed94afe9450504c",
+    "BrowserPrototype/package.json": "9dce55b2538f5dc3d2593dfc2dad5bccf0c4ceb33e0891d5fa4b2a8feeddd7b7",
+    "BrowserPrototype/package-lock.json": "9add50beed10eb62be16ab02f912b851c5c2a58473853c0dceee449ef7c6cbe9",
+    "BrowserPrototype/tests/browser.mjs": "cbd9041f7b367e043257edfc70726b89bc4b25c7ca42a6636df054c28ded90b0",
+    "BrowserPrototype/tests/core.test.mjs": "1a34be389158e363178395d86512976e2ecfa06ac1dbaca88d01868eabd3ae3e",
+    "BrowserPrototype/tests/physics.test.mjs": "ceee6469e80758676d13b2cff718cb659ff554dd290b4b0848e7285714eeeb50",
+    "BrowserPrototype/scripts/build.mjs": "1f1de10cb17fbed020ae91a90033a14e186130a82bb6b241ec1baf6c29a3a89c",
+    "BrowserPrototype/Delivery/NOSTALGIA-Browser-0.1.zip": "720886bce7d13dc9705763a68dda524eb96759c23d7095c86c0c00f36aff93ed"
+  }
+}

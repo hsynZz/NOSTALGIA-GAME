@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1a3938">
+<meta name="description" content="NOSTALGIA – Endless Summer 2004. Eigenständige spielbare 3D-Browsertestversion des Unreal-Projekts.">
+<title>NOSTALGIA · Endless Summer 2004</title>
+<!--GAME_STYLE-->
+</head>
+<body>
+<canvas id="game" aria-label="NOSTALGIA 3D-Spielwelt"></canvas>
+<div id="vignette"></div><div id="fade"></div>
+<main id="menu" class="screen">
+  <div class="edition">NOSTALGIA STUDIO <span>WEB TEST · 0.1</span></div>
+  <section class="menu-copy">
+    <p class="eyebrow">ERINNERUNG 01 / 17. AUGUST 2004</p>
+    <h1>NOSTALGIA<span>Endless Summer</span></h1>
+    <p class="intro">Ein Sommerferientag aus deiner Kindheit,<br>der einfach nicht enden will.</p>
+    <div class="menu-actions"><button id="start" class="primary">Aufwachen <span>↗</span></button><button id="continue" hidden>Spielstand laden</button></div>
+    <p class="controls">WASD bewegen · Maus umsehen · E interagieren<br>Shift sprinten · Leertaste springen · C ducken</p>
+    <p id="menu-note" class="small">Kopfhörer empfohlen. Ein Klick aktiviert Maus und Ton.<br>Einfache 3D-Testfassung · Kein Unreal-Build.</p>
+  </section>
+  <footer><span>EIN SOMMER, DER BLEIBT.</span><button id="quality">Grafik: sparsam</button><button id="sound">Ton: an</button><button id="fullscreen">Vollbild ↗</button></footer>
+</main>
+<section id="hud" hidden>
+  <div class="chapter"><span>01</span><div>NOSTALGIA<small>ENDLESS SUMMER · 2004</small></div></div>
+  <button id="watch" aria-label="Digitale Uhr"><span>DI · 17.08.2004</span><strong id="time">15:00</strong><small>SUMMER / 04</small></button>
+  <button id="pause" aria-label="Pause und Steuerung">Ⅱ</button>
+  <div id="objective"><span>ERINNERUNG</span><p id="objective-text"></p><small>H Hinweis · J Foto · Esc Pause</small></div>
+  <div id="crosshair">·</div><div id="prompt"></div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <div id="subtitle" aria-live="polite"></div>
+  <div class="tools"><button id="memory">Foto J</button><button id="hint">Hinweis H</button><button id="save">Speichern F5</button><button id="load">Laden F9</button></div>
+</section>
+<section id="photo" class="modal" hidden>
+  <div class="photo-card"><p class="eyebrow">GEFUNDENE ERINNERUNG</p><h2>Ein Geburtstag im Sommer</h2>
+  <svg viewBox="0 0 560 270" role="img" aria-label="Schematisches Erinnerungsfoto: Haus hinter einem Tisch mit vier Stühlen">
+    <rect width="560" height="270" fill="#a5d6df"/><circle cx="450" cy="50" r="24" fill="#fff0b9"/><path d="M0 155Q130 130 270 155T560 155V270H0" fill="#83a76c"/>
+    <path d="M210 140V65H335V140" fill="#f3dfc0"/><path d="M198 65L273 25L348 65" fill="#b36d53"/><path d="M250 140V96H279V140" fill="#557c77"/>
+    <rect x="202" y="177" width="145" height="45" rx="6" fill="#f9eacf"/><path d="M202 193H347M230 177V222M258 177V222M286 177V222M314 177V222" stroke="#ce8473" stroke-width="2"/>
+    <g fill="#ceaa74"><rect x="166" y="184" width="24" height="35"/><rect x="361" y="184" width="24" height="35"/><rect x="260" y="140" width="27" height="25"/><rect x="260" y="235" width="27" height="25"/></g>
+    <ellipse cx="290" cy="191" rx="14" ry="8" fill="#d89887"/><path d="M290 180V164" stroke="#ffdd75" stroke-width="3"/>
+  </svg>
+  <p>Vier Stühle am Geburtstagstisch. Dahinter ein kleines Haus.</p><p id="photo-note"></p><button id="close-photo" class="primary">Foto weglegen <span>J</span></button></div>
+</section>
+<section id="complete" class="screen" hidden><div class="end-card"><p class="eyebrow">ERINNERUNG 01 / ENDE DER TESTFASSUNG</p><h2>Der Sommer lässt dich gehen.</h2><p>Das Spielhaus war innen viel zu lang.<br>Playtime Forever ist das nächste Kapitel – noch nicht Teil dieses Tests.</p><button id="restart" class="primary">Noch einmal aufwachen ↗</button><button id="end-load">Spielstand laden</button></div></section>
+<div id="touch" hidden><div id="stick"><span></span></div><div class="touch-actions"><button id="touch-interact">E</button><button id="touch-jump">↑</button><button id="touch-crouch">↓</button><button id="touch-sprint">»</button></div><span class="touch-note">Links bewegen · rechts umsehen</span></div>
+<div id="error" class="screen" hidden><div class="end-card"><h2>Die 3D-Ansicht konnte nicht starten.</h2><p id="error-detail"></p><p>Versuche einen aktuellen Chrome-, Edge-, Firefox- oder Safari-Browser mit aktiviertem WebGL.</p></div></div>
+<!--GAME_SCRIPT-->
+</body></html>
