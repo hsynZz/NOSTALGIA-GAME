@@ -2,7 +2,7 @@
   "FileVersion": 3,
   "EngineAssociation": "5.8",
   "Category": "Games",
-  "Description": "NOSTALGIA Prototype 0.1 - Endless Summer (2004). Engine build unverified.",
+  "Description": "NOSTALGIA - Endless Summer (2004). Quality 0.2 scene preparation; Unreal build unverified.",
   "Modules": [
     { "Name": "Nostalgia", "Type": "Runtime", "LoadingPhase": "Default" }
   ],

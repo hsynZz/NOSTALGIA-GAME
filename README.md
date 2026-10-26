@@ -1,4 +1,8 @@
-# NOSTALGIA — Prototype 0.1
+# NOSTALGIA — Endless Summer (2004)
+
+**Aktueller Schwerpunkt: [Quality Overhaul 0.2](Docs/Quality02/README.md).** Echte lizenzierte 3D-Assets, die erste eingerichtete Raumszene, PBR-Materialien, Blender-Rendernachweise und ein konkreter UE-5.8.0-Import-/Aufbauprozess liegen vor. Die Unreal-Szene wurde hier noch nicht importiert, kompiliert oder gespielt. [Nachweise und Grenzen](Docs/Quality02/README.md) · [Assetlizenzen](Docs/Quality02/ASSET_LICENSES.md) · [Späterer Unreal-Import](Docs/Quality02/IMPORT_UNREAL.md).
+
+Unreal ist das Hauptprojekt. Die folgende Browserversion bleibt ein technischer Konzepttest von 0.1; ihre Grafik entspricht nicht dem Qualitätsziel.
 
 **Jetzt ausprobieren:** [Spielbare Browser-Testversion herunterladen (ZIP)](https://github.com/hsynZz/NOSTALGIA-GAME/raw/refs/heads/main/BrowserPrototype/Delivery/NOSTALGIA-Browser-0.1.zip). Entpacken und `index.html` mit Edge/Chrome öffnen; kein Unreal, kein lokaler Server und keine zusätzliche Installation erforderlich. Aktueller Browser mit WebGL2 vorausgesetzt.
 
@@ -12,7 +16,7 @@ Dieses Repository enthält implementierte technische Grundsysteme, einen nativen
 
 Die Zielversion **5.8.0** ist in `Config/EngineVersion.json` festgelegt; `.uproject` verwendet die Unreal-Zuordnung `5.8`. Der Nutzer bestätigt diese Version als auf seinem Windows-PC installiert. Die Cloud-Sitzung hat weiterhin keine Live-Verbindung zu diesem Editor. Die Windows-Skripte prüfen die tatsächliche `Build.version` und konvertieren das Projekt nicht stillschweigend auf eine andere Version.
 
-**Aktuelle Cloud-Fortsetzung (26.10.2026):** durchgehender Außenboden, gemeinsame Weltgrenzen und Übergangsziele, validierte Speicherdaten und ein abgesicherter Ladeablauf für Türen und Übergänge. **62 native C++-Tests und 9 Python-Tests bestanden.** [Aktuelle Änderungen und Grenzen](Docs/CHANGES_WORLD_SAVE.md) · [Prüfbericht](Docs/VALIDATION.md).
+**Vorheriger Technikstand 0.1 (26.10.2026):** durchgehender Außenboden, gemeinsame Weltgrenzen und Übergangsziele, validierte Speicherdaten und ein abgesicherter Ladeablauf für Türen und Übergänge. Damals bestanden 62 native C++-Tests und 9 Python-Tests. [Änderungen 0.1](Docs/CHANGES_WORLD_SAVE.md). Die aktuellen Prüfungen zur Quality-Fortsetzung stehen im [0.2-Prüfbericht](Docs/Quality02/VALIDATION.md).
 
 Das sparsame Profil bleibt bei DX11, einfacher Beleuchtung ohne Lumen/Raytracing, 720p-Fenster und 30-FPS-Limit. Es gibt noch keine gemessene Bildrate. Die aktuelle Entwicklung erfolgt in der Cloud; lokale Installationsversuche sind nicht Teil dieser Iteration.
 

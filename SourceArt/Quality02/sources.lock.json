@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "retrieved_utc": "2026-10-26",
+  "assets": [
+    {
+      "id": "SheenChair",
+      "repository": "https://github.com/KhronosGroup/glTF-Sample-Assets",
+      "commit": "8f492390ddc7a2ae221a1369ef560589cf8c70fb",
+      "source_page": "https://github.com/KhronosGroup/glTF-Sample-Assets/blob/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/SheenChair/README.md",
+      "files": [
+        {
+          "path": "SourceArt/Quality02/ThirdParty/SheenChair/README.md",
+          "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/SheenChair/README.md",
+          "bytes": 4250,
+          "sha256": "7bbb705e0532711b80a512161da64ab0f2a719412121daf24b8177bdbdbaca7a"
+        },
+        {
+          "path": "SourceArt/Quality02/ThirdParty/SheenChair/SheenChair.glb",
+          "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/SheenChair/glTF-Binary/SheenChair.glb",
+          "bytes": 4125648,
+          "sha256": "f0af2a2b102d28d540236306ae19f8fb36842df76bd38cf76f063f9bd2853399"
+        }
+      ]
+    },
+    {
+      "id": "BoomBox",
+      "repository": "https://github.com/KhronosGroup/glTF-Sample-Assets",
+      "commit": "8f492390ddc7a2ae221a1369ef560589cf8c70fb",
+      "source_page": "https://github.com/KhronosGroup/glTF-Sample-Assets/blob/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/BoomBox/README.md",
+      "files": [
+        {
+          "path": "SourceArt/Quality02/ThirdParty/BoomBox/README.md",
+          "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/BoomBox/README.md",
+          "bytes": 1000,
+          "sha256": "4a0ba4006d903b85dea52788053399d835b22ebb3ab4b1e305ccee103d7b2271"
+        },
+        {
+          "path": "SourceArt/Quality02/ThirdParty/BoomBox/BoomBox.glb",
+          "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/BoomBox/glTF-Binary/BoomBox.glb",
+          "bytes": 10614184,
+          "sha256": "f8b918445ebdd006768232205a62f5182d2208ca57f84c6ccc084943c0bc8f15"
+        }
+      ]
+    },
+    {
+      "id": "SheenWoodLeatherSofa",
+      "repository": "https://github.com/KhronosGroup/glTF-Sample-Assets",
+      "commit": "8f492390ddc7a2ae221a1369ef560589cf8c70fb",
+      "source_page": "https://github.com/KhronosGroup/glTF-Sample-Assets/blob/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/SheenWoodLeatherSofa/README.md",
+      "files": [
+        {
+          "path": "SourceArt/Quality02/ThirdParty/SheenWoodLeatherSofa/README.md",
+          "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/SheenWoodLeatherSofa/README.md",
+          "bytes": 4864,
+          "sha256": "9b935a1afd709a187df9ab2ee4556d252ff58df324538fa23e4166439f9d529d"
+        },
+        {
+          "path": "SourceArt/Quality02/ThirdParty/SheenWoodLeatherSofa/SheenWoodLeatherSofa.glb",
+          "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/SheenWoodLeatherSofa/glTF-Binary/SheenWoodLeatherSofa.glb",
+          "bytes": 10107912,
+          "sha256": "5349e042ad41e695e89f1110230c4ee0c75b2bc62ef830c7016be6ecf665bfb6"
+        }
+      ]
+    },
+    {
+      "id": "DiffuseTransmissionPlant",
+      "repository": "https://github.com/KhronosGroup/glTF-Sample-Assets",
+      "commit": "8f492390ddc7a2ae221a1369ef560589cf8c70fb",
+      "source_page": "https://github.com/KhronosGroup/glTF-Sample-Assets/blob/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/DiffuseTransmissionPlant/README.md",
+      "files": [
+        {
+          "path": "SourceArt/Quality02/ThirdParty/DiffuseTransmissionPlant/README.md",
+          "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/DiffuseTransmissionPlant/README.md",
+          "bytes": 3436,
+          "sha256": "3108a77ae8ca657843f8adea6c5dac8e380b18eb535ec9bfa596f29eb9a2639b"
+        },
+        {
+          "path": "SourceArt/Quality02/ThirdParty/DiffuseTransmissionPlant/DiffuseTransmissionPlant.glb",
+          "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/DiffuseTransmissionPlant/glTF-Binary/DiffuseTransmissionPlant.glb",
+          "bytes": 5759100,
+          "sha256": "1748be8847e24bdd5cb6c5ac2bfd0afe8f11efc4f85091148550555e47c7ee83"
+        }
+      ]
+    },
+    {
+      "id": "ToyCar",
+      "repository": "https://github.com/KhronosGroup/glTF-Sample-Assets",
+      "commit": "8f492390ddc7a2ae221a1369ef560589cf8c70fb",
+      "source_page": "https://github.com/KhronosGroup/glTF-Sample-Assets/blob/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/ToyCar/README.md",
+      "files": [
+        {
+          "path": "SourceArt/Quality02/ThirdParty/ToyCar/README.md",
+          "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/ToyCar/README.md",
+          "bytes": 2073,
+          "sha256": "aed216cda25deab59a115bdd6f486da0437fe4e1d9df11c34e496242dbf89fe2"
+        },
+        {
+          "path": "SourceArt/Quality02/ThirdParty/ToyCar/ToyCar.glb",
+          "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/ToyCar/glTF-Binary/ToyCar.glb",
+          "bytes": 5422412,
+          "sha256": "01a60862de55cd4b9f3acfab0b0def86451800f9c42467fcd61052c16cb9838c"
+        }
+      ]
+    }
+  ]
+}

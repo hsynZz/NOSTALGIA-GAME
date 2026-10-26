@@ -1,0 +1,339 @@
+{
+  "schema": 1,
+  "engine": "5.8.0",
+  "source_units": "meters_Z_up_right_handed",
+  "map": "/Game/Quality02/Maps/EndlessSummer_Quality02",
+  "assets": [
+    {
+      "name": "SM_LivingFurniture",
+      "path": "SourceArt/Quality02/Generated/SM_LivingFurniture.glb",
+      "sha256": "d59352777edaf4ebbb93606a39f9100f93970aefd2a91b29a007893f9738879a",
+      "bytes": 26049992,
+      "bounds_m": [
+        [
+          -10.309041023254395,
+          -6.125
+        ],
+        [
+          -2.931018114089966,
+          1.3515899181365967
+        ],
+        [
+          0.0,
+          0.9222721457481384
+        ]
+      ],
+      "repaired_undefined_tangents": 2,
+      "triangles": 156205,
+      "material_slots": [
+        "fabric Mystere Mango Velvet",
+        "wood Brown",
+        "metal",
+        "label",
+        "Brown",
+        "Fringe",
+        "Frame",
+        "Frame_Fabric",
+        "Paisley",
+        "Striped",
+        "base",
+        "leaves",
+        "M_WornTimber_CC0",
+        "M_FadedBluePaint",
+        "M_Terracotta",
+        "M_AgedIvoryJoinery"
+      ],
+      "collision": "complex_static",
+      "cast_shadow": true,
+      "dynamic": false
+    },
+    {
+      "name": "SM_Architecture",
+      "path": "SourceArt/Quality02/Generated/SM_Architecture.glb",
+      "sha256": "7ec66b21b2e61aae855ac4a28036b027ce66705205cb5f867c1ddc8f2bec7c66",
+      "bytes": 3969388,
+      "bounds_m": [
+        [
+          -16.200000762939453,
+          -5.790999889373779
+        ],
+        [
+          -3.3999998569488525,
+          1.8000001907348633
+        ],
+        [
+          -0.23999999463558197,
+          2.8999998569488525
+        ]
+      ],
+      "repaired_undefined_tangents": 38,
+      "triangles": 26888,
+      "material_slots": [
+        "M_PathStone",
+        "M_WarmChalkPlaster",
+        "M_SoftSageWall",
+        "M_AgedIvoryJoinery",
+        "M_ChalkCeiling",
+        "M_WornTimber_CC0"
+      ],
+      "collision": "complex_static",
+      "cast_shadow": true,
+      "dynamic": false
+    },
+    {
+      "name": "SM_WindowsCurtains",
+      "path": "SourceArt/Quality02/Generated/SM_WindowsCurtains.glb",
+      "sha256": "10359d2efbacce090e5d8c6ccd9b3993390794a845858c4d5052fe898ee5e335",
+      "bytes": 1831588,
+      "bounds_m": [
+        [
+          -15.550000190734863,
+          -6.75
+        ],
+        [
+          1.2549999952316284,
+          1.7149999141693115
+        ],
+        [
+          0.19799363613128662,
+          2.6059999465942383
+        ]
+      ],
+      "repaired_undefined_tangents": 0,
+      "triangles": 37120,
+      "material_slots": [
+        "M_AgedIvoryJoinery",
+        "M_WornTimber_CC0",
+        "M_DullBrass",
+        "M_CurtainWeave"
+      ],
+      "collision": "none",
+      "cast_shadow": true,
+      "dynamic": false
+    },
+    {
+      "name": "SM_WindowGlass",
+      "path": "SourceArt/Quality02/Generated/SM_WindowGlass.glb",
+      "sha256": "bf2369344e444f607d89b8e85895b38fcc37fb67191fc0c1ec6618dee4191f39",
+      "bytes": 6452,
+      "bounds_m": [
+        [
+          -15.339999198913574,
+          -6.960000038146973
+        ],
+        [
+          1.6970000267028809,
+          1.7030000686645508
+        ],
+        [
+          0.9049999713897705,
+          2.424999952316284
+        ]
+      ],
+      "repaired_undefined_tangents": 0,
+      "triangles": 48,
+      "material_slots": [
+        "M_ClearWindowGlass"
+      ],
+      "collision": "complex_static",
+      "cast_shadow": false,
+      "dynamic": false
+    },
+    {
+      "name": "SM_BedroomFurniture",
+      "path": "SourceArt/Quality02/Generated/SM_BedroomFurniture.glb",
+      "sha256": "cce375033e40f3a4c5fe8bb862130e3fdb6a741c548c683f65caed0b964aeadc",
+      "bytes": 20501236,
+      "bounds_m": [
+        [
+          -15.95199966430664,
+          -11.649999618530273
+        ],
+        [
+          -3.190999984741211,
+          1.2899999618530273
+        ],
+        [
+          0.010000020265579224,
+          1.9549999237060547
+        ]
+      ],
+      "repaired_undefined_tangents": 0,
+      "triangles": 155199,
+      "material_slots": [
+        "M_WornTimber_CC0",
+        "M_AgedPaper",
+        "M_CottonBedlinen",
+        "M_CurtainWeave",
+        "M_AgedIvoryJoinery",
+        "M_DullBrass",
+        "BoomBox_Mat",
+        "Glass",
+        "ToyCar",
+        "M_CreamPlastic",
+        "M_CharcoalPlastic",
+        "M_FadedBluePaint",
+        "M_Terracotta",
+        "M_SoftSageWall",
+        "M_Ink"
+      ],
+      "collision": "complex_static",
+      "cast_shadow": true,
+      "dynamic": false
+    },
+    {
+      "name": "SM_Garden",
+      "path": "SourceArt/Quality02/Generated/SM_Garden.glb",
+      "sha256": "aa5fc4a8904f812b3ba22b5e4a57c3995d6e9288b2ecbe5740b403ea5ea419b4",
+      "bytes": 6478144,
+      "bounds_m": [
+        [
+          -19.602893829345703,
+          5.0
+        ],
+        [
+          -3.0,
+          13.0
+        ],
+        [
+          -0.2199999988079071,
+          4.998912811279297
+        ]
+      ],
+      "repaired_undefined_tangents": 59,
+      "triangles": 66972,
+      "material_slots": [
+        "M_SummerGrass",
+        "M_PathStone",
+        "M_AgedIvoryJoinery",
+        "M_CurtainWeave",
+        "M_AgedPaper",
+        "M_ClearWindowGlass",
+        "M_Bark",
+        "M_Leaf"
+      ],
+      "collision": "complex_static",
+      "cast_shadow": true,
+      "dynamic": false
+    },
+    {
+      "name": "SM_NeighborhoodVista",
+      "path": "SourceArt/Quality02/Generated/SM_NeighborhoodVista.glb",
+      "sha256": "94d386b0da5d8c422bb2c24a87c93970b3fad222bdb6a9a25ded772658e671ff",
+      "bytes": 1896196,
+      "bounds_m": [
+        [
+          -21.5,
+          6.5
+        ],
+        [
+          7.699999809265137,
+          18.739784240722656
+        ],
+        [
+          -0.07000000029802322,
+          5.0
+        ]
+      ],
+      "repaired_undefined_tangents": 12,
+      "triangles": 11328,
+      "material_slots": [
+        "M_Asphalt",
+        "M_PathStone",
+        "M_WarmChalkPlaster",
+        "M_Terracotta",
+        "M_CharcoalPlastic",
+        "M_AgedIvoryJoinery",
+        "M_WornTimber_CC0",
+        "M_SoftSageWall"
+      ],
+      "collision": "complex_static",
+      "cast_shadow": true,
+      "dynamic": false
+    },
+    {
+      "name": "SM_Roof",
+      "path": "SourceArt/Quality02/Generated/SM_Roof.glb",
+      "sha256": "983a3dc2950dad90e5a9b8d17ae4738c3eb2b90cd8ac14c3c6c39cfbcad810c1",
+      "bytes": 112048,
+      "bounds_m": [
+        [
+          -16.350000381469727,
+          -5.650000095367432
+        ],
+        [
+          -3.8000011444091797,
+          2.2000014781951904
+        ],
+        [
+          2.694228172302246,
+          4.2057719230651855
+        ]
+      ],
+      "repaired_undefined_tangents": 0,
+      "triangles": 768,
+      "material_slots": [
+        "M_Terracotta",
+        "M_AgedIvoryJoinery",
+        "M_WarmChalkPlaster"
+      ],
+      "collision": "none",
+      "cast_shadow": true,
+      "dynamic": false
+    },
+    {
+      "name": "SM_DoorLeaf",
+      "path": "SourceArt/Quality02/Generated/SM_DoorLeaf.glb",
+      "sha256": "30c7be10bfa1255b14658be12aa37517d82208dbf3ed3ec6dea21711bd6dd4c2",
+      "bytes": 697788,
+      "bounds_m": [
+        [
+          -0.07500000298023224,
+          0.07500000298023224
+        ],
+        [
+          -0.004999995231628418,
+          0.949999988079071
+        ],
+        [
+          0.0,
+          2.0999999046325684
+        ]
+      ],
+      "repaired_undefined_tangents": 19,
+      "triangles": 3772,
+      "material_slots": [
+        "M_AgedIvoryJoinery",
+        "M_WornTimber_CC0",
+        "M_DullBrass"
+      ],
+      "collision": "none",
+      "cast_shadow": true,
+      "dynamic": true
+    }
+  ],
+  "spawn_cm": [
+    -1220,
+    220,
+    92
+  ],
+  "doors_cm": [
+    [
+      -1140,
+      265,
+      0
+    ],
+    [
+      -590,
+      265,
+      0
+    ]
+  ],
+  "garden_origin_cm": [
+    -1290,
+    -490,
+    110
+  ],
+  "unreal_import_tested": false,
+  "unreal_runtime_tested": false
+}

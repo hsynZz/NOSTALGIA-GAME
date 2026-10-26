@@ -17,13 +17,16 @@ ANostalgiaCharacter::ANostalgiaCharacter()
     Camera->SetupAttachment(GetCapsuleComponent());
     Camera->SetRelativeLocation(FVector(0, 0, 64));
     Camera->bUsePawnControlRotation = true;
-    Camera->FieldOfView = 85;
+    Camera->FieldOfView = 82;
     bUseControllerRotationYaw = true;
     auto* Movement = GetCharacterMovement();
     Movement->MaxWalkSpeed = 320;
     Movement->MaxWalkSpeedCrouched = 150;
     Movement->JumpZVelocity = 420;
     Movement->AirControl = 0.2f;
+    Movement->MaxAcceleration = 900;
+    Movement->BrakingDecelerationWalking = 1200;
+    Movement->GroundFriction = 5.5f;
     Movement->GetNavAgentPropertiesRef().bCanCrouch = true;
     Movement->SetCrouchedHalfHeight(48);
 }
@@ -31,10 +34,25 @@ ANostalgiaCharacter::ANostalgiaCharacter()
 void ANostalgiaCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
-    GetCharacterMovement()->MaxWalkSpeed = bSprinting && !bIsCrouched ? 520 : 320;
-    // Capsule shrinks on crouch, camera moves with it; no artificial shake or blur.
-    const float EyeHeight = bIsCrouched ? 30.0f : 64.0f;
-    Camera->SetRelativeLocation(FVector(0, 0, FMath::FInterpTo(Camera->GetRelativeLocation().Z, EyeHeight, DeltaSeconds, 12)));
+    GetCharacterMovement()->MaxWalkSpeed = bSprinting && !bIsCrouched ? SprintSpeed : WalkSpeed;
+    Nostalgia::AdvanceView(View, DeltaSeconds, GetVelocity().Size2D(),
+        GetCharacterMovement()->IsMovingOnGround(), bIsCrouched, bSprinting, bReducedCameraMotion);
+    Camera->SetRelativeLocation(FVector(0, 0, View.eyeHeight + View.bob));
+    Camera->SetFieldOfView(View.fieldOfView);
+}
+
+void ANostalgiaCharacter::OnStartCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust)
+{
+    Super::OnStartCrouch(HalfHeightAdjust, ScaledHalfHeightAdjust);
+    // Capsule resize is immediate for collision. Preserve the eye's world height,
+    // then let the presentation model ease down to the crouched eye position.
+    View.eyeHeight += HalfHeightAdjust;
+}
+
+void ANostalgiaCharacter::OnEndCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust)
+{
+    Super::OnEndCrouch(HalfHeightAdjust, ScaledHalfHeightAdjust);
+    View.eyeHeight -= HalfHeightAdjust;
 }
 
 void ANostalgiaCharacter::SetupPlayerInputComponent(UInputComponent* Input)
@@ -55,6 +73,7 @@ void ANostalgiaCharacter::SetupPlayerInputComponent(UInputComponent* Input)
     Input->BindAction(TEXT("Debug"), IE_Pressed, this, &ANostalgiaCharacter::ToggleDebug);
     Input->BindAction(TEXT("Hint"), IE_Pressed, this, &ANostalgiaCharacter::ToggleHint);
     Input->BindAction(TEXT("Memory"), IE_Pressed, this, &ANostalgiaCharacter::ToggleMemory);
+    Input->BindAction(TEXT("Comfort"), IE_Pressed, this, &ANostalgiaCharacter::ToggleComfort);
     Input->BindAction(TEXT("Save"), IE_Pressed, this, &ANostalgiaCharacter::Save);
     Input->BindAction(TEXT("Load"), IE_Pressed, this, &ANostalgiaCharacter::Load);
 }
@@ -71,8 +90,10 @@ void ANostalgiaCharacter::CrouchStop() { UnCrouch(); }
 void ANostalgiaCharacter::ToggleClock() { bClockVisible = !bClockVisible; }
 void ANostalgiaCharacter::ToggleDebug() { bDebugVisible = !bDebugVisible; }
 void ANostalgiaCharacter::ToggleHint() { bHintVisible = !bHintVisible; }
+void ANostalgiaCharacter::ToggleComfort() { bReducedCameraMotion = !bReducedCameraMotion; }
 void ANostalgiaCharacter::ToggleMemory()
 {
+    if (!bPrototypeSaveEnabled) return; // Authored photo inspection is not in the quality scene yet.
     const auto* Session = GetGameInstance()->GetSubsystem<UNostalgiaStateSubsystem>();
     if (Session && Session->GetState().stage >= Nostalgia::Stage::PhotoFound)
         SetMemoryVisible(!bMemoryVisible);
@@ -108,11 +129,25 @@ void ANostalgiaCharacter::Interact()
 {
     if (AActor* Actor = FocusedActor()) INostalgiaInteraction::Execute_Interact(Actor, this);
 }
-void ANostalgiaCharacter::Save() { if (auto* State = GetGameInstance()->GetSubsystem<UNostalgiaStateSubsystem>()) State->Save(this); }
+void ANostalgiaCharacter::Save()
+{
+    if (!bPrototypeSaveEnabled) return;
+    if (auto* State = GetGameInstance()->GetSubsystem<UNostalgiaStateSubsystem>())
+    {
+        State->Save(this);
+        ActionFeedback = State->LastMessage;
+        ActionFeedbackUntil = GetWorld()->GetTimeSeconds() + 3;
+    }
+}
 void ANostalgiaCharacter::Load()
 {
+    if (!bPrototypeSaveEnabled) return;
     if (auto* State = GetGameInstance()->GetSubsystem<UNostalgiaStateSubsystem>())
+    {
         if (State->Load(this)) SetMemoryVisible(false);
+        ActionFeedback = State->LastMessage;
+        ActionFeedbackUntil = GetWorld()->GetTimeSeconds() + 3;
+    }
 }
 bool ANostalgiaCharacter::TransitionReady() const { return !bRestoringSnapshot && GetWorld()->GetTimeSeconds() >= NextTransitionTime; }
 void ANostalgiaCharacter::ProtectTransition() { NextTransitionTime = GetWorld()->GetTimeSeconds() + 3.0; }
@@ -120,5 +155,5 @@ void ANostalgiaCharacter::BeginSnapshotRestore() { bRestoringSnapshot = true; }
 void ANostalgiaCharacter::EndSnapshotRestore(bool bSucceeded)
 {
     bRestoringSnapshot = false;
-    if (bSucceeded) ProtectTransition();
+    if (bSucceeded) { View = Nostalgia::ViewMotion{}; ProtectTransition(); }
 }

@@ -9,8 +9,11 @@ UNostalgiaAudioDirector::UNostalgiaAudioDirector() { PrimaryComponentTick.bCanEv
 void UNostalgiaAudioDirector::BeginPlay()
 {
     Super::BeginPlay();
-    GardenCue = LoadObject<USoundBase>(nullptr, TEXT("/Game/Audio/A_GardenPlaceholder.A_GardenPlaceholder"));
-    KnockCue = LoadObject<USoundBase>(nullptr, TEXT("/Game/Audio/A_KnockPlaceholder.A_KnockPlaceholder"));
+    if (bAllowPrototypeSignals)
+    {
+        if (!GardenCue) GardenCue = LoadObject<USoundBase>(nullptr, TEXT("/Game/Audio/A_GardenPlaceholder.A_GardenPlaceholder"));
+        if (!KnockCue) KnockCue = LoadObject<USoundBase>(nullptr, TEXT("/Game/Audio/A_KnockPlaceholder.A_KnockPlaceholder"));
+    }
     Attenuation = NewObject<USoundAttenuation>(this);
     auto& Settings = Attenuation->Attenuation;
     Settings.bAttenuate = true;
@@ -22,7 +25,11 @@ void UNostalgiaAudioDirector::BeginPlay()
     Settings.OcclusionTraceChannel = ECC_Visibility;
     Settings.OcclusionLowPassFilterFrequency = 1200;
     Settings.OcclusionVolumeAttenuation = 0.25f;
-    if (!GardenCue || !KnockCue) UE_LOG(LogNostalgia, Warning, TEXT("Audio assets missing. Run Scripts/prepare_unreal.py in UE 5.8."));
+    Settings.OcclusionInterpolationTime = .25f;
+    Settings.bEnableAirAbsorption = true;
+    Settings.LPFRadiusMin = 300;
+    Settings.LPFRadiusMax = 1100;
+    if (!GardenCue) UE_LOG(LogNostalgia, Warning, TEXT("No approved garden recording assigned. Garden remains silent; event is not consumed."));
 }
 
 bool UNostalgiaAudioDirector::CanPlay(Nostalgia::EventId Event, const FVector& Location) const

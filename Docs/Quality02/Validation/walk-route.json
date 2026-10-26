@@ -1,0 +1,45 @@
+{
+  "engine": "Blender mesh BVH; not Unreal collision",
+  "unreal": false,
+  "scene_manifest_sha256": "20aad984d6b8a2af484db16b7d5bec0e43457b2b40c6770365e23f8d53eaaecf",
+  "route_m": [
+    [
+      -12.2,
+      -2.15
+    ],
+    [
+      -11.0,
+      -2.15
+    ],
+    [
+      -10.65,
+      -0.2
+    ],
+    [
+      -6.45,
+      -0.2
+    ],
+    [
+      -6.45,
+      -2.15
+    ],
+    [
+      -5.25,
+      -2.15
+    ],
+    [
+      -5.25,
+      4.0
+    ],
+    [
+      -9.5,
+      4.0
+    ]
+  ],
+  "capsule_radius_m": 0.34,
+  "height_m": 1.76,
+  "open_doors": true,
+  "ray_checks": 1344,
+  "failures": [],
+  "passed": true
+}

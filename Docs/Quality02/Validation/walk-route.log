@@ -1,0 +1,32 @@
+Extensions: writing cache failed ([Errno 30] Read-only file system: '/home/agent/.config/blender/4.3/extensions').
+19:05:22 | INFO: Data are loaded, start creating Blender stuff
+19:05:22 | INFO: Blender create Mesh node SheenChair_fabric
+19:05:23 | INFO: glTF import finished in 1.29s
+19:05:23 | INFO: Data are loaded, start creating Blender stuff
+19:05:23 | INFO: Blender create Mesh node Cube
+19:05:24 | INFO: glTF import finished in 0.18s
+19:05:24 | INFO: Data are loaded, start creating Blender stuff
+19:05:24 | INFO: Blender create Mesh node Cube.139
+19:05:24 | INFO: glTF import finished in 0.14s
+19:05:24 | INFO: Data are loaded, start creating Blender stuff
+19:05:24 | INFO: Blender create Mesh node Cube.145
+19:05:24 | INFO: glTF import finished in 0.00s
+19:05:24 | INFO: Data are loaded, start creating Blender stuff
+19:05:24 | INFO: Blender create Mesh node Cylinder.006
+19:05:25 | INFO: glTF import finished in 0.84s
+19:05:25 | INFO: Data are loaded, start creating Blender stuff
+19:05:25 | INFO: Blender create Mesh node Cube.263
+19:05:25 | INFO: glTF import finished in 0.40s
+19:05:25 | INFO: Data are loaded, start creating Blender stuff
+19:05:25 | INFO: Blender create Mesh node Cube.404
+19:05:25 | INFO: glTF import finished in 0.12s
+19:05:25 | INFO: Data are loaded, start creating Blender stuff
+19:05:25 | INFO: Blender create Mesh node Cube.464
+19:05:25 | INFO: glTF import finished in 0.02s
+19:05:25 | INFO: Data are loaded, start creating Blender stuff
+19:05:25 | INFO: Blender create Mesh node Cube.468
+19:05:25 | INFO: glTF import finished in 0.06s
+QUALITY02_WALK_ENVELOPE PASS 0 Unreal NOT RUN
+Blender 4.3.2
+
+Blender quit

@@ -4,6 +4,7 @@
 #include "NostalgiaStateSubsystem.h"
 #include "Engine/Canvas.h"
 #include "Engine/GameInstance.h"
+#include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 
 void ANostalgiaHUD::DrawHUD()
@@ -14,19 +15,27 @@ void ANostalgiaHUD::DrawHUD()
     const auto* Session = GetGameInstance()->GetSubsystem<UNostalgiaStateSubsystem>();
     if (!Player || !Session) return;
     const auto& State = Session->GetState();
-    DrawRect(FLinearColor(0, 0, 0, .65), 12, 12, FMath::Min(Canvas->SizeX - 24.0f, 1050.0f), Player->bHintVisible ? 180 : 150);
-    DrawText(TEXT("NOSTALGIA | Endless Summer - 2004 | Prototype 0.1"), FColor::White, 24, 20);
-    DrawText(Session->ObjectiveText(), FColor::Yellow, 24, 45);
-    DrawText(TEXT("WASD Maus | Shift Sprint | Strg Ducken | Leertaste Sprung | E Interaktion | Tab Uhr | H Hinweis"), FColor::White, 24, 70);
-    DrawText(TEXT("J Foto ansehen/schliessen | F5 Speichern | F9 Laden | F3 Debug | Alt+F4 Beenden"), FColor::White, 24, 92);
-    DrawText(Session->LastMessage, FColor::Cyan, 24, 118);
-    if (Player->bHintVisible) DrawText(Session->HintText(), FColor::White, 24, 144);
-    if (Player->bClockVisible || State.elapsed < 10)
-        DrawText(Session->ClockText(), FColor::White, 24, 205, nullptr, 1.6f);
-    DrawText(TEXT("+"), FColor::White, Canvas->SizeX / 2.0f - 4, Canvas->SizeY / 2.0f - 8);
+    // Normal view stays quiet. Help is explicitly requested, technical state is F3-only.
+    if (Player->bHintVisible)
+    {
+        DrawRect(FLinearColor(0, 0, 0, .65), 20, 20, FMath::Min(Canvas->SizeX - 40.0f, 950.0f), 100);
+        DrawText(TEXT("WASD Maus | Shift Sprint | Strg Ducken | Leertaste Sprung | E Benutzen | Tab Uhr"), FColor::White, 32, 32);
+        DrawText(Player->bPrototypeSaveEnabled ? *Session->HintText() :
+            TEXT("Sommer 2004. Nimm dir Zeit. Hoere am offenen Garten auf die Umgebung."), FColor::White, 32, 62);
+        DrawText(TEXT("H: Hilfe schliessen"), FColor::White, 32, 92);
+    }
+    if (Player->bClockVisible || State.elapsed < 5)
+        DrawText(Session->ClockText(), FColor::White, 32, Canvas->SizeY - 60, nullptr, 1.2f);
+    if (GetWorld()->GetTimeSeconds() < Player->ActionFeedbackUntil)
+        DrawText(Player->ActionFeedback, FColor::White, 32, Canvas->SizeY - 90);
     if (AActor* Focus = Player->FocusedActor())
-        DrawText(INostalgiaInteraction::Execute_InteractionText(Focus).ToString(), FColor::Yellow,
-            Canvas->SizeX / 2.0f - 150, Canvas->SizeY / 2.0f + 30);
+    {
+        DrawRect(FLinearColor(.85, .85, .8, .65), Canvas->SizeX / 2.0f - 1, Canvas->SizeY / 2.0f - 1, 2, 2);
+        DrawText(TEXT("E"), FColor(220, 220, 204), Canvas->SizeX / 2.0f - 4, Canvas->SizeY / 2.0f + 24);
+        if (Player->bHintVisible || Player->bDebugVisible)
+            DrawText(INostalgiaInteraction::Execute_InteractionText(Focus).ToString(), FColor::White,
+                Canvas->SizeX / 2.0f - 150, Canvas->SizeY / 2.0f + 50);
+    }
     if (Player->bDebugVisible)
     {
         const auto& Context = Session->GetContext();

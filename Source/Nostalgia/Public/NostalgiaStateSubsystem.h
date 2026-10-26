@@ -18,7 +18,7 @@ public:
     const Nostalgia::State& GetState() const { return State; }
     const Nostalgia::Context& GetContext() const { return Context; }
     void SetContext(Nostalgia::District District, bool bSafe, bool bThreatened, float Speed, float DeltaSeconds);
-    Nostalgia::EventId Step(float DeltaSeconds);
+    Nostalgia::EventId Step(float DeltaSeconds, float GameMinutesPerSecond = 1.0f);
     void SetEventAvailable(Nostalgia::EventId Event, bool bAvailable);
     bool AcknowledgeEvent(bool bDelivered);
     bool Perform(Nostalgia::Action Action);

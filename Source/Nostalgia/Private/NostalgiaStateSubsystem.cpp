@@ -31,11 +31,11 @@ void UNostalgiaStateSubsystem::SetContext(Nostalgia::District District, bool bSa
     Context.speed = Speed;
 }
 
-Nostalgia::EventId UNostalgiaStateSubsystem::Step(float DeltaSeconds)
+Nostalgia::EventId UNostalgiaStateSubsystem::Step(float DeltaSeconds, float GameMinutesPerSecond)
 {
     PendingEvent = Nostalgia::EventPlan{};
     if (State.stage == Nostalgia::Stage::Complete) return Nostalgia::EventId::Count;
-    Nostalgia::Advance(State, DeltaSeconds);
+    Nostalgia::Advance(State, DeltaSeconds, GameMinutesPerSecond);
     PendingEvent = Nostalgia::PlanEvent(State, Context, Rules);
     return PendingEvent.GetEvent();
 }

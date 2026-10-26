@@ -13,3 +13,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Compile shared production logic and run all offline tests
         run: python3 Scripts/validate.py --sanitize
+      - name: Validate delivered quality-scene GLBs with the Khronos validator
+        run: |
+          npm ci --prefix Scripts/quality02
+          npm run validate --prefix Scripts/quality02

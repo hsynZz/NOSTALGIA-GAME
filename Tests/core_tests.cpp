@@ -1,6 +1,7 @@
 #include "Core/NostalgiaCore.h"
 #include "Core/NostalgiaEncounter.h"
 #include "Core/NostalgiaSnapshot.h"
+#include "Core/NostalgiaPresentation.h"
 #include <algorithm>
 #include <cmath>
 #include <functional>
@@ -31,6 +32,43 @@ Context At(District district) { return {district, false, false, 10, 100}; }
 int main()
 {
     const std::vector<std::pair<std::string, std::function<void()>>> tests = {
+        {"quality real-time clock preserves Director dwell seconds", [] {
+            State s;
+            Advance(s, 120, 1.0/60.0);
+            Check(s.minute == 902 && s.elapsed == 120, "clock and elapsed mixed");
+            const State before = s;
+            for (double rate : {-1.0, 61.0, std::nan("")}) Advance(s, 1, rate);
+            Check(s == before, "invalid clock rate mutated state");
+        }},
+        {"view motion is bounded and absent at rest", [] {
+            ViewMotion v;
+            for (int i=0;i<600;++i)
+            {
+                AdvanceView(v, 1.0/60, 520, true, false, true, false);
+                Check(std::abs(v.bob) <= .55 && v.fieldOfView >= 82 && v.fieldOfView <= 85, "excess motion");
+            }
+            for (int i=0;i<600;++i) AdvanceView(v, 1.0/60, 0, true, false, false, false);
+            Check(std::abs(v.bob) < .001 && std::abs(v.fieldOfView-82)<.001, "idle drift");
+        }},
+        {"view comfort suppresses bob and sprint zoom", [] {
+            ViewMotion v;
+            for (int i=0;i<120;++i) AdvanceView(v,1.0/60,520,true,false,true,true);
+            Check(v.bob == 0 && v.fieldOfView == 82, "reduced motion ignored");
+        }},
+        {"view crouch settling is independent of framerate", [] {
+            ViewMotion a,b;
+            for(int i=0;i<30;++i) AdvanceView(a,1.0/30,0,true,true,false,false);
+            for(int i=0;i<120;++i) AdvanceView(b,1.0/120,0,true,true,false,false);
+            Check(std::abs(a.eyeHeight-b.eyeHeight)<1e-8 && std::abs(a.eyeHeight-30)<.001, "frame dependent crouch");
+            const auto before=a;
+            AdvanceView(a,std::nan(""),200,true,false,false,false);
+            Check(a.eyeHeight == before.eyeHeight, "invalid motion input");
+        }},
+        {"airborne camera does not invent footsteps", [] {
+            ViewMotion v;
+            for(int i=0;i<120;++i) AdvanceView(v,1.0/60,320,false,false,false,false);
+            Check(v.phase == 0 && v.bob == 0, "airborne bob");
+        }},
         {"initial state is valid, summer afternoon, reproducible seed", [] {
             const State state;
             Check(Validate(state), "initial state invalid");

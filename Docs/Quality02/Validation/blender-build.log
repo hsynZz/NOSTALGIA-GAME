@@ -1,0 +1,417 @@
+Extensions: writing cache failed ([Errno 30] Read-only file system: '/home/agent/.config/blender/4.3/extensions').
+18:59:21 | INFO: Data are loaded, start creating Blender stuff
+18:59:21 | INFO: Blender create Mesh node SheenChair_fabric
+18:59:21 | INFO: Blender create Mesh node SheenChair_wood
+18:59:21 | INFO: Blender create Mesh node SheenChair_metal
+18:59:21 | INFO: Blender create Mesh node SheenChair_label
+18:59:21 | INFO: glTF import finished in 0.08s
+18:59:21 | INFO: Data are loaded, start creating Blender stuff
+18:59:21 | INFO: Blender create Mesh node Fringe
+18:59:21 | INFO: Blender create Mesh node Frame
+18:59:21 | INFO: Blender create Mesh node Frame_Fabric
+18:59:21 | INFO: Blender create Mesh node Paisley
+18:59:21 | INFO: Blender create Mesh node Stripes
+18:59:21 | INFO: Blender create Mesh node Brown
+18:59:21 | INFO: glTF import finished in 0.14s
+18:59:22 | INFO: Data are loaded, start creating Blender stuff
+18:59:22 | INFO: Blender create Mesh node pot
+18:59:22 | INFO: Blender create Mesh node leaves
+18:59:22 | INFO: Blender create Mesh node dirt
+18:59:22 | INFO: Blender create Mesh node firefly1
+18:59:22 | INFO: Blender create Mesh node firefly1_wing_right
+18:59:22 | INFO: Blender create Mesh node firefly1_wing_left
+18:59:22 | INFO: Blender create Mesh node firefly2
+18:59:22 | INFO: Blender create Mesh node firefly2_wing_left
+18:59:22 | INFO: Blender create Mesh node firefly2_wing_right
+18:59:22 | INFO: glTF import finished in 0.10s
+18:59:24 | INFO: Data are loaded, start creating Blender stuff
+18:59:24 | INFO: Blender create Mesh node BoomBox
+18:59:24 | INFO: glTF import finished in 0.03s
+Warning: No mesh data to join
+18:59:24 | INFO: Data are loaded, start creating Blender stuff
+18:59:24 | INFO: Blender create Mesh node ToyCar
+18:59:24 | INFO: Blender create Mesh node Fabric
+18:59:24 | INFO: Blender create Mesh node Glass
+18:59:24 | INFO: glTF import finished in 0.18s
+ERROR Draco mesh compression is not available because library could not be found at /usr/bin/4.3/python/lib/python3.13/site-packages/libextern_draco.so
+19:00:09 | INFO: Starting glTF 2.0 export
+19:00:09 | INFO: Extracting primitive: SheenChair_fabric
+19:00:10 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+19:00:10 | WARNING: This case should not happen, please report a bug
+19:00:10 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+19:00:10 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+19:00:10 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+19:00:10 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+19:00:10 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+19:00:10 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+19:00:10 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+19:00:10 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+19:00:10 | INFO: Primitives created: 16
+19:00:10 | INFO: Finished glTF 2.0 export in 1.2770917415618896 s
+
+19:00:12 | INFO: Starting glTF 2.0 export
+19:00:12 | INFO: Extracting primitive: Cube
+19:00:12 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+19:00:12 | INFO: Primitives created: 6
+19:00:12 | INFO: Finished glTF 2.0 export in 0.0922403335571289 s
+
+19:00:12 | INFO: Starting glTF 2.0 export
+19:00:13 | INFO: Extracting primitive: Cube.139
+19:00:13 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+19:00:13 | INFO: Primitives created: 4
+19:00:13 | INFO: Finished glTF 2.0 export in 0.11046385765075684 s
+
+19:00:13 | INFO: Starting glTF 2.0 export
+19:00:13 | INFO: Extracting primitive: Cube.145
+19:00:13 | INFO: Primitives created: 1
+19:00:13 | INFO: Finished glTF 2.0 export in 0.023446083068847656 s
+
+19:00:14 | INFO: Starting glTF 2.0 export
+19:00:14 | INFO: Extracting primitive: Cylinder.006
+19:00:14 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+19:00:14 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+19:00:15 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+19:00:15 | INFO: Primitives created: 15
+19:00:15 | INFO: Finished glTF 2.0 export in 0.8126504421234131 s
+
+19:00:16 | INFO: Starting glTF 2.0 export
+19:00:16 | INFO: Extracting primitive: Cube.263
+19:00:16 | INFO: Primitives created: 8
+19:00:16 | INFO: Finished glTF 2.0 export in 0.1674964427947998 s
+
+19:00:17 | INFO: Starting glTF 2.0 export
+19:00:17 | INFO: Extracting primitive: Cube.404
+19:00:17 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+19:00:17 | INFO: Primitives created: 8
+19:00:17 | INFO: Finished glTF 2.0 export in 0.05954861640930176 s
+
+19:00:17 | INFO: Starting glTF 2.0 export
+19:00:17 | INFO: Extracting primitive: Cube.464
+19:00:17 | INFO: Primitives created: 3
+19:00:17 | INFO: Finished glTF 2.0 export in 0.012020587921142578 s
+
+19:00:17 | INFO: Starting glTF 2.0 export
+19:00:17 | INFO: Extracting primitive: Cube.468
+19:00:17 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+19:00:17 | INFO: Primitives created: 3
+19:00:17 | INFO: Finished glTF 2.0 export in 0.022912263870239258 s
+Blender 4.3.2
+Fra:1 Mem:434.46M (Peak 681.31M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_LivingFurniture
+Fra:1 Mem:434.46M (Peak 681.31M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_Architecture
+Fra:1 Mem:434.46M (Peak 681.31M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_WindowGlass
+Fra:1 Mem:436.82M (Peak 681.31M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_DoorLeaf.002
+Fra:1 Mem:436.83M (Peak 681.31M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_BedroomFurniture
+Fra:1 Mem:443.15M (Peak 681.31M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_DoorLeaf.001
+Fra:1 Mem:450.74M (Peak 681.31M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_Roof
+Fra:1 Mem:452.12M (Peak 681.31M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_NeighborhoodVista
+Fra:1 Mem:463.94M (Peak 681.31M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_Garden
+Fra:1 Mem:521.71M (Peak 681.31M) | Time:00:00.35 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:459.42M (Peak 681.31M) | Time:00:00.35 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_2
+Fra:1 Mem:459.42M (Peak 681.31M) | Time:00:00.35 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_7.001
+Fra:1 Mem:459.42M (Peak 681.31M) | Time:00:00.35 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_0
+Fra:1 Mem:459.42M (Peak 681.31M) | Time:00:00.35 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_3
+Fra:1 Mem:480.43M (Peak 681.31M) | Time:00:00.35 | Mem:1.00M, Peak:1.00M | Scene, ViewLayer | Updating Images | Loading Image_4
+Fra:1 Mem:481.43M (Peak 681.31M) | Time:00:00.35 | Mem:2.00M, Peak:2.00M | Scene, ViewLayer | Updating Images | Loading Image_5
+Fra:1 Mem:484.43M (Peak 681.31M) | Time:00:00.35 | Mem:3.00M, Peak:3.00M | Scene, ViewLayer | Updating Images | Loading Image_0.001
+Fra:1 Mem:485.43M (Peak 681.31M) | Time:00:00.35 | Mem:4.00M, Peak:4.00M | Scene, ViewLayer | Updating Images | Loading Image_2.001
+Fra:1 Mem:482.44M (Peak 681.31M) | Time:00:00.35 | Mem:5.00M, Peak:5.00M | Scene, ViewLayer | Updating Images | Loading Image_1.001
+Fra:1 Mem:484.43M (Peak 681.31M) | Time:00:00.35 | Mem:7.00M, Peak:7.00M | Scene, ViewLayer | Updating Images | Loading Image_7
+Fra:1 Mem:486.93M (Peak 681.31M) | Time:00:00.35 | Mem:7.50M, Peak:7.50M | Scene, ViewLayer | Updating Images | Loading Image_8
+Fra:1 Mem:487.06M (Peak 681.31M) | Time:00:00.35 | Mem:7.62M, Peak:7.62M | Scene, ViewLayer | Updating Images | Loading Image_9
+Fra:1 Mem:487.12M (Peak 681.31M) | Time:00:00.35 | Mem:7.69M, Peak:7.69M | Scene, ViewLayer | Updating Images | Loading Image_10
+Fra:1 Mem:502.12M (Peak 681.31M) | Time:00:00.35 | Mem:8.69M, Peak:8.69M | Scene, ViewLayer | Updating Images | Loading Image_12
+Fra:1 Mem:502.12M (Peak 681.31M) | Time:00:00.35 | Mem:9.69M, Peak:9.69M | Scene, ViewLayer | Updating Images | Loading Image_11
+Fra:1 Mem:530.12M (Peak 681.31M) | Time:00:00.35 | Mem:10.69M, Peak:10.69M | Scene, ViewLayer | Updating Images | Loading Image_3.001
+Fra:1 Mem:538.12M (Peak 681.31M) | Time:00:00.35 | Mem:14.69M, Peak:14.69M | Scene, ViewLayer | Updating Images | Loading Image_4.001
+Fra:1 Mem:558.12M (Peak 681.31M) | Time:00:00.35 | Mem:18.69M, Peak:18.69M | Scene, ViewLayer | Updating Images | Loading Image_5.001
+Fra:1 Mem:558.37M (Peak 681.31M) | Time:00:00.35 | Mem:18.94M, Peak:18.94M | Scene, ViewLayer | Updating Images | Loading Image_6.001
+Fra:1 Mem:558.62M (Peak 681.31M) | Time:00:00.35 | Mem:19.19M, Peak:19.19M | Scene, ViewLayer | Updating Images | Loading Image_4.002
+Fra:1 Mem:559.62M (Peak 681.31M) | Time:00:00.35 | Mem:20.19M, Peak:20.19M | Scene, ViewLayer | Updating Images | Loading Image_2.002
+Fra:1 Mem:563.62M (Peak 681.31M) | Time:00:00.35 | Mem:24.19M, Peak:24.19M | Scene, ViewLayer | Updating Images | Loading Image_3.002
+Fra:1 Mem:567.62M (Peak 681.31M) | Time:00:00.35 | Mem:28.19M, Peak:28.19M | Scene, ViewLayer | Updating Images | Loading Image_0.004
+Fra:1 Mem:571.62M (Peak 681.31M) | Time:00:00.35 | Mem:32.19M, Peak:32.19M | Scene, ViewLayer | Updating Images | Loading Image_6.002
+Fra:1 Mem:575.62M (Peak 681.31M) | Time:00:00.35 | Mem:36.19M, Peak:36.19M | Scene, ViewLayer | Updating Images | Loading Image_0.002
+Fra:1 Mem:575.62M (Peak 681.31M) | Time:00:00.35 | Mem:40.19M, Peak:40.19M | Scene, ViewLayer | Updating Images | Loading Image_1.002
+Fra:1 Mem:575.62M (Peak 681.31M) | Time:00:00.36 | Mem:48.19M, Peak:48.19M | Scene, ViewLayer | Updating Images | Loading M_CurtainWeave_BaseColor
+Fra:1 Mem:575.62M (Peak 681.31M) | Time:00:00.36 | Mem:52.19M, Peak:52.19M | Scene, ViewLayer | Updating Images | Loading Image_3.004
+Fra:1 Mem:586.62M (Peak 681.31M) | Time:00:00.36 | Mem:53.19M, Peak:53.19M | Scene, ViewLayer | Updating Images | Loading M_CottonBedlinen_BaseColor
+Fra:1 Mem:572.62M (Peak 681.31M) | Time:00:00.36 | Mem:69.19M, Peak:69.19M | Scene, ViewLayer | Updating Images | Loading M_CottonBedlinen_Normal
+Fra:1 Mem:572.62M (Peak 681.31M) | Time:00:00.36 | Mem:70.19M, Peak:70.19M | Scene, ViewLayer | Updating Images | Loading Image_3.003
+Fra:1 Mem:588.62M (Peak 681.31M) | Time:00:00.36 | Mem:71.19M, Peak:71.19M | Scene, ViewLayer | Updating Images | Loading Image_0.003
+Fra:1 Mem:619.62M (Peak 681.31M) | Time:00:00.36 | Mem:72.19M, Peak:72.19M | Scene, ViewLayer | Updating Images | Loading Image_1.003
+Fra:1 Mem:647.62M (Peak 681.31M) | Time:00:00.36 | Mem:76.19M, Peak:76.19M | Scene, ViewLayer | Updating Images | Loading Image_2.004
+Fra:1 Mem:667.62M (Peak 681.31M) | Time:00:00.36 | Mem:80.19M, Peak:80.19M | Scene, ViewLayer | Updating Images | Loading Image_1.004
+Fra:1 Mem:655.62M (Peak 681.31M) | Time:00:00.36 | Mem:96.19M, Peak:96.19M | Scene, ViewLayer | Updating Images | Loading Image_2.003
+Fra:1 Mem:620.79M (Peak 687.62M) | Time:00:00.37 | Mem:164.19M, Peak:164.19M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:620.79M (Peak 687.62M) | Time:00:00.37 | Mem:164.19M, Peak:164.19M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:620.79M (Peak 687.62M) | Time:00:00.37 | Mem:164.19M, Peak:164.19M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:620.79M (Peak 687.62M) | Time:00:00.37 | Mem:164.19M, Peak:164.19M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:620.90M (Peak 687.62M) | Time:00:00.37 | Mem:164.21M, Peak:164.21M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:620.90M (Peak 687.62M) | Time:00:00.37 | Mem:164.21M, Peak:164.21M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:620.90M (Peak 687.62M) | Time:00:00.37 | Mem:164.21M, Peak:164.21M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:620.90M (Peak 687.62M) | Time:00:00.37 | Mem:164.21M, Peak:164.21M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:620.90M (Peak 687.62M) | Time:00:00.37 | Mem:164.21M, Peak:164.21M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:620.90M (Peak 687.62M) | Time:00:00.37 | Mem:164.21M, Peak:164.21M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:620.90M (Peak 687.62M) | Time:00:00.37 | Mem:164.22M, Peak:164.22M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:620.90M (Peak 687.62M) | Time:00:00.37 | Mem:164.22M, Peak:164.22M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:620.90M (Peak 687.62M) | Time:00:00.37 | Mem:164.22M, Peak:164.22M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:620.90M (Peak 687.62M) | Time:00:00.37 | Mem:164.22M, Peak:164.22M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:627.95M (Peak 687.62M) | Time:00:00.38 | Mem:164.22M, Peak:164.22M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:679.99M (Peak 687.62M) | Time:00:00.40 | Mem:164.22M, Peak:164.22M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:679.99M (Peak 687.62M) | Time:00:00.40 | Mem:216.25M, Peak:216.25M | Scene, ViewLayer | Updating Geometry BVH Cube.139 1/3 | Building BVH
+Fra:1 Mem:679.99M (Peak 687.62M) | Time:00:00.40 | Mem:216.25M, Peak:216.25M | Scene, ViewLayer | Updating Geometry BVH Cube.263 3/3 | Building BVH
+Fra:1 Mem:679.99M (Peak 687.62M) | Time:00:00.40 | Mem:216.25M, Peak:216.25M | Scene, ViewLayer | Updating Geometry BVH Cylinder.006 2/3 | Building BVH
+Fra:1 Mem:679.99M (Peak 687.62M) | Time:00:00.40 | Mem:224.17M, Peak:224.17M | Scene, ViewLayer | Updating Geometry BVH Cylinder.006 2/3 | Building BVH 0%
+Fra:1 Mem:679.99M (Peak 687.62M) | Time:00:00.42 | Mem:233.37M, Peak:238.11M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:679.99M (Peak 687.62M) | Time:00:00.42 | Mem:233.37M, Peak:238.11M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:679.99M (Peak 687.62M) | Time:00:00.44 | Mem:246.94M, Peak:253.13M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:679.99M (Peak 687.62M) | Time:00:00.44 | Mem:246.94M, Peak:253.13M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:708.47M (Peak 708.47M) | Time:00:00.45 | Mem:246.94M, Peak:253.13M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:708.47M (Peak 708.47M) | Time:00:00.45 | Mem:275.43M, Peak:275.43M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:708.47M (Peak 708.47M) | Time:00:00.45 | Mem:275.43M, Peak:275.43M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:708.47M (Peak 708.47M) | Time:00:00.45 | Mem:275.43M, Peak:275.43M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:703.41M (Peak 708.47M) | Time:00:00.45 | Mem:270.36M, Peak:275.43M | Scene, ViewLayer | Updating Images | Loading sky_nishita
+Fra:1 Mem:704.41M (Peak 708.47M) | Time:00:00.51 | Mem:271.36M, Peak:275.43M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:704.41M (Peak 708.47M) | Time:00:00.51 | Mem:271.36M, Peak:275.43M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:704.41M (Peak 708.47M) | Time:00:00.51 | Mem:271.44M, Peak:275.43M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:704.41M (Peak 708.47M) | Time:00:00.51 | Mem:271.45M, Peak:275.43M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:1 Mem:768.44M (Peak 1056.41M) | Time:00:00.81 | Mem:335.49M, Peak:495.46M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:797.52M (Peak 1056.41M) | Time:00:01.08 | Mem:364.57M, Peak:495.46M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:797.52M (Peak 1056.41M) | Time:00:01.08 | Mem:364.57M, Peak:495.46M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:797.53M (Peak 1056.41M) | Time:00:01.08 | Mem:364.49M, Peak:495.46M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:797.53M (Peak 1056.41M) | Time:00:01.08 | Mem:364.57M, Peak:495.46M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:797.53M (Peak 1056.41M) | Time:00:01.08 | Mem:364.57M, Peak:495.46M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:797.53M (Peak 1056.41M) | Time:00:01.08 | Mem:364.57M, Peak:495.46M | Scene, ViewLayer | Sample 0/48
+Fra:1 Mem:837.60M (Peak 1056.41M) | Time:00:04.51 | Remaining:02:41.11 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Sample 1/48
+Fra:1 Mem:837.60M (Peak 1056.41M) | Time:00:32.11 | Remaining:02:14.46 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Sample 9/48
+Fra:1 Mem:837.60M (Peak 1056.41M) | Time:00:59.38 | Remaining:01:46.31 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Sample 17/48
+Fra:1 Mem:837.60M (Peak 1056.41M) | Time:01:26.54 | Remaining:01:18.61 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Sample 25/48
+Fra:1 Mem:837.60M (Peak 1056.41M) | Time:01:53.26 | Remaining:00:50.98 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Sample 33/48
+Fra:1 Mem:837.60M (Peak 1056.41M) | Time:02:19.30 | Remaining:00:23.59 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Sample 41/48
+Fra:1 Mem:855.40M (Peak 1056.41M) | Time:02:41.51 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Sample 48/48
+Fra:1 Mem:855.40M (Peak 1056.41M) | Time:02:41.51 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Finished
+Saved: '/workspace/NOSTALGIA-GAME/Artifacts/Quality02/01_Bedroom_Blender.exr'
+Time: 02:41.64 (Saving: 00:00.12)
+
+Initializing device
+  device=CPU, version=2.3.3, msec=9.1104
+Loading input
+Resolution: 1440x810
+Initializing filter
+  filter=RT, msec=6.08488
+Denoising 0% Denoising 3% Denoising 7% Denoising 11% Denoising 14% Denoising 18% Denoising 22% Denoising 25% Denoising 29% Denoising 33% Denoising 37% Denoising 40% Denoising 44% Denoising 48% Denoising 51% Denoising 55% Denoising 59% Denoising 62% Denoising 66% Denoising 70% Denoising 74% Denoising 77% Denoising 81% Denoising 85% Denoising 88% Denoising 92% Denoising 96% Denoising 100% 
+  msec=1222.03
+Saving output
+Fra:1 Mem:436.46M (Peak 704.22M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_LivingFurniture
+Fra:1 Mem:436.46M (Peak 704.22M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_WindowGlass
+Fra:1 Mem:436.47M (Peak 704.22M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_DoorLeaf.002
+Fra:1 Mem:436.82M (Peak 704.22M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_BedroomFurniture
+Fra:1 Mem:446.25M (Peak 704.22M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_DoorLeaf.001
+Fra:1 Mem:454.15M (Peak 704.22M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_Roof
+Fra:1 Mem:457.04M (Peak 704.22M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_NeighborhoodVista
+Fra:1 Mem:471.76M (Peak 704.22M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_Garden
+Fra:1 Mem:521.71M (Peak 704.22M) | Time:00:00.34 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:459.42M (Peak 704.22M) | Time:00:00.34 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_7.001
+Fra:1 Mem:459.42M (Peak 704.22M) | Time:00:00.34 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_2
+Fra:1 Mem:463.42M (Peak 704.22M) | Time:00:00.34 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_1
+Fra:1 Mem:471.42M (Peak 704.22M) | Time:00:00.34 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_3
+Fra:1 Mem:480.43M (Peak 704.22M) | Time:00:00.34 | Mem:1.00M, Peak:1.00M | Scene, ViewLayer | Updating Images | Loading Image_4
+Fra:1 Mem:481.43M (Peak 704.22M) | Time:00:00.34 | Mem:2.00M, Peak:2.00M | Scene, ViewLayer | Updating Images | Loading Image_5
+Fra:1 Mem:484.43M (Peak 704.22M) | Time:00:00.34 | Mem:3.00M, Peak:3.00M | Scene, ViewLayer | Updating Images | Loading Image_0.001
+Fra:1 Mem:485.43M (Peak 704.22M) | Time:00:00.34 | Mem:4.00M, Peak:4.00M | Scene, ViewLayer | Updating Images | Loading Image_2.001
+Fra:1 Mem:486.43M (Peak 704.22M) | Time:00:00.34 | Mem:5.00M, Peak:5.00M | Scene, ViewLayer | Updating Images | Loading Image_1.001
+Fra:1 Mem:487.43M (Peak 704.22M) | Time:00:00.34 | Mem:6.00M, Peak:6.00M | Scene, ViewLayer | Updating Images | Loading Image_7
+Fra:1 Mem:486.43M (Peak 704.22M) | Time:00:00.34 | Mem:8.00M, Peak:8.00M | Scene, ViewLayer | Updating Images | Loading Image_8
+Fra:1 Mem:486.06M (Peak 704.22M) | Time:00:00.34 | Mem:8.50M, Peak:8.50M | Scene, ViewLayer | Updating Images | Loading Image_9
+Fra:1 Mem:486.12M (Peak 704.22M) | Time:00:00.34 | Mem:8.62M, Peak:8.62M | Scene, ViewLayer | Updating Images | Loading Image_10
+Fra:1 Mem:518.12M (Peak 704.22M) | Time:00:00.34 | Mem:8.69M, Peak:8.69M | Scene, ViewLayer | Updating Images | Loading Image_12
+Fra:1 Mem:519.12M (Peak 704.22M) | Time:00:00.34 | Mem:9.69M, Peak:9.69M | Scene, ViewLayer | Updating Images | Loading Image_11
+Fra:1 Mem:534.12M (Peak 704.22M) | Time:00:00.34 | Mem:10.69M, Peak:10.69M | Scene, ViewLayer | Updating Images | Loading Image_3.001
+Fra:1 Mem:538.12M (Peak 704.22M) | Time:00:00.34 | Mem:14.69M, Peak:14.69M | Scene, ViewLayer | Updating Images | Loading Image_4.001
+Fra:1 Mem:558.12M (Peak 704.22M) | Time:00:00.34 | Mem:18.69M, Peak:18.69M | Scene, ViewLayer | Updating Images | Loading Image_5.001
+Fra:1 Mem:558.37M (Peak 704.22M) | Time:00:00.34 | Mem:18.94M, Peak:18.94M | Scene, ViewLayer | Updating Images | Loading Image_6.001
+Fra:1 Mem:558.62M (Peak 704.22M) | Time:00:00.34 | Mem:19.19M, Peak:19.19M | Scene, ViewLayer | Updating Images | Loading Image_4.002
+Fra:1 Mem:559.62M (Peak 704.22M) | Time:00:00.34 | Mem:20.19M, Peak:20.19M | Scene, ViewLayer | Updating Images | Loading Image_2.002
+Fra:1 Mem:559.62M (Peak 704.22M) | Time:00:00.34 | Mem:24.19M, Peak:24.19M | Scene, ViewLayer | Updating Images | Loading Image_3.002
+Fra:1 Mem:563.62M (Peak 704.22M) | Time:00:00.34 | Mem:28.19M, Peak:28.19M | Scene, ViewLayer | Updating Images | Loading Image_0.004
+Fra:1 Mem:567.62M (Peak 704.22M) | Time:00:00.34 | Mem:32.19M, Peak:32.19M | Scene, ViewLayer | Updating Images | Loading Image_6.002
+Fra:1 Mem:575.62M (Peak 704.22M) | Time:00:00.35 | Mem:36.19M, Peak:36.19M | Scene, ViewLayer | Updating Images | Loading Image_0.002
+Fra:1 Mem:579.62M (Peak 704.22M) | Time:00:00.35 | Mem:40.19M, Peak:40.19M | Scene, ViewLayer | Updating Images | Loading Image_1.002
+Fra:1 Mem:579.62M (Peak 704.22M) | Time:00:00.35 | Mem:44.19M, Peak:44.19M | Scene, ViewLayer | Updating Images | Loading M_CurtainWeave_BaseColor
+Fra:1 Mem:581.62M (Peak 704.22M) | Time:00:00.35 | Mem:48.19M, Peak:48.19M | Scene, ViewLayer | Updating Images | Loading Image_3.004
+Fra:1 Mem:588.62M (Peak 704.22M) | Time:00:00.35 | Mem:49.19M, Peak:49.19M | Scene, ViewLayer | Updating Images | Loading M_CurtainWeave_Normal
+Fra:1 Mem:589.62M (Peak 704.22M) | Time:00:00.35 | Mem:50.19M, Peak:50.19M | Scene, ViewLayer | Updating Images | Loading M_CottonBedlinen_BaseColor
+Fra:1 Mem:587.62M (Peak 704.22M) | Time:00:00.35 | Mem:54.19M, Peak:54.19M | Scene, ViewLayer | Updating Images | Loading M_CottonBedlinen_Normal
+Fra:1 Mem:588.62M (Peak 704.22M) | Time:00:00.35 | Mem:55.19M, Peak:55.19M | Scene, ViewLayer | Updating Images | Loading Image_3.003
+Fra:1 Mem:619.62M (Peak 704.22M) | Time:00:00.35 | Mem:56.19M, Peak:56.19M | Scene, ViewLayer | Updating Images | Loading Image_0.003
+Fra:1 Mem:647.62M (Peak 704.22M) | Time:00:00.35 | Mem:60.19M, Peak:60.19M | Scene, ViewLayer | Updating Images | Loading Image_2.004
+Fra:1 Mem:639.62M (Peak 704.22M) | Time:00:00.35 | Mem:76.19M, Peak:76.19M | Scene, ViewLayer | Updating Images | Loading Image_1.003
+Fra:1 Mem:667.62M (Peak 704.22M) | Time:00:00.35 | Mem:80.19M, Peak:80.19M | Scene, ViewLayer | Updating Images | Loading Image_1.004
+Fra:1 Mem:659.62M (Peak 704.22M) | Time:00:00.35 | Mem:96.19M, Peak:96.19M | Scene, ViewLayer | Updating Images | Loading Image_2.003
+Fra:1 Mem:620.79M (Peak 704.22M) | Time:00:00.36 | Mem:164.19M, Peak:164.19M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:620.79M (Peak 704.22M) | Time:00:00.36 | Mem:164.19M, Peak:164.19M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:620.79M (Peak 704.22M) | Time:00:00.36 | Mem:164.19M, Peak:164.19M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:620.79M (Peak 704.22M) | Time:00:00.36 | Mem:164.19M, Peak:164.19M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:620.90M (Peak 704.22M) | Time:00:00.36 | Mem:164.21M, Peak:164.21M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:620.90M (Peak 704.22M) | Time:00:00.36 | Mem:164.21M, Peak:164.21M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:620.90M (Peak 704.22M) | Time:00:00.36 | Mem:164.21M, Peak:164.21M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:620.90M (Peak 704.22M) | Time:00:00.36 | Mem:164.21M, Peak:164.21M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:620.90M (Peak 704.22M) | Time:00:00.36 | Mem:164.21M, Peak:164.21M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:620.90M (Peak 704.22M) | Time:00:00.36 | Mem:164.21M, Peak:164.21M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:620.90M (Peak 704.22M) | Time:00:00.36 | Mem:164.22M, Peak:164.22M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:620.90M (Peak 704.22M) | Time:00:00.36 | Mem:164.22M, Peak:164.22M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:620.90M (Peak 704.22M) | Time:00:00.36 | Mem:164.22M, Peak:164.22M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:620.90M (Peak 704.22M) | Time:00:00.36 | Mem:164.22M, Peak:164.22M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:627.95M (Peak 704.22M) | Time:00:00.37 | Mem:164.22M, Peak:164.22M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:679.99M (Peak 704.22M) | Time:00:00.38 | Mem:164.22M, Peak:164.22M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:679.99M (Peak 704.22M) | Time:00:00.38 | Mem:216.25M, Peak:216.25M | Scene, ViewLayer | Updating Geometry BVH Cube.139 1/3 | Building BVH
+Fra:1 Mem:679.99M (Peak 704.22M) | Time:00:00.38 | Mem:216.25M, Peak:216.25M | Scene, ViewLayer | Updating Geometry BVH Cube.263 3/3 | Building BVH
+Fra:1 Mem:679.99M (Peak 704.22M) | Time:00:00.38 | Mem:219.43M, Peak:219.43M | Scene, ViewLayer | Updating Geometry BVH Cube.263 3/3 | Building BVH 0%
+Fra:1 Mem:679.99M (Peak 704.22M) | Time:00:00.38 | Mem:219.43M, Peak:219.43M | Scene, ViewLayer | Updating Geometry BVH Cylinder.006 2/3 | Building BVH
+Fra:1 Mem:679.99M (Peak 704.22M) | Time:00:00.40 | Mem:233.37M, Peak:238.11M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:679.99M (Peak 704.22M) | Time:00:00.40 | Mem:233.37M, Peak:238.11M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:679.99M (Peak 704.22M) | Time:00:00.43 | Mem:246.94M, Peak:253.13M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:679.99M (Peak 704.22M) | Time:00:00.43 | Mem:246.94M, Peak:253.13M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:708.47M (Peak 708.47M) | Time:00:00.44 | Mem:246.94M, Peak:253.13M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:708.47M (Peak 708.47M) | Time:00:00.44 | Mem:275.43M, Peak:275.43M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:708.47M (Peak 708.47M) | Time:00:00.44 | Mem:275.43M, Peak:275.43M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:708.47M (Peak 708.47M) | Time:00:00.44 | Mem:275.43M, Peak:275.43M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:703.41M (Peak 708.47M) | Time:00:00.44 | Mem:270.36M, Peak:275.43M | Scene, ViewLayer | Updating Images | Loading sky_nishita
+Fra:1 Mem:704.41M (Peak 708.47M) | Time:00:00.52 | Mem:271.36M, Peak:275.43M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:704.41M (Peak 708.47M) | Time:00:00.52 | Mem:271.36M, Peak:275.43M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:704.41M (Peak 708.47M) | Time:00:00.52 | Mem:271.44M, Peak:275.43M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:704.41M (Peak 708.47M) | Time:00:00.52 | Mem:271.45M, Peak:275.43M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:1 Mem:768.44M (Peak 1056.41M) | Time:00:00.84 | Mem:335.49M, Peak:495.46M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:797.52M (Peak 1056.41M) | Time:00:01.08 | Mem:364.57M, Peak:495.46M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:797.52M (Peak 1056.41M) | Time:00:01.08 | Mem:364.57M, Peak:495.46M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:797.53M (Peak 1056.41M) | Time:00:01.08 | Mem:364.49M, Peak:495.46M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:797.53M (Peak 1056.41M) | Time:00:01.08 | Mem:364.57M, Peak:495.46M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:797.53M (Peak 1056.41M) | Time:00:01.08 | Mem:364.57M, Peak:495.46M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:797.53M (Peak 1056.41M) | Time:00:01.08 | Mem:364.57M, Peak:495.46M | Scene, ViewLayer | Sample 0/48
+Fra:1 Mem:837.60M (Peak 1056.41M) | Time:00:02.91 | Remaining:01:26.01 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Sample 1/48
+Fra:1 Mem:837.60M (Peak 1056.41M) | Time:00:30.23 | Remaining:00:53.16 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Sample 17/48
+Fra:1 Mem:837.60M (Peak 1056.41M) | Time:00:58.18 | Remaining:00:25.95 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Sample 33/48
+Fra:1 Mem:855.40M (Peak 1056.41M) | Time:01:24.14 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Sample 48/48
+Fra:1 Mem:855.40M (Peak 1056.41M) | Time:01:24.14 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Finished
+Saved: '/workspace/NOSTALGIA-GAME/Artifacts/Quality02/02_Garden_Blender.exr'
+Time: 01:24.25 (Saving: 00:00.10)
+
+Initializing device
+  device=CPU, version=2.3.3, msec=11.5508
+Loading input
+Resolution: 1440x810
+Initializing filter
+  filter=RT, msec=4.52989
+Denoising 0% Denoising 3% Denoising 7% Denoising 11% Denoising 14% Denoising 18% Denoising 22% Denoising 25% Denoising 29% Denoising 33% Denoising 37% Denoising 40% Denoising 44% Denoising 48% Denoising 51% Denoising 55% Denoising 59% Denoising 62% Denoising 66% Denoising 70% Denoising 74% Denoising 77% Denoising 81% Denoising 85% Denoising 88% Denoising 92% Denoising 96% Denoising 100% 
+  msec=1617.94
+Saving output
+Fra:1 Mem:436.46M (Peak 699.07M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_LivingFurniture
+Fra:1 Mem:436.46M (Peak 699.07M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_WindowGlass
+Fra:1 Mem:436.78M (Peak 699.07M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_DoorLeaf.002
+Fra:1 Mem:436.89M (Peak 699.07M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_BedroomFurniture
+Fra:1 Mem:449.28M (Peak 699.07M) | Time:00:00.19 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_DoorLeaf.001
+Fra:1 Mem:455.81M (Peak 699.07M) | Time:00:00.19 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_Roof
+Fra:1 Mem:456.68M (Peak 699.07M) | Time:00:00.19 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_NeighborhoodVista
+Fra:1 Mem:469.74M (Peak 699.07M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SM_Garden
+Fra:1 Mem:521.71M (Peak 699.07M) | Time:00:00.39 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:459.42M (Peak 699.07M) | Time:00:00.39 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_7.001
+Fra:1 Mem:459.42M (Peak 699.07M) | Time:00:00.39 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_0
+Fra:1 Mem:459.42M (Peak 699.07M) | Time:00:00.39 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_3
+Fra:1 Mem:480.43M (Peak 699.07M) | Time:00:00.39 | Mem:1.00M, Peak:1.00M | Scene, ViewLayer | Updating Images | Loading Image_4
+Fra:1 Mem:481.43M (Peak 699.07M) | Time:00:00.39 | Mem:2.00M, Peak:2.00M | Scene, ViewLayer | Updating Images | Loading Image_5
+Fra:1 Mem:484.43M (Peak 699.07M) | Time:00:00.39 | Mem:3.00M, Peak:3.00M | Scene, ViewLayer | Updating Images | Loading Image_0.001
+Fra:1 Mem:485.43M (Peak 699.07M) | Time:00:00.39 | Mem:4.00M, Peak:4.00M | Scene, ViewLayer | Updating Images | Loading Image_2.001
+Fra:1 Mem:485.43M (Peak 699.07M) | Time:00:00.39 | Mem:5.00M, Peak:5.00M | Scene, ViewLayer | Updating Images | Loading Image_1.001
+Fra:1 Mem:486.43M (Peak 699.07M) | Time:00:00.39 | Mem:7.00M, Peak:7.00M | Scene, ViewLayer | Updating Images | Loading Image_7
+Fra:1 Mem:485.93M (Peak 699.07M) | Time:00:00.39 | Mem:8.00M, Peak:8.00M | Scene, ViewLayer | Updating Images | Loading Image_8
+Fra:1 Mem:486.56M (Peak 699.07M) | Time:00:00.39 | Mem:8.12M, Peak:8.12M | Scene, ViewLayer | Updating Images | Loading Image_9
+Fra:1 Mem:486.62M (Peak 699.07M) | Time:00:00.39 | Mem:8.19M, Peak:8.19M | Scene, ViewLayer | Updating Images | Loading Image_10
+Fra:1 Mem:517.62M (Peak 699.07M) | Time:00:00.39 | Mem:9.19M, Peak:9.19M | Scene, ViewLayer | Updating Images | Loading Image_12
+Fra:1 Mem:519.12M (Peak 699.07M) | Time:00:00.39 | Mem:9.69M, Peak:9.69M | Scene, ViewLayer | Updating Images | Loading Image_11
+Fra:1 Mem:531.12M (Peak 699.07M) | Time:00:00.39 | Mem:13.69M, Peak:13.69M | Scene, ViewLayer | Updating Images | Loading Image_3.001
+Fra:1 Mem:538.12M (Peak 699.07M) | Time:00:00.39 | Mem:14.69M, Peak:14.69M | Scene, ViewLayer | Updating Images | Loading Image_4.001
+Fra:1 Mem:558.12M (Peak 699.07M) | Time:00:00.40 | Mem:18.69M, Peak:18.69M | Scene, ViewLayer | Updating Images | Loading Image_5.001
+Fra:1 Mem:558.37M (Peak 699.07M) | Time:00:00.40 | Mem:18.94M, Peak:18.94M | Scene, ViewLayer | Updating Images | Loading Image_6.001
+Fra:1 Mem:558.62M (Peak 699.07M) | Time:00:00.40 | Mem:19.19M, Peak:19.19M | Scene, ViewLayer | Updating Images | Loading Image_4.002
+Fra:1 Mem:556.62M (Peak 699.07M) | Time:00:00.40 | Mem:23.19M, Peak:23.19M | Scene, ViewLayer | Updating Images | Loading Image_2.002
+Fra:1 Mem:563.62M (Peak 699.07M) | Time:00:00.40 | Mem:24.19M, Peak:24.19M | Scene, ViewLayer | Updating Images | Loading Image_3.002
+Fra:1 Mem:567.62M (Peak 699.07M) | Time:00:00.40 | Mem:28.19M, Peak:28.19M | Scene, ViewLayer | Updating Images | Loading Image_0.004
+Fra:1 Mem:571.62M (Peak 699.07M) | Time:00:00.40 | Mem:32.19M, Peak:32.19M | Scene, ViewLayer | Updating Images | Loading Image_6.002
+Fra:1 Mem:575.62M (Peak 699.07M) | Time:00:00.40 | Mem:36.19M, Peak:36.19M | Scene, ViewLayer | Updating Images | Loading Image_0.002
+Fra:1 Mem:579.62M (Peak 699.07M) | Time:00:00.40 | Mem:40.19M, Peak:40.19M | Scene, ViewLayer | Updating Images | Loading Image_1.002
+Fra:1 Mem:583.62M (Peak 699.07M) | Time:00:00.40 | Mem:44.19M, Peak:44.19M | Scene, ViewLayer | Updating Images | Loading Image_3.004
+Fra:1 Mem:587.62M (Peak 699.07M) | Time:00:00.40 | Mem:48.19M, Peak:48.19M | Scene, ViewLayer | Updating Images | Loading M_CurtainWeave_BaseColor
+Fra:1 Mem:585.62M (Peak 699.07M) | Time:00:00.40 | Mem:52.19M, Peak:52.19M | Scene, ViewLayer | Updating Images | Loading M_CurtainWeave_Normal
+Fra:1 Mem:586.62M (Peak 699.07M) | Time:00:00.40 | Mem:53.19M, Peak:53.19M | Scene, ViewLayer | Updating Images | Loading M_CottonBedlinen_BaseColor
+Fra:1 Mem:587.62M (Peak 699.07M) | Time:00:00.40 | Mem:54.19M, Peak:54.19M | Scene, ViewLayer | Updating Images | Loading M_CottonBedlinen_Normal
+Fra:1 Mem:588.62M (Peak 699.07M) | Time:00:00.40 | Mem:55.19M, Peak:55.19M | Scene, ViewLayer | Updating Images | Loading Image_3.003
+Fra:1 Mem:619.62M (Peak 699.07M) | Time:00:00.40 | Mem:56.19M, Peak:56.19M | Scene, ViewLayer | Updating Images | Loading Image_0.003
+Fra:1 Mem:647.62M (Peak 699.07M) | Time:00:00.40 | Mem:60.19M, Peak:60.19M | Scene, ViewLayer | Updating Images | Loading Image_2.004
+Fra:1 Mem:635.62M (Peak 699.07M) | Time:00:00.41 | Mem:64.19M, Peak:64.19M | Scene, ViewLayer | Updating Images | Loading Image_1.004
+Fra:1 Mem:643.62M (Peak 699.07M) | Time:00:00.41 | Mem:80.19M, Peak:80.19M | Scene, ViewLayer | Updating Images | Loading Image_1.003
+Fra:1 Mem:671.62M (Peak 699.07M) | Time:00:00.41 | Mem:84.19M, Peak:84.19M | Scene, ViewLayer | Updating Images | Loading Image_2.003
+Fra:1 Mem:620.79M (Peak 703.62M) | Time:00:00.42 | Mem:164.19M, Peak:164.19M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:620.79M (Peak 703.62M) | Time:00:00.42 | Mem:164.19M, Peak:164.19M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:620.79M (Peak 703.62M) | Time:00:00.42 | Mem:164.19M, Peak:164.19M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:620.79M (Peak 703.62M) | Time:00:00.42 | Mem:164.19M, Peak:164.19M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:620.90M (Peak 703.62M) | Time:00:00.42 | Mem:164.21M, Peak:164.21M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:620.90M (Peak 703.62M) | Time:00:00.42 | Mem:164.21M, Peak:164.21M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:620.90M (Peak 703.62M) | Time:00:00.42 | Mem:164.21M, Peak:164.21M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:620.90M (Peak 703.62M) | Time:00:00.42 | Mem:164.21M, Peak:164.21M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:620.90M (Peak 703.62M) | Time:00:00.42 | Mem:164.21M, Peak:164.21M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:620.90M (Peak 703.62M) | Time:00:00.42 | Mem:164.21M, Peak:164.21M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:620.90M (Peak 703.62M) | Time:00:00.42 | Mem:164.22M, Peak:164.22M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:620.90M (Peak 703.62M) | Time:00:00.42 | Mem:164.22M, Peak:164.22M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:620.90M (Peak 703.62M) | Time:00:00.42 | Mem:164.22M, Peak:164.22M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:620.90M (Peak 703.62M) | Time:00:00.42 | Mem:164.22M, Peak:164.22M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:627.95M (Peak 703.62M) | Time:00:00.43 | Mem:164.22M, Peak:164.22M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:679.99M (Peak 703.62M) | Time:00:00.44 | Mem:164.22M, Peak:164.22M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:679.99M (Peak 703.62M) | Time:00:00.44 | Mem:216.25M, Peak:216.25M | Scene, ViewLayer | Updating Geometry BVH Cube.139 1/3 | Building BVH
+Fra:1 Mem:679.99M (Peak 703.62M) | Time:00:00.44 | Mem:216.25M, Peak:216.25M | Scene, ViewLayer | Updating Geometry BVH Cylinder.006 2/3 | Building BVH
+Fra:1 Mem:679.99M (Peak 703.62M) | Time:00:00.44 | Mem:222.12M, Peak:222.12M | Scene, ViewLayer | Updating Geometry BVH Cylinder.006 2/3 | Building BVH 0%
+Fra:1 Mem:679.99M (Peak 703.62M) | Time:00:00.44 | Mem:222.12M, Peak:222.12M | Scene, ViewLayer | Updating Geometry BVH Cube.263 3/3 | Building BVH
+Fra:1 Mem:679.99M (Peak 703.62M) | Time:00:00.46 | Mem:233.37M, Peak:238.11M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:679.99M (Peak 703.62M) | Time:00:00.46 | Mem:233.37M, Peak:238.11M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:679.99M (Peak 703.62M) | Time:00:00.48 | Mem:246.94M, Peak:253.13M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:679.99M (Peak 703.62M) | Time:00:00.48 | Mem:246.94M, Peak:253.13M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:708.47M (Peak 708.47M) | Time:00:00.49 | Mem:246.94M, Peak:253.13M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:708.47M (Peak 708.47M) | Time:00:00.49 | Mem:275.43M, Peak:275.43M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:708.47M (Peak 708.47M) | Time:00:00.49 | Mem:275.43M, Peak:275.43M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:708.47M (Peak 708.47M) | Time:00:00.49 | Mem:275.43M, Peak:275.43M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:703.41M (Peak 708.47M) | Time:00:00.49 | Mem:270.36M, Peak:275.43M | Scene, ViewLayer | Updating Images | Loading sky_nishita
+Fra:1 Mem:704.41M (Peak 708.47M) | Time:00:00.59 | Mem:271.36M, Peak:275.43M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:704.41M (Peak 708.47M) | Time:00:00.59 | Mem:271.36M, Peak:275.43M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:704.41M (Peak 708.47M) | Time:00:00.59 | Mem:271.44M, Peak:275.43M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:704.41M (Peak 708.47M) | Time:00:00.59 | Mem:271.45M, Peak:275.43M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:1 Mem:768.44M (Peak 1056.41M) | Time:00:00.97 | Mem:335.49M, Peak:495.46M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:797.52M (Peak 1056.41M) | Time:00:01.26 | Mem:364.57M, Peak:495.46M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:797.52M (Peak 1056.41M) | Time:00:01.26 | Mem:364.57M, Peak:495.46M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:797.53M (Peak 1056.41M) | Time:00:01.26 | Mem:364.49M, Peak:495.46M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:797.53M (Peak 1056.41M) | Time:00:01.26 | Mem:364.57M, Peak:495.46M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:797.53M (Peak 1056.41M) | Time:00:01.26 | Mem:364.57M, Peak:495.46M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:797.53M (Peak 1056.41M) | Time:00:01.26 | Mem:364.57M, Peak:495.46M | Scene, ViewLayer | Sample 0/48
+Fra:1 Mem:837.60M (Peak 1056.41M) | Time:00:04.80 | Remaining:02:46.11 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Sample 1/48
+Fra:1 Mem:837.60M (Peak 1056.41M) | Time:00:30.05 | Remaining:02:04.75 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Sample 9/48
+Fra:1 Mem:837.60M (Peak 1056.41M) | Time:00:57.95 | Remaining:01:43.37 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Sample 17/48
+Fra:1 Mem:837.60M (Peak 1056.41M) | Time:01:25.16 | Remaining:01:17.18 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Sample 25/48
+Fra:1 Mem:837.60M (Peak 1056.41M) | Time:01:51.65 | Remaining:00:50.17 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Sample 33/48
+Fra:1 Mem:837.60M (Peak 1056.41M) | Time:02:17.59 | Remaining:00:23.27 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Sample 41/48
+Fra:1 Mem:855.40M (Peak 1056.41M) | Time:02:40.70 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Sample 48/48
+Fra:1 Mem:855.40M (Peak 1056.41M) | Time:02:40.70 | Mem:404.62M, Peak:495.46M | Scene, ViewLayer | Finished
+Saved: '/workspace/NOSTALGIA-GAME/Artifacts/Quality02/03_Living_Blender.exr'
+Time: 02:40.83 (Saving: 00:00.12)
+
+Initializing device
+  device=CPU, version=2.3.3, msec=8.07662
+Loading input
+Resolution: 1440x810
+Initializing filter
+  filter=RT, msec=5.24956
+Denoising 0% Denoising 3% Denoising 7% Denoising 11% Denoising 14% Denoising 18% Denoising 22% Denoising 25% Denoising 29% Denoising 33% Denoising 37% Denoising 40% Denoising 44% Denoising 48% Denoising 51% Denoising 55% Denoising 59% Denoising 62% Denoising 66% Denoising 70% Denoising 74% Denoising 77% Denoising 81% Denoising 85% Denoising 88% Denoising 92% Denoising 96% Denoising 100% 
+  msec=1248.23
+Saving output
+
+Info: Saved "EndlessSummer_Quality02.blend"
+QUALITY02_SCENE_EXPORTED 9 Unreal import NOT RUN
+
+Blender quit

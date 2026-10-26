@@ -1,0 +1,17 @@
+test_degenerate_tangent_repair_preserves_geometry_and_handedness (test_quality02.QualityAssets.test_degenerate_tangent_repair_preserves_geometry_and_handedness) ... ok
+test_delivered_geometry_contains_real_embedded_materials (test_quality02.QualityAssets.test_delivered_geometry_contains_real_embedded_materials) ... ok
+test_vendored_sources_match_commit_pins_and_license_evidence (test_quality02.QualityAssets.test_vendored_sources_match_commit_pins_and_license_evidence) ... ok
+test_all_bound_input_names_have_config_mappings (test_repository.RepositoryChecks.test_all_bound_input_names_have_config_mappings) ... ok
+test_build_target_discovery (test_repository.RepositoryChecks.test_build_target_discovery) ... ok
+test_engine_pin_and_project_module (test_repository.RepositoryChecks.test_engine_pin_and_project_module) ... ok
+test_engine_test_runner_requires_actual_named_results (test_repository.RepositoryChecks.test_engine_test_runner_requires_actual_named_results) ... ok
+test_lfs_covers_unreal_packages_and_audio (test_repository.RepositoryChecks.test_lfs_covers_unreal_packages_and_audio) ... ok
+test_map_paths_match_generation_and_packaging (test_repository.RepositoryChecks.test_map_paths_match_generation_and_packaging) ... ok
+test_placeholder_audio_is_mono_bounded_nonempty_and_repeatable (test_repository.RepositoryChecks.test_placeholder_audio_is_mono_bounded_nonempty_and_repeatable) ... ok
+test_python_scripts_parse_without_importing_unreal (test_repository.RepositoryChecks.test_python_scripts_parse_without_importing_unreal) ... ok
+test_uht_generated_include_is_last (test_repository.RepositoryChecks.test_uht_generated_include_is_last) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.346s
+
+OK

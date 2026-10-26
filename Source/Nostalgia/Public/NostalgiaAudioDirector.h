@@ -20,14 +20,15 @@ public:
     bool Play(Nostalgia::EventId Event);
     void UpdateListener(const FVector& Location, Nostalgia::District District);
     void StopTransientAudio();
+    UPROPERTY(EditAnywhere, Category="Nostalgia|Audio") TObjectPtr<USoundBase> GardenCue;
+    UPROPERTY(EditAnywhere, Category="Nostalgia|Audio") TObjectPtr<USoundBase> KnockCue;
+    UPROPERTY(EditAnywhere, Category="Nostalgia|Audio") bool bAllowPrototypeSignals = true;
+    UPROPERTY(EditAnywhere, Category="Nostalgia|Audio") FVector GardenOrigin = FVector(2400, 1250, 110);
+    UPROPERTY(EditAnywhere, Category="Nostalgia|Audio") FVector KnockOrigin = FVector(-900, 3650, 150);
 private:
-    UPROPERTY() TObjectPtr<USoundBase> GardenCue;
-    UPROPERTY() TObjectPtr<USoundBase> KnockCue;
     UPROPERTY() TObjectPtr<USoundAttenuation> Attenuation;
     UPROPERTY() TObjectPtr<UAudioComponent> ActiveGarden;
     UPROPERTY() TObjectPtr<UAudioComponent> ActiveKnock;
     bool bGardenFading = false;
     bool bKnockFading = false;
-    const FVector GardenOrigin = FVector(2400, 1250, 110);
-    const FVector KnockOrigin = FVector(-900, 3650, 150);
 };

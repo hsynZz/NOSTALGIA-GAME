@@ -1,0 +1,30 @@
+
+> nostalgia-browser-prototype@0.1.0 test
+> node --test tests/core.test.mjs tests/physics.test.mjs
+
+✔ complete escape requires observation, memory, changed route and dark lamp (8.296118ms)
+✔ clock, transition debounce and invalid values preserve boundaries (0.249926ms)
+✔ unavailable presentation, failed receipt and stale receipt never consume an event (1.334831ms)
+✔ safe rooms, threat, phase and shared scare spacing suppress stacked events (0.281094ms)
+✔ authored meter-space districts and restore gates match the chapter (0.202315ms)
+✔ browser save roundtrip restores progression and rejects incompatible/corrupt saves (1.417075ms)
+✔ snapshot strips unknown properties instead of copying browser data into live state (0.288415ms)
+✔ actual production C++ and JavaScript produce identical quest/director/RNG traces (4985.401308ms)
+✔ walking sprint crouch and normalized diagonal have actual speeds (11.653045ms)
+✔ capsule cannot cross a wall at sprint speed and can slide (0.742779ms)
+✔ jump lands and held space does not autojump (1.855245ms)
+✔ crouch fits under a lintel and standing waits for clearance (0.286341ms)
+✔ jump can land on furniture and a closed door blocks traversal (0.764592ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5239.884829
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

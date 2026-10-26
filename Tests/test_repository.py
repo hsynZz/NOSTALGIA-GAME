@@ -54,7 +54,7 @@ class RepositoryChecks(unittest.TestCase):
         self.assertIn("/Script/Nostalgia.NostalgiaGameMode", (ROOT / "Config/DefaultEngine.ini").read_text())
 
     def test_python_scripts_parse_without_importing_unreal(self):
-        for path in (ROOT / "Scripts").glob("*.py"):
+        for path in (ROOT / "Scripts").rglob("*.py"):
             ast.parse(path.read_text(), filename=str(path))
 
     def test_lfs_covers_unreal_packages_and_audio(self):

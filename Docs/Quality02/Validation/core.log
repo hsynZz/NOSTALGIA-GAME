@@ -1,0 +1,68 @@
+PASS quality real-time clock preserves Director dwell seconds
+PASS view motion is bounded and absent at rest
+PASS view comfort suppresses bob and sprint zoom
+PASS view crouch settling is independent of framerate
+PASS airborne camera does not invent footsteps
+PASS initial state is valid, summer afternoon, reproducible seed
+PASS escape chain requires all causal steps
+PASS early loops remain recoverable
+PASS loop debounce rejects repeated overlap without mutation
+PASS lamp clue requires darkness
+PASS completed quest cannot regress or retrigger
+PASS clock advances deterministically and stops before midnight
+PASS bad time deltas leave state untouched
+PASS night boundary is explicit
+PASS authored home, loop landing and portal anchors keep their intended districts
+PASS garden source stays local and invalid positions cannot trigger a scare district
+PASS all default event rules validate with unique IDs
+PASS garden laughter is local, delayed and single use
+PASS safe zones suppress all event mutation
+PASS active threat blocks stacked events
+PASS homecomer is progress gated and one shot
+PASS global scare spacing applies across event IDs
+PASS audio event respects phase and movement speed
+PASS invalid context cannot consume events
+PASS critical event outranks cosmetic priority
+PASS custom repeat cooldown is enforced
+PASS seeded ties reproduce through a state snapshot
+PASS restored consumed events do not replay
+PASS restored loop debounce remains active
+PASS invalid save stages and progression are rejected
+PASS invalid save clock and seed are rejected
+PASS corrupt event history and future timestamps rejected
+PASS invalid door bits and loop overflow rejected
+PASS invalid data rules fail closed without indexing outside history
+PASS planning and failed delivery preserve history, peace time and RNG
+PASS an event receipt cannot commit twice
+PASS stale receipts cannot overwrite time, quest, doors or other events
+PASS unavailable high priority presentation does not starve a ready event
+PASS missing assets and offscreen sightings remain pending without mutation
+PASS failed seeded tie selection is stable on retry and after snapshot restore
+PASS invalid states and empty plans cannot dispatch
+PASS homecomer requires a visible authored distance outside safe zones
+PASS observed homecomer stays still then retires within eleven seconds
+PASS looking away permits at most 150 cm after the quiet introduction
+PASS gaze and occlusion stop approach immediately without resetting duration
+PASS close player and blocked motion trigger bounded retirement
+PASS approach step cannot cross the minimum distance
+PASS safe zones end encounter immediately and reset restores dormant presentation
+PASS invalid perception fails safe and invalid frame deltas do not move
+PASS authored playhouse corridor remains in the safe final district
+PASS causal sequence survives failed audio, encounter and final return visit
+PASS all authored transition landings support valid restore regions
+PASS restore cannot bypass the birthday loop or dark lamp
+PASS voids between interiors and outdoors are excluded from restore
+PASS restore regions leave room for the player capsule at edges
+PASS saved capsules overlapping the loop are rejected before teleport
+PASS neighborhood floor covers side yards and the complete bounded rectangle
+PASS district classification uses bounded authored rooms
+PASS snapshot validates a new game and normal quest progression
+PASS snapshot rejects corrupt position, rotation and progression
+PASS snapshot accepts wrapped and signed Unreal view angles
+PASS door preflight distinguishes saved open and closed poses
+PASS door preflight handles capsule edges and overhead clearance
+PASS door collision model is equivalent under the authored ninety degree rotation
+PASS malformed collision dimensions fail closed
+PASS persisted snapshot keeps director history, RNG and door states
+PASS every quest stage has an objective and a recovery hint
+CORE_RESULT passed=67 failed=0 total=67

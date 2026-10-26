@@ -89,7 +89,7 @@ bool Validate(const State& state);
 bool ValidateRule(const EventRule& rule);
 bool Apply(State& state, Action action);
 bool TraverseLoop(State& state);
-void Advance(State& state, double realSeconds);
+void Advance(State& state, double realSeconds, double gameMinutesPerSecond = 1.0);
 bool Eligible(const State& state, const Context& context, const EventRule& rule);
 // Returns Count when no event is eligible. Selection and history mutation are atomic.
 EventId SelectEvent(State& state, const Context& context,

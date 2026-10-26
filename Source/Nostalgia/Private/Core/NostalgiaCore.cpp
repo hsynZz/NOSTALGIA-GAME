@@ -91,12 +91,13 @@ bool TraverseLoop(State& state)
     return true;
 }
 
-void Advance(State& state, double realSeconds)
+void Advance(State& state, double realSeconds, double gameMinutesPerSecond)
 {
-    if (!std::isfinite(realSeconds) || realSeconds <= 0.0 || realSeconds > 86400.0) return;
+    if (!std::isfinite(realSeconds) || realSeconds <= 0.0 || realSeconds > 86400.0 ||
+        !std::isfinite(gameMinutesPerSecond) || gameMinutesPerSecond < 0 || gameMinutesPerSecond > 60) return;
     state.elapsed += realSeconds;
-    // One game minute per real second. This endless summer day stops at 23:59.
-    state.minute = std::min(1439.0, state.minute + realSeconds);
+    // Existing prototype defaults to accelerated time; quality slice uses a real-time afternoon.
+    state.minute = std::min(1439.0, state.minute + realSeconds * gameMinutesPerSecond);
 }
 
 bool Eligible(const State& state, const Context& context, const EventRule& rule)

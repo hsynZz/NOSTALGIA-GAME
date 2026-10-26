@@ -19,3 +19,8 @@
 *.exr filter=lfs diff=lfs merge=lfs -text
 # Generated browser bundles preserve vendor shader whitespace verbatim.
 BrowserPrototype/Delivery/*.html -whitespace
+# Preserve upstream asset/license evidence byte-for-byte, including source formatting.
+SourceArt/Quality02/ThirdParty/** -whitespace
+SourceArt/Quality02/Licenses/** -whitespace
+*.glb -text
+Docs/Quality02/Validation/*.log -text -whitespace

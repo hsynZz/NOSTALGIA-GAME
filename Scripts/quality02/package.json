@@ -1,0 +1,6 @@
+{
+  "name": "nostalgia-quality02-validation",
+  "private": true,
+  "scripts": { "validate": "node validate_gltf.cjs" },
+  "devDependencies": { "gltf-validator": "2.0.0-dev.3.10" }
+}

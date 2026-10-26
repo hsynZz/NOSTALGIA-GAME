@@ -1,0 +1,62 @@
+{
+  "renderer": "4.3.2 / Cycles CPU",
+  "samples": 48,
+  "unreal": false,
+  "ai_generated_images": false,
+  "rendered": true,
+  "cameras": [
+    {
+      "file": "01_Bedroom_Blender.jpg",
+      "position_m": [
+        -11.92,
+        -2.65,
+        1.58
+      ],
+      "target_m": [
+        -14.25,
+        0.65,
+        1.16
+      ],
+      "exposure_stops": 1.3
+    },
+    {
+      "file": "02_Garden_Blender.jpg",
+      "position_m": [
+        -10,
+        6.8,
+        1.65
+      ],
+      "target_m": [
+        -13.7,
+        1.6,
+        1.3
+      ],
+      "exposure_stops": -1.8
+    },
+    {
+      "file": "03_Living_Blender.jpg",
+      "position_m": [
+        -11.0,
+        0.8,
+        1.58
+      ],
+      "target_m": [
+        -8.3,
+        -1.8,
+        1.05
+      ],
+      "exposure_stops": 1.3
+    }
+  ],
+  "script_sha256": "b3fd3bde72542506b88b41a17c09800acb6198850627620fff6a26c240927f89",
+  "denoising": "Intel Open Image Denoise, color-only; raw render retained",
+  "render_sha256": {
+    "01_Bedroom_Blender.jpg": "1d92b5d490a57fe037f833320c9b73617797fbb3c8ad70c1500a4b97c6f5f41c",
+    "01_Bedroom_Blender_raw.jpg": "900a9be71c323c8d6edda695566b0108b25e6280ac7d0bcbe0825cd0047cf776",
+    "02_Garden_Blender.jpg": "78b720e60eb415e584861df1113060b94d9c5ad55238d45e65d1e67977ec07e9",
+    "02_Garden_Blender_raw.jpg": "5e88052e687f87d79f2a25805cf584c7316fd3f9fa640ec43f9255e7a579e22a",
+    "03_Living_Blender.jpg": "bceb5fc28a2b2c4862846e25bff770bcb525f2a2ca2e574550b9fd2f02f06f4a",
+    "03_Living_Blender_raw.jpg": "70e3b61e7313d6bc4e727d866dd440e8af165343a54ebf05cf4e9ba924f47715"
+  },
+  "scene_manifest_sha256": "20aad984d6b8a2af484db16b7d5bec0e43457b2b40c6770365e23f8d53eaaecf"
+}
