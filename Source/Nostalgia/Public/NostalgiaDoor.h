@@ -15,6 +15,8 @@ public:
     virtual void Tick(float DeltaSeconds) override;
     virtual FText InteractionText_Implementation() const override;
     virtual void Interact_Implementation(APawn* InstigatorPawn) override;
+    bool OverlapsSavedPose(const FVector& CapsuleLocation, bool bOpen, double CapsuleRadius, double CapsuleHalfHeight) const;
+    void ApplySavedPose(bool bOpen);
     UPROPERTY(EditAnywhere) uint8 DoorId = 0;
     UPROPERTY(VisibleAnywhere) TObjectPtr<USceneComponent> Hinge;
     UPROPERTY(VisibleAnywhere) TObjectPtr<UStaticMeshComponent> Panel;

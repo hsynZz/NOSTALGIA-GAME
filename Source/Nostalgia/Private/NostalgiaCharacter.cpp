@@ -44,7 +44,7 @@ void ANostalgiaCharacter::SetupPlayerInputComponent(UInputComponent* Input)
     Input->BindAxis(TEXT("MoveRight"), this, &ANostalgiaCharacter::MoveRight);
     Input->BindAxis(TEXT("Turn"), this, &ANostalgiaCharacter::Turn);
     Input->BindAxis(TEXT("LookUp"), this, &ANostalgiaCharacter::LookUp);
-    Input->BindAction(TEXT("Jump"), IE_Pressed, this, &ANostalgiaCharacter::Jump);
+    Input->BindAction(TEXT("Jump"), IE_Pressed, this, &ANostalgiaCharacter::JumpStart);
     Input->BindAction(TEXT("Jump"), IE_Released, this, &ANostalgiaCharacter::StopJumping);
     Input->BindAction(TEXT("Sprint"), IE_Pressed, this, &ANostalgiaCharacter::SprintStart);
     Input->BindAction(TEXT("Sprint"), IE_Released, this, &ANostalgiaCharacter::SprintStop);
@@ -63,9 +63,10 @@ void ANostalgiaCharacter::MoveForward(float Value) { if (!bMemoryVisible) AddMov
 void ANostalgiaCharacter::MoveRight(float Value) { if (!bMemoryVisible) AddMovementInput(GetActorRightVector(), Value); }
 void ANostalgiaCharacter::Turn(float Value) { if (!bMemoryVisible) AddControllerYawInput(Value); }
 void ANostalgiaCharacter::LookUp(float Value) { if (!bMemoryVisible) AddControllerPitchInput(Value); }
-void ANostalgiaCharacter::SprintStart() { bSprinting = true; }
+void ANostalgiaCharacter::SprintStart() { if (!bMemoryVisible) bSprinting = true; }
 void ANostalgiaCharacter::SprintStop() { bSprinting = false; }
-void ANostalgiaCharacter::CrouchStart() { Crouch(); }
+void ANostalgiaCharacter::CrouchStart() { if (!bMemoryVisible) Crouch(); }
+void ANostalgiaCharacter::JumpStart() { if (!bMemoryVisible) Jump(); }
 void ANostalgiaCharacter::CrouchStop() { UnCrouch(); }
 void ANostalgiaCharacter::ToggleClock() { bClockVisible = !bClockVisible; }
 void ANostalgiaCharacter::ToggleDebug() { bDebugVisible = !bDebugVisible; }
@@ -74,7 +75,19 @@ void ANostalgiaCharacter::ToggleMemory()
 {
     const auto* Session = GetGameInstance()->GetSubsystem<UNostalgiaStateSubsystem>();
     if (Session && Session->GetState().stage >= Nostalgia::Stage::PhotoFound)
-        bMemoryVisible = !bMemoryVisible;
+        SetMemoryVisible(!bMemoryVisible);
+}
+
+void ANostalgiaCharacter::SetMemoryVisible(bool bVisible)
+{
+    bMemoryVisible = bVisible;
+    if (bVisible)
+    {
+        bSprinting = false;
+        StopJumping();
+        // Stop grounded drift; opening a hint in midair must not cancel gravity or launch momentum.
+        if (GetCharacterMovement()->IsMovingOnGround()) GetCharacterMovement()->StopMovementImmediately();
+    }
 }
 
 AActor* ANostalgiaCharacter::FocusedActor() const
@@ -99,7 +112,13 @@ void ANostalgiaCharacter::Save() { if (auto* State = GetGameInstance()->GetSubsy
 void ANostalgiaCharacter::Load()
 {
     if (auto* State = GetGameInstance()->GetSubsystem<UNostalgiaStateSubsystem>())
-        if (State->Load(this)) bMemoryVisible = false;
+        if (State->Load(this)) SetMemoryVisible(false);
 }
-bool ANostalgiaCharacter::TransitionReady() const { return GetWorld()->GetTimeSeconds() >= NextTransitionTime; }
+bool ANostalgiaCharacter::TransitionReady() const { return !bRestoringSnapshot && GetWorld()->GetTimeSeconds() >= NextTransitionTime; }
 void ANostalgiaCharacter::ProtectTransition() { NextTransitionTime = GetWorld()->GetTimeSeconds() + 3.0; }
+void ANostalgiaCharacter::BeginSnapshotRestore() { bRestoringSnapshot = true; }
+void ANostalgiaCharacter::EndSnapshotRestore(bool bSucceeded)
+{
+    bRestoringSnapshot = false;
+    if (bSucceeded) ProtectTransition();
+}

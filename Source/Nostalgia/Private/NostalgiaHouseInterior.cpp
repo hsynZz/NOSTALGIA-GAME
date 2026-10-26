@@ -20,7 +20,8 @@ ANostalgiaHouseInterior::ANostalgiaHouseInterior()
 FText ANostalgiaHouseInterior::InteractionText_Implementation() const
 {
     const auto* Session = GetGameInstance()->GetSubsystem<UNostalgiaStateSubsystem>();
-    const bool bUnlocked = MinimumStage <= 6 && Session && static_cast<uint8>(Session->GetState().stage) >= MinimumStage;
+    const bool bUnlocked = MinimumStage <= static_cast<uint8>(Nostalgia::Stage::Complete) && Session &&
+        static_cast<uint8>(Session->GetState().stage) >= MinimumStage;
     return FText::FromString(TEXT("E: ") + (bUnlocked ? Prompt : LockedPrompt));
 }
 void ANostalgiaHouseInterior::Interact_Implementation(APawn* InstigatorPawn)
@@ -28,7 +29,8 @@ void ANostalgiaHouseInterior::Interact_Implementation(APawn* InstigatorPawn)
     auto* Player = Cast<ANostalgiaCharacter>(InstigatorPawn);
     if (!Player || !Player->TransitionReady()) return;
     auto* Session = GetGameInstance()->GetSubsystem<UNostalgiaStateSubsystem>();
-    if (!Session || MinimumStage > 6 || static_cast<uint8>(Session->GetState().stage) < MinimumStage)
+    if (!Session || MinimumStage > static_cast<uint8>(Nostalgia::Stage::Complete) ||
+        static_cast<uint8>(Session->GetState().stage) < MinimumStage)
     {
         if (Session) Session->LastMessage = LockedPrompt;
         return;

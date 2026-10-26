@@ -2,7 +2,7 @@
 
 **Status:** technischer Quellprototyp 0.1; keine bestätigte Spielbarkeit. Kreative Grundlage ist der unverändert archivierte Projektbrief. Keine weiteren Kapitelinhalte oder neue Lore implementiert.
 
-Aktuelle Cloud-Fortsetzung 23.10.2026: bestätigte Director-Ereignisse, begrenzte Heimkehrer-Annäherung, Fotoansicht, Stuhl-/Hausänderung und Spielhausflur ergänzt; 47 Core- und 9 Python-Tests bestanden. Siehe [CHANGES_CLOUD_GAMEPLAY.md](CHANGES_CLOUD_GAMEPLAY.md). Kein Live-Editorzugriff; keine erneuten lokalen Installationsversuche im aktuellen Auftrag.
+Aktuelle Cloud-Fortsetzung 26.10.2026: gemeinsame Weltdefinition, geschlossene Bodenlücken, validierte Snapshots und abgesicherter Ladeablauf; 62 Core- und 9 Python-Tests bestanden. Siehe [CHANGES_WORLD_SAVE.md](CHANGES_WORLD_SAVE.md). Kein Live-Editorzugriff; keine lokalen Installationsversuche im aktuellen Auftrag.
 
 ## Implementiert, Engine-Integration noch ungetestet
 
@@ -16,7 +16,7 @@ Aktuelle Cloud-Fortsetzung 23.10.2026: bestätigte Director-Ereignisse, begrenzt
 | P06 | WorldLoop und visuelle Änderung | Frühe Schleife kehrt orientiert zurück; nach Erinnerung neue Route; kein Trigger-Pingpong |
 | P07 | Heimkehrer-Sichtung | Sicht-/Bildschirmprüfung, begrenzte Annäherung, Kollisionsabbruch; sichere Räume und Ruhezeit wirken |
 | P08 | Mini-Quest und Abschluss | Foto mit J, A/B/C-Reihenfolge, H-Hinweise; Endtür des Spielhausflurs setzt Complete |
-| P09 | Save/Load | Wesentlicher Zustand und Position erhalten; korrupte/fremde Saves abgelehnt |
+| P09 | Save/Load | Snapshot, Region und Fortschritt prüfen; Laden mit Türstellung und Übergangssperre; Fehler ohne Zustandsverlust ablehnen |
 | P10 | Debug, native Tests, UE-Tests, CI | Offline-Prüfungen laufen; vier UE-Tests nach Engine-Setup, anschließend manuelle Abnahme |
 
 Die reine Quest-/Director-/Zeitlogik aus P04–P10 ist bereits mit real kompilierten nativen Tests geprüft. Alle Aussagen über Bewegung, Rendering, Audioausgabe, Physik, Map-Import, UE-Speicherung und Windows-Auslieferung benötigen weiterhin Unreal.

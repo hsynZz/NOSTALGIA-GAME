@@ -4,8 +4,10 @@
 
 | System | Implementierung | Verantwortung |
 | --- | --- | --- |
+| Weltdefinition | `Core/NostalgiaWorldLayout` | Gemeinsame Anker, Bodenabdeckung, Bezirksgrenzen und zulässige Speicherregionen |
+| Speicherprüfung | `Core/NostalgiaSnapshot` | Zustand und Position gemeinsam validieren; Kapsel gegen gespeicherte Türstellung prüfen |
 | Engine-unabhängiger Zustand | `Public/Core/NostalgiaCore.h`, `Private/Core/NostalgiaCore.cpp` | Quest, Zeit, Schleifenfortschritt, Eventregeln, RNG, Validierung |
-| Session / QuestState / TimeOfDay / SaveGame | `UNostalgiaStateSubsystem`, `UNostalgiaSaveGame` | Eine Instanz pro GameInstance; Adaption an UE, Speichern/Laden, UI-Texte |
+| Session / QuestState / TimeOfDay / SaveGame | `UNostalgiaStateSubsystem`, `UNostalgiaSaveGame` | Eine Instanz pro GameInstance; Adaption an UE, validierte Snapshot-Konvertierung und abgesicherte Wiederherstellung, UI-Texte |
 | DreamDirector | Core `PlanEvent` / `CommitEvent`, `UNostalgiaEventCatalog` | Deterministische Auswahl, Verfügbarkeit, bestätigte Präsentation; editierbare Data Assets |
 | Character | `ANostalgiaCharacter` | Bewegung, Kamera, Input, Sichtstrahl, Übergangsschutz |
 | Interaction | `INostalgiaInteraction`, `ANostalgiaQuestObject`, `ANostalgiaDoor` | Einheitliche Prompts/Interaktionen, Questaktionen, Türbewegung |
@@ -64,11 +66,21 @@ Hausinnenräume sind feste separate Geometrie mit expliziten Toren, keine zufäl
 
 Grafikprofil für den ersten schwachen PC: DX11/SM5, TAA, keine Lumen-GI/-Reflexionen, kein Raytracing und keine virtuellen Schatten. 1280×720, 75 % interne Auflösung und 30-FPS-Limit. Punktlichter ohne eigene Schatten; eine schattenlose Richtungsaufhellung unterstützt den Nachtpfad. Sky-Capture nur beim Aufbau. Keine Performance-Messung vorhanden. Details im [Änderungsprotokoll](CHANGES_LOW_SPEC.md).
 
+## Gemeinsame Weltdefinition
+
+`Core/NostalgiaWorldLayout.h` definiert den Figurenradius, die Standhöhe, Start-/Loop-/Portalziele, die Nachbarschaftsbodenplatte und XY-Grenzen der kuratierten Regionen. Die Runtime baut aus diesen Werten; Speicherprüfung und native Tests verwenden dieselben Definitionen. Der GameMode exportiert die Spawn-Position als reflektierte statische Methode an das Editor-Python-Skript. Das reduziert voneinander abweichende Startpunkte. Editor-Reflection und Python-Aufruf sind noch ungetestet.
+
+Die Nachbarschaft hat durchgehenden Boden von X=-1900 bis 6100 und Y=-2350 bis 2350; frühere Lücken neben/hinter dem Wohnhaus sind im Quellcode geschlossen. Die analytischen Regionen ersetzen keine echte Kollisions- oder Bodenprüfung.
+
 ## Speicherung
 
-Ein versionierter `USaveGame` speichert Stage, Minute, vergangene Zeit, RNG-Zustand, Schleifenzähler, Tür-Bitmaske, Abklingzeiten, Eventzähler/-zeitpunkte und Spielerposition/-blick. Laden prüft Schema/Kapitel, endliche Werte, zulässige Bereiche, plausible Geschichte und kollisionsgeprüfte Zielposition, bevor der Live-Zustand ersetzt wird. Ungültige Saves liefern eine Meldung und ändern den Questzustand nicht.
+Ein versionierter `USaveGame` speichert Stage, Minute, vergangene Zeit, RNG-Zustand, Schleifenzähler, Tür-Bitmaske, Abklingzeiten, Eventzähler/-zeitpunkte und Spielerposition/-blick. Die Konvertierung `UNostalgiaSaveGame::FromSnapshot` / `ToSnapshot` verwendet einen engine-unabhängigen `SaveSnapshot` und ändert Ein-/Ausgabedaten erst nach vollständiger Validierung. Geprüft werden Schema/Kapitel, endliche Werte, erreichbare Regionen, Kapselabstände, Fortschrittsbedingungen und plausible Uhr-/Schleifenzustände. Zielpositionen innerhalb des erweiterten Loop-Triggers sind ausgeschlossen. Finale setzt RoadUnlocked voraus, der Spielhausflur DarkLampFound.
 
-Weltvarianten, Lampen und Türziele werden aus dem wiederhergestellten Zustand abgeleitet. Laufendes Audio und Heimkehrer-Präsentation werden beim Laden beendet; bereits konsumierte Ereignisse werden nicht wiederholt. Augenblicklicher Türwinkel, Audio-Abspielposition und Sichtungsrestzeit werden nicht gespeichert. Ein Save während eines Events lädt dessen konsumierten Fortschritt, ohne den kurzen Effekt erneut zu starten. Ein Slot, synchrones Speichern; keine Autosave-/Backup-/Migrationsgarantie über Version 1 hinaus.
+Während des Ladens sperrt die Figur Übergänge; der WorldLoop erzeugt dabei keinen Retry. Vorab prüft eine vertikale Kapsel gegen die gespeicherte Türgeometrie. Aktuelle Tür-Kollision wird vorübergehend ausgesetzt, sonstige Weltkollision bleibt für `TeleportTo` aktiv. Auch eine durch Unreal angepasste Zielposition wird erneut geprüft. Erst danach werden Zustand und gespeicherte Türwinkel übernommen. Scope-Guards stellen bei Fehlern die vorherige Spielerposition und Kollision wieder her, bevor Übergänge freigegeben werden. Das ist im Quellcode implementiert, die tatsächlichen UE-Callbacks und der Rollback bleiben ungetestet.
+
+Die Kapsel-/Türprüfung gilt für die generierten nicht skalierten Türen mit den festgelegten Scharnierstellungen. Angepasste spätere Türassets benötigen entsprechende Geometriedaten. Speichern im künftigen Türblatt wird abgelehnt, damit ein Save während einer Türanimation nicht unladbar wird. Ein beliebiger manipuliert gespeicherter Punkt innerhalb einer Region ist damit noch kein nachgewiesen freier Platz mit tragfähigem Boden.
+
+Weltvarianten, Lampen und Türziele werden aus dem wiederhergestellten Zustand abgeleitet. Laufendes Audio und Heimkehrer-Präsentation werden beim Laden beendet; bereits konsumierte Ereignisse werden nicht wiederholt. Augenblicklicher Türwinkel, Audio-Abspielposition und Sichtungsrestzeit werden nicht gespeichert. Beim Laden springt die Tür direkt auf ihren gespeicherten Zielwinkel; sie schwenkt nicht nachträglich durch die Figur. Ein Save während eines Events lädt dessen konsumierten Fortschritt, ohne den kurzen Effekt erneut zu starten. Ein Slot, synchrones Speichern; keine Autosave-/Backup-/Migrationsgarantie über Version 1 hinaus.
 
 ## Asset-Erzeugung
 

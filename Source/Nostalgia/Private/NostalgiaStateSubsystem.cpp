@@ -1,10 +1,16 @@
 #include "NostalgiaStateSubsystem.h"
 #include "NostalgiaCharacter.h"
+#include "NostalgiaDoor.h"
 #include "NostalgiaEventCatalog.h"
 #include "NostalgiaSaveGame.h"
+#include "Core/NostalgiaSnapshot.h"
+#include "Components/CapsuleComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "EngineUtils.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "Kismet/GameplayStatics.h"
+#include "Misc/ScopeExit.h"
 
 DEFINE_LOG_CATEGORY(LogNostalgia);
 namespace { const FString SaveSlot = TEXT("Nostalgia_Prototype01"); }
@@ -100,31 +106,35 @@ FString UNostalgiaStateSubsystem::HintText() const { return UTF8_TO_TCHAR(Nostal
 
 bool UNostalgiaStateSubsystem::Save(ANostalgiaCharacter* Player)
 {
-    if (!Player || !Player->GetCharacterMovement()->IsMovingOnGround() || Player->bIsCrouched || !Nostalgia::Validate(State))
+    if (!Player || Player->IsRestoringSnapshot() || !Player->GetCharacterMovement()->IsMovingOnGround() || Player->bIsCrouched || !Nostalgia::Validate(State))
     {
         LastMessage = TEXT("Speichern: bitte auf festem Boden stehen und aufrichten.");
         return false;
     }
     auto* Data = Cast<UNostalgiaSaveGame>(UGameplayStatics::CreateSaveGameObject(UNostalgiaSaveGame::StaticClass()));
     if (!Data) return false;
-    Data->Version = Nostalgia::SaveVersion;
-    Data->Stage = static_cast<uint8>(State.stage);
-    Data->Minute = State.minute;
-    Data->Elapsed = State.elapsed;
-    Data->RandomState = State.randomState;
-    Data->Loops = State.loops;
-    Data->OpenDoors = State.openDoors;
-    Data->LastTransition = State.lastTransition;
-    Data->LastShock = State.lastShock;
-    for (const auto& Event : State.history)
+    const FVector Location = Player->GetActorLocation();
+    const FRotator Rotation = Player->GetControlRotation();
+    const Nostalgia::SaveSnapshot Snapshot{State, {Location.X, Location.Y, Location.Z}, {Rotation.Pitch, Rotation.Yaw, Rotation.Roll}};
+    if (!Nostalgia::ValidateSnapshot(Snapshot))
     {
-        FNostalgiaSavedEvent Saved;
-        Saved.Count = static_cast<int32>(Event.count);
-        Saved.LastTime = Event.lastTime;
-        Data->Events.Add(Saved);
+        LastMessage = TEXT("Speichern abgelehnt: Position oder Fortschritt passt nicht zur vorbereiteten Welt.");
+        return false;
     }
-    Data->PlayerLocation = Player->GetActorLocation();
-    Data->PlayerRotation = Player->GetControlRotation();
+    // Save the intended stable door pose, not an animation frame that could make this save unloadable.
+    const double CapsuleRadius = Player->GetCapsuleComponent()->GetScaledCapsuleRadius();
+    const double CapsuleHalfHeight = Player->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+    for (TActorIterator<ANostalgiaDoor> It(Player->GetWorld()); It; ++It)
+        if (It->OverlapsSavedPose(Location, IsDoorOpen(It->DoorId), CapsuleRadius, CapsuleHalfHeight))
+        {
+            LastMessage = TEXT("Speichern: bitte aus dem Schwenkbereich der Tuer treten.");
+            return false;
+        }
+    if (!Data->FromSnapshot(Snapshot))
+    {
+        LastMessage = TEXT("Speichern abgelehnt: Snapshot konnte nicht erstellt werden.");
+        return false;
+    }
     const bool bSaved = UGameplayStatics::SaveGameToSlot(Data, SaveSlot, 0);
     LastMessage = bSaved ? TEXT("Spielstand gespeichert.") : TEXT("Speichern fehlgeschlagen; siehe Log/Datentraeger.");
     UE_LOG(LogNostalgia, Log, TEXT("Save success=%d"), bSaved);
@@ -135,42 +145,62 @@ bool UNostalgiaStateSubsystem::Load(ANostalgiaCharacter* Player)
 {
     const auto* Data = Cast<UNostalgiaSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlot, 0));
     LastMessage = TEXT("Laden abgelehnt: Spielstand fehlt, ist ungueltig oder inkompatibel.");
-    if (!Player || !Data || Data->Version != Nostalgia::SaveVersion || Data->Chapter != TEXT("EndlessSummer2004") ||
-        Data->Events.Num() != static_cast<int32>(Nostalgia::EventCount)) return false;
-    Nostalgia::State Candidate;
-    Candidate.stage = static_cast<Nostalgia::Stage>(Data->Stage);
-    Candidate.minute = Data->Minute;
-    Candidate.elapsed = Data->Elapsed;
-    Candidate.randomState = Data->RandomState;
-    Candidate.loops = Data->Loops;
-    Candidate.openDoors = Data->OpenDoors;
-    Candidate.lastTransition = Data->LastTransition;
-    Candidate.lastShock = Data->LastShock;
-    for (int32 Index = 0; Index < Data->Events.Num(); ++Index)
+    Nostalgia::SaveSnapshot Candidate;
+    if (!Player || !Data || Player->IsRestoringSnapshot() || Player->bIsCrouched || !Data->ToSnapshot(Candidate)) return false;
+    const FVector Location(Candidate.position.x, Candidate.position.y, Candidate.position.z);
+    const FRotator Rotation(Candidate.rotation.x, Candidate.rotation.y, Candidate.rotation.z);
+    const double CapsuleRadius = Player->GetCapsuleComponent()->GetScaledCapsuleRadius();
+    const double CapsuleHalfHeight = Player->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+    struct FDoorPlacement
     {
-        Candidate.history[Index].count = static_cast<uint32>(Data->Events[Index].Count);
-        Candidate.history[Index].lastTime = Data->Events[Index].LastTime;
-    }
-    const FVector Location = Data->PlayerLocation;
-    const FRotator Rotation = Data->PlayerRotation;
-    if (!Nostalgia::Validate(Candidate) || Location.ContainsNaN() || Rotation.ContainsNaN() ||
-        Location.X < -2400 || Location.X > 10000 || Location.Y < -2500 || Location.Y > 4500 ||
-        Location.Z < 40 || Location.Z > 800) return false;
-    // Validate placement before replacing live state. TeleportTo uses the capsule collision checks.
-    if (Player->bIsCrouched || !Player->TeleportTo(Location, FRotator(0, Rotation.Yaw, 0), false, false))
+        TWeakObjectPtr<ANostalgiaDoor> Door;
+        ECollisionEnabled::Type Collision;
+        bool bOpen;
+    };
+    TArray<FDoorPlacement> Doors;
+    for (TActorIterator<ANostalgiaDoor> It(Player->GetWorld()); It; ++It)
     {
-        LastMessage = TEXT("Laden: aufrichten / gespeicherte Position ist blockiert. Zustand unveraendert.");
-        return false;
+        const bool bOpen = It->DoorId < 2 && (Candidate.state.openDoors & (1u << It->DoorId)) != 0;
+        if (It->OverlapsSavedPose(Location, bOpen, CapsuleRadius, CapsuleHalfHeight))
+        {
+            LastMessage = TEXT("Laden abgelehnt: gespeicherte Position liegt im gespeicherten Tuerblatt.");
+            return false;
+        }
+        Doors.Add({*It, It->Panel->GetCollisionEnabled(), bOpen});
     }
+
+    const FVector OriginalLocation = Player->GetActorLocation();
+    const FRotator OriginalActorRotation = Player->GetActorRotation();
+    bool bRestored = false;
+    Player->BeginSnapshotRestore();
+    ON_SCOPE_EXIT { Player->EndSnapshotRestore(bRestored); };
+    // Current door angles must not invalidate a valid saved doorway position. Other geometry remains blocking.
+    for (const auto& Item : Doors) if (Item.Door.IsValid()) Item.Door->Panel->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    ON_SCOPE_EXIT
+    {
+        if (!bRestored)
+            Player->SetActorLocationAndRotation(OriginalLocation, OriginalActorRotation, false, nullptr, ETeleportType::TeleportPhysics);
+        for (const auto& Item : Doors) if (Item.Door.IsValid()) Item.Door->Panel->SetCollisionEnabled(Item.Collision);
+    };
+    LastMessage = TEXT("Laden abgelehnt: Zielposition ist blockiert. Zustand unveraendert.");
+    if (!Player->TeleportTo(Location, FRotator(0, Rotation.Yaw, 0), false, false)) return false;
+    // TeleportTo can adjust placement. Revalidate the actual position before enabling saved door collision.
+    const FVector ActualLocation = Player->GetActorLocation();
+    Candidate.position = {ActualLocation.X, ActualLocation.Y, ActualLocation.Z};
+    if (!Nostalgia::ValidateSnapshot(Candidate)) return false;
+    for (const auto& Item : Doors)
+        if (Item.Door.IsValid() && Item.Door->OverlapsSavedPose(ActualLocation, Item.bOpen, CapsuleRadius, CapsuleHalfHeight)) return false;
+
+    for (const auto& Item : Doors) if (Item.Door.IsValid()) Item.Door->ApplySavedPose(Item.bOpen);
     Player->GetCharacterMovement()->StopMovementImmediately();
     if (Player->GetController()) Player->GetController()->SetControlRotation(Rotation);
-    Player->ProtectTransition();
-    State = Candidate;
+    State = Candidate.state;
     Context = Nostalgia::Context{};
     PendingEvent = Nostalgia::EventPlan{};
     LastEvent = TEXT("Load.Restored");
     LastMessage = TEXT("Spielstand geladen; Uhr, Quest, Schleifen, Tueren und Event-Historie wiederhergestellt.");
     ++LoadRevision;
+    bRestored = true;
     UE_LOG(LogNostalgia, Log, TEXT("Load success Quest=%d"), static_cast<int32>(State.stage));
     return true;
 }

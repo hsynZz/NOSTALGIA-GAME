@@ -12,7 +12,7 @@ Pro Test Ergebnis PASS/FAIL/BLOCKED, Engine-Version einschließlich Changelist, 
 | --- | --- |
 | `Nostalgia.Core.CausalEscapeChain` | Korrekte Reihenfolge bis Complete, frühes Verlassen abgelehnt |
 | `Nostalgia.Data.EventCatalogValidation` | C++-Defaults gültig; doppelte/unvollständige IDs abgelehnt |
-| `Nostalgia.Save.UnrealSerialization` | Tatsächlicher `USaveGame`-Speicher-Roundtrip erhält wichtige Felder |
+| `Nostalgia.Save.UnrealSerialization` | Validierter Snapshot über tatsächlichen USaveGame-Roundtrip, vollständige Historie; korrupte Daten und inkompatibles Schema/Kapitel abgelehnt |
 | `Nostalgia.Assets.PreparedPackages` | Echte Map, Katalog, Material und SoundWaves laden; Audio hat Dauer |
 
 Export unter `Artifacts/Unreal/Automation_<Zeit>/index.json`. Der Runner fordert alle vier Namen mit `Success`; alte Ergebnisdateien und Null-Test-Läufe gelten nicht. Diese Tests prüfen noch keine vollständige Spielsitzung und keinen Datenträger-Save-Roundtrip.
@@ -50,3 +50,12 @@ Export unter `Artifacts/Unreal/Automation_<Zeit>/index.json`. Der Runner fordert
 ## Manuell: nicht verfügbare Präsentationen
 
 19. In einer separaten Testkopie ohne vorbereitete Audio-/Materialpakete starten: Log-Warnungen, F3-Bereitschaft falsch, keine konsumierten Garten-/Heimkehrer-Ereignisse. Quest bleibt bedienbar. Nach korrektem Prepare in neuer Sitzung müssen entsprechende Ereignisse starten. Fehlender Audiotreiber darf keinen Erfolg vortäuschen. Komponentenfreigabe beim Levelende/Laden und nach normalem Clipende prüfen. Tatsächliche Ausgabe zusätzlich hören; `IsPlaying` allein beweist sie nicht.
+
+## Ergänzte Abnahme: Weltdefinition und Wiederherstellung (26.10.2026)
+
+20. `prepare_unreal.py` in UE ausführen: neue reflektierte Spawn-Methode wird gefunden; PlayerStart stimmt mit GameMode-Fallback und Sicherheitsrückkehr überein. Eine vorhandene bewusst bearbeitete Map wird dabei weiterhin nicht überschrieben.
+21. Hinter/seitlich am eigenen Wohnhaus gehen, besonders um `(-1200,1200)` und `(-1000,-1500)`: durchgehender Boden, keine Fall-Rückkehr. Ecken der begrenzten Nachbarschaft sowie Höhenunterschied Straße/Rasen testen.
+22. F5 direkt in einem offenen Türdurchgang; anschließend weggehen und Tür schließen, F9: gespeicherte offene Stellung und Position werden gemeinsam wiederhergestellt. Gegenprobe mit geschlossen gespeicherter Tür bei aktueller offener Tür. Während der Türbewegung im künftigen Türblatt darf F5 keinen unladbaren Spielstand überschreiben.
+23. Getrennte Test-Saves manipulieren: Punkt zwischen Innenräumen, früh im Finale/Spielhausflur, im Loop oder mit unmöglichem Uhr-/Schleifenzustand. Laden muss vor Zustandsänderung ablehnen. Gültige Version-1-Saves mit korrekter Geschichte bleiben lesbar.
+24. Ziel mit temporärem Hindernis blockieren: F9 scheitert, ursprüngliche Position, Türen, Fortschritt und Bedienung bleiben erhalten; erneuter Versuch nach Entfernen des Hindernisses gelingt. Keine durch Laden oder Rollback zusätzlich gezählte Straßenschleife. Eingaben in/kurz nach dem Ladeaufruf prüfen.
+25. Foto während Sprint betrachten: Figur driftet auf festem Boden nicht weiter; Sprintstart, Sprung und Ducken reagieren erst nach Schließen wieder. Loslassen von Tasten bleibt wirksam. Betrachtung im Sprung und erfolgreiches F9 prüfen; keine aufgehobene Schwerkraft oder festhängende Eingabe.

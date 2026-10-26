@@ -1,6 +1,7 @@
 #include "NostalgiaWorldLoop.h"
 #include "NostalgiaCharacter.h"
 #include "NostalgiaStateSubsystem.h"
+#include "Core/NostalgiaWorldLayout.h"
 #include "Components/BoxComponent.h"
 #include "Engine/GameInstance.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -13,7 +14,8 @@ ANostalgiaWorldLoop::ANostalgiaWorldLoop()
     PrimaryActorTick.TickInterval = .1f;
     Trigger = CreateDefaultSubobject<UBoxComponent>(TEXT("StreetBoundary"));
     SetRootComponent(Trigger);
-    Trigger->SetBoxExtent(FVector(100, 470, 160));
+    const auto Extent = Nostalgia::Layout::LoopTriggerHalfExtent;
+    Trigger->SetBoxExtent(FVector(Extent.x, Extent.y, Extent.z));
     Trigger->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
     Trigger->SetCollisionResponseToAllChannels(ECR_Ignore);
     Trigger->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
@@ -25,6 +27,8 @@ void ANostalgiaWorldLoop::Enter(UPrimitiveComponent*, AActor* Other, UPrimitiveC
 {
     if (auto* Player = Cast<ANostalgiaCharacter>(Other))
     {
+        // A save/load placement must not enqueue a deferred traversal from its overlap callbacks.
+        if (Player->IsRestoringSnapshot()) return;
         PendingPlayer = Player;
         SetActorTickEnabled(true);
         TryTransition();
@@ -54,7 +58,8 @@ void ANostalgiaWorldLoop::TryTransition()
     if (!Nostalgia::TraverseLoop(Candidate)) return;
     const bool bUnlocked = Candidate.stage >= Nostalgia::Stage::RoadUnlocked;
     // X=600 is now the residential front door. The loop lands safely outside the house.
-    const FVector Target(bUnlocked ? 7200 : 950, FMath::Clamp(Player->GetActorLocation().Y, -250.0, 250.0), 96);
+    const auto Landing = bUnlocked ? Nostalgia::Layout::LoopUnlockedLanding : Nostalgia::Layout::LoopLockedLanding;
+    const FVector Target(Landing.x, FMath::Clamp(Player->GetActorLocation().Y, -250.0, 250.0), Landing.z);
     const FRotator View = Player->GetControlRotation();
     if (!Player->TeleportTo(Target, FRotator(0, View.Yaw, 0), false, false)) return;
     Player->GetCharacterMovement()->StopMovementImmediately();

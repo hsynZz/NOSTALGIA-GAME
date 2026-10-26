@@ -1,4 +1,5 @@
 #include "Core/NostalgiaCore.h"
+#include "Core/NostalgiaWorldLayout.h"
 #include <algorithm>
 #include <cmath>
 #include <limits>
@@ -38,13 +39,7 @@ bool IsNight(const State& state) { return state.minute >= 20.0 * 60.0 || state.m
 
 District DistrictAt(double x, double y)
 {
-    // Shared with the actual blockout adapter: the new living room is part of the safe home.
-    if (!std::isfinite(x) || !std::isfinite(y)) return District::Bedroom;
-    if (x < 200 && y > 2500) return District::Interior;
-    if (x < 600 && std::abs(y) < 420) return District::Bedroom;
-    if (x > 6500) return District::Finale;
-    if (x > 1550 && x < 2850 && y > 500 && y < 1650) return District::Garden;
-    return District::Street;
+    return Layout::DistrictAt({x, y, 0});
 }
 
 bool Validate(const State& state)

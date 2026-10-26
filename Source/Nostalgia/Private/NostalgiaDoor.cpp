@@ -1,5 +1,6 @@
 #include "NostalgiaDoor.h"
 #include "NostalgiaStateSubsystem.h"
+#include "Core/NostalgiaSnapshot.h"
 #include "Components/StaticMeshComponent.h"
 #include "Engine/GameInstance.h"
 #include "Engine/StaticMesh.h"
@@ -34,6 +35,17 @@ void ANostalgiaDoor::Tick(float DeltaSeconds)
     if (!GetWorld()->OverlapAnyTestByObjectType(Center, NextRotation, Pawns,
             FCollisionShape::MakeBox(FVector(12, 110, 120)), Query))
         Hinge->SetRelativeRotation(FRotator(0, NextYaw, 0));
+}
+bool ANostalgiaDoor::OverlapsSavedPose(const FVector& CapsuleLocation, bool bOpen, double CapsuleRadius, double CapsuleHalfHeight) const
+{
+    const FVector Anchor = GetActorLocation();
+    return Nostalgia::CapsuleOverlapsDoor({CapsuleLocation.X, CapsuleLocation.Y, CapsuleLocation.Z},
+        {Anchor.X, Anchor.Y, Anchor.Z}, bOpen, CapsuleRadius, CapsuleHalfHeight);
+}
+void ANostalgiaDoor::ApplySavedPose(bool bOpen)
+{
+    // Snapshot restoration is synchronous; do not animate a restored panel through the restored pawn.
+    Hinge->SetRelativeRotation(FRotator(0, bOpen ? -90.0f : 0.0f, 0));
 }
 FText ANostalgiaDoor::InteractionText_Implementation() const { return FText::FromString(TEXT("E: Tuer oeffnen / schliessen")); }
 void ANostalgiaDoor::Interact_Implementation(APawn* InstigatorPawn)

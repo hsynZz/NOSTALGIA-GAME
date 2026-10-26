@@ -6,7 +6,7 @@ Dieses Repository enthält implementierte technische Grundsysteme, einen nativen
 
 Die Zielversion **5.8.0** ist in `Config/EngineVersion.json` festgelegt; `.uproject` verwendet die Unreal-Zuordnung `5.8`. Der Nutzer bestätigt diese Version als auf seinem Windows-PC installiert. Die Cloud-Sitzung hat weiterhin keine Live-Verbindung zu diesem Editor. Die Windows-Skripte prüfen die tatsächliche `Build.version` und konvertieren das Projekt nicht stillschweigend auf eine andere Version.
 
-**Aktuelle Cloud-Fortsetzung:** Fotoansicht, sichtbare Geburtstagsänderung, längerer Hausinnenraum, Spielhausflur mit Rückwegen, bestätigte Ereignisstarts und Heimkehrer mit Sichtprüfung und begrenzter Annäherung. **47 native C++-Tests und 9 Python-Tests bestanden.** [Änderungen und Grenzen](Docs/CHANGES_CLOUD_GAMEPLAY.md) · [Prüfbericht](Docs/VALIDATION.md).
+**Aktuelle Cloud-Fortsetzung (26.10.2026):** durchgehender Außenboden, gemeinsame Weltgrenzen und Übergangsziele, validierte Speicherdaten und ein abgesicherter Ladeablauf für Türen und Übergänge. **62 native C++-Tests und 9 Python-Tests bestanden.** [Aktuelle Änderungen und Grenzen](Docs/CHANGES_WORLD_SAVE.md) · [Prüfbericht](Docs/VALIDATION.md).
 
 Das sparsame Profil bleibt bei DX11, einfacher Beleuchtung ohne Lumen/Raytracing, 720p-Fenster und 30-FPS-Limit. Es gibt noch keine gemessene Bildrate. Die aktuelle Entwicklung erfolgt in der Cloud; lokale Installationsversuche sind nicht Teil dieser Iteration.
 
@@ -20,7 +20,7 @@ Das sparsame Profil bleibt bei DX11, einfacher Beleuchtung ohne Lumen/Raytracing
 - Dream Director mit Datenasset-Konfiguration, festen Event-IDs, Seed, lokalen Bedingungen, Cooldowns, Ruhezeiten und Wiederholungslimits. Historie und RNG werden erst nach bestätigtem Präsentationsstart verändert.
 - Räumliches Audio mit Annäherungs-Abbruch und Occlusion; **synthetische Testsignale**, noch kein aufgenommenes Kinderlachen.
 - Heimkehrer-Sichtung mit Sichtstrahl, Bildschirm-/Entfernungsprüfung, höchstens 150 cm Annäherung beim Wegsehen und begrenztem Rückzug; keine vollständige Verfolgung oder Kampfmechanik.
-- Versioniertes Savegame für Quest, Zeit, Türen, Position, Schleifen und Ereignishistorie; Debug-HUD und Hinweise.
+- Versioniertes Savegame für Quest, Zeit, Türen, Position, Schleifen und Ereignishistorie; gemeinsame Welt-/Fortschrittsprüfung und abgesicherte Wiederherstellung; Debug-HUD und Hinweise.
 
 ## Jetzt prüfen — ohne Unreal
 
@@ -30,7 +30,7 @@ Voraussetzungen: Python **3.10+**, GCC/Clang mit C++20. Keine Python-Pakete nöt
 python3 Scripts/validate.py --sanitize
 ```
 
-Der Runner kompiliert **dieselben** reinen C++-Module für Quest/Director und Begegnungen, die das Unreal-Modul verwendet. Er führt außerdem Repository-/Werkzeugtests aus. Ergebnisdateien einschließlich Quellcode-Hashes sowie C++-/Python-Logs liegen in `Artifacts/Validation/`. Diese Prüfung ersetzt weder UHT/UBT noch einen Spieltest.
+Der Runner kompiliert **dieselben** reinen C++-Module für Quest/Director, Begegnungen, Weltdefinition und Speicherprüfung, die das Unreal-Modul verwendet. Er führt außerdem Repository-/Werkzeugtests aus. Ergebnisdateien einschließlich Quellcode-Hashes sowie C++-/Python-Logs liegen in `Artifacts/Validation/`. Diese Prüfung ersetzt weder UHT/UBT noch einen Spieltest.
 
 ## Später in Unreal öffnen
 
@@ -42,7 +42,8 @@ Die Ordner unter `Content/` sind bewusst noch leer. Es werden keine erfundenen `
 
 ## Dokumentation
 
-- [Aktuelle Cloud-Iteration: Änderungen, Belege und offene Abnahme](Docs/CHANGES_CLOUD_GAMEPLAY.md)
+- [Aktuelle Cloud-Iteration: Weltgrenzen und Speichern](Docs/CHANGES_WORLD_SAVE.md)
+- [Vorherige Cloud-Iteration: räumlicher Ablauf und Begegnung](Docs/CHANGES_CLOUD_GAMEPLAY.md)
 - [Windows: Installation, Öffnen, Build und Packaging](Docs/SETUP_WINDOWS.md)
 - [Windows-MCP-Verbindung, Vorabcheck und sparsamer Spielstart](Docs/LOCAL_UNREAL_ACCESS.md)
 - [Architektur und Zustandsmodelle](Docs/ARCHITECTURE.md)

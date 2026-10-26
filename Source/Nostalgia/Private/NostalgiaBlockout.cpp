@@ -8,6 +8,7 @@
 #include "NostalgiaQuestObject.h"
 #include "NostalgiaStateSubsystem.h"
 #include "NostalgiaWorldLoop.h"
+#include "Core/NostalgiaWorldLayout.h"
 #include "Components/DirectionalLightComponent.h"
 #include "Components/PointLightComponent.h"
 #include "Components/SkyLightComponent.h"
@@ -22,6 +23,11 @@
 #include "Engine/SkyAtmosphere.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "UObject/ConstructorHelpers.h"
+
+namespace
+{
+FVector ToVector(Nostalgia::Layout::Point Point) { return FVector(Point.x, Point.y, Point.z); }
+}
 
 ANostalgiaBlockout::ANostalgiaBlockout()
 {
@@ -116,9 +122,9 @@ void ANostalgiaBlockout::Build()
     Box(FVector(-850, 280, 45), FVector(200, 100, 90)); // desk
     Box(FVector(-600, 300, 110), FVector(100, 70, 80)); // CRT placeholder
     Box(FVector(850, 0, -10), FVector(500, 800, 20)); // front yard / porch
-    Box(FVector(-600, 0, -30), FVector(2600, 1800, 20)); // ground visible through the bedroom window
     Box(FVector(3100, 0, -12), FVector(6200, 800, 24)); // street
-    Box(FVector(3000, 0, -30), FVector(6400, 4600, 20)); // lawns
+    // Continuous ground also covers the accessible side/rear yards around the player's home.
+    Box(ToVector(Nostalgia::Layout::NeighborhoodGroundCenter), ToVector(Nostalgia::Layout::NeighborhoodGroundSize));
     // Walkable continuous ground under the destination; no need to jump at transitions.
     Box(FVector(8000, 0, -12), FVector(3000, 1400, 24));
     Box(FVector(6500, 0, 180), FVector(30, 1800, 360)); // separates curated route from free walking
@@ -179,19 +185,19 @@ void ANostalgiaBlockout::Build()
         Box(FVector(X, 3200, 280), FVector(20, 400, 40));
     }
     auto* Entry = GetWorld()->SpawnActor<ANostalgiaHouseInterior>(FVector(1200, -1130, 120), FRotator(0, -90, 0));
-    Entry->Destination = FVector(-1700, 3200, 96);
+    Entry->Destination = ToVector(Nostalgia::Layout::HouseEntryLanding);
     Entry->DestinationYaw = 0;
     Entry->Prompt = TEXT("Haus 10 betreten");
     // Thin door plane faces north/south; rotate so it stays in front of the facade.
     Entry->Frame->SetWorldScale3D(FVector(.2, 1.4, 2.4));
     auto* Exit = GetWorld()->SpawnActor<ANostalgiaHouseInterior>(FVector(-1950, 3200, 120), FRotator(0, 180, 0));
     Exit->Frame->SetWorldScale3D(FVector(.2, 1.4, 2.4));
-    Exit->Destination = FVector(1200, -900, 96);
+    Exit->Destination = ToVector(Nostalgia::Layout::HouseReturnLanding);
     Exit->DestinationYaw = 90;
     Exit->Prompt = TEXT("Zur vertrauten Strasse zurueck");
     Text(FVector(1200, -1050, 290), TEXT("E: HAUS 10"), 90);
 
-    GetWorld()->SpawnActor<ANostalgiaWorldLoop>(FVector(5700, 0, 150), FRotator::ZeroRotator);
+    GetWorld()->SpawnActor<ANostalgiaWorldLoop>(ToVector(Nostalgia::Layout::LoopOrigin), FRotator::ZeroRotator);
     Text(FVector(5580, 0, 270), TEXT("STOP"));
     Box(FVector(5780, 0, 340), FVector(30, 950, 30)); // visual threshold
     for (int32 Index = 0; Index < 5; ++Index)
@@ -220,7 +226,7 @@ void ANostalgiaBlockout::Build()
     Box(FVector(8900, 450, 250), FVector(320, 340, 20));
     auto* Playhouse = GetWorld()->SpawnActor<ANostalgiaHouseInterior>(FVector(8750, 450, 120), FRotator::ZeroRotator);
     Playhouse->Frame->SetWorldScale3D(FVector(.2, 1.4, 2.4));
-    Playhouse->Destination = FVector(7150, 3000, 96);
+    Playhouse->Destination = ToVector(Nostalgia::Layout::PlayhouseLanding);
     Playhouse->DestinationYaw = 0;
     Playhouse->MinimumStage = static_cast<uint8>(Nostalgia::Stage::DarkLampFound);
     Playhouse->Prompt = TEXT("Spielhaus betreten");
@@ -234,7 +240,7 @@ void ANostalgiaBlockout::Build()
     }
     auto* CorridorReturn = GetWorld()->SpawnActor<ANostalgiaHouseInterior>(FVector(6940, 3000, 120), FRotator(0, 180, 0));
     CorridorReturn->Frame->SetWorldScale3D(FVector(.2, 1.4, 2.4));
-    CorridorReturn->Destination = FVector(8550, 450, 96);
+    CorridorReturn->Destination = ToVector(Nostalgia::Layout::PlayhouseReturnLanding);
     CorridorReturn->DestinationYaw = 180;
     CorridorReturn->Prompt = TEXT("Zurueck zur dunklen Laterne");
     QuestObject(FVector(9000, 3000, 120), FVector(20, 220, 240), Nostalgia::Action::EnterPlayhouse,
@@ -242,7 +248,7 @@ void ANostalgiaBlockout::Build()
     // The route remains reversible after unlocking, without resetting the birthday or the clock.
     auto* StreetReturn = GetWorld()->SpawnActor<ANostalgiaHouseInterior>(FVector(6900, -500, 120), FRotator(0, 180, 0));
     StreetReturn->Frame->SetWorldScale3D(FVector(.2, 1.4, 2.4));
-    StreetReturn->Destination = FVector(5300, 0, 96);
+    StreetReturn->Destination = ToVector(Nostalgia::Layout::StreetReturnLanding);
     StreetReturn->DestinationYaw = 180;
     StreetReturn->Prompt = TEXT("Zur vertrauten Nachbarschaft zurueck");
     Text(FVector(7050, -500, 260), TEXT("E: ZURUECK ZUR NACHBARSCHAFT"), 0);
@@ -348,7 +354,7 @@ void ANostalgiaBlockout::Tick(float DeltaSeconds)
     if (Player->GetActorLocation().Z < -500)
     {
         // Recovery keeps quest state and avoids a fall softlock; safe authored anchor.
-        if (Player->TeleportTo(FVector(-1200, 0, 100), FRotator::ZeroRotator, false, false))
+        if (Player->TeleportTo(ToVector(Nostalgia::Layout::Spawn), FRotator::ZeroRotator, false, false))
         {
             Player->GetCharacterMovement()->StopMovementImmediately();
             Player->ProtectTransition();

@@ -38,5 +38,5 @@ void ANostalgiaQuestObject::Interact_Implementation(APawn* InstigatorPawn)
     if (!InstigatorPawn) return;
     const bool bChanged = GetGameInstance()->GetSubsystem<UNostalgiaStateSubsystem>()->Perform(Action);
     if (bChanged && Action == Nostalgia::Action::Photo)
-        if (auto* Player = Cast<ANostalgiaCharacter>(InstigatorPawn)) Player->bMemoryVisible = true;
+        if (auto* Player = Cast<ANostalgiaCharacter>(InstigatorPawn)) Player->SetMemoryVisible(true);
 }

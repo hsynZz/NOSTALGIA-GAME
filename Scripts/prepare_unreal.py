@@ -70,7 +70,7 @@ def main():
         blockout = actor_system.spawn_actor_from_class(unreal.NostalgiaBlockout, unreal.Vector(0, 0, 0))
         require(blockout is not None, "Native blockout class not loaded; build NOSTALGIAEditor first")
         blockout.set_actor_label("EndlessSummer_RuntimeBlockout")
-        start = actor_system.spawn_actor_from_class(unreal.PlayerStart, unreal.Vector(-1200, 0, 100))
+        start = actor_system.spawn_actor_from_class(unreal.PlayerStart, unreal.NostalgiaGameMode.prototype_spawn_location())
         require(start is not None, "PlayerStart creation failed")
         require(level.save_current_level(), "Map save failed")
     else:

@@ -1,5 +1,6 @@
 #include "Core/NostalgiaCore.h"
 #include "Core/NostalgiaEncounter.h"
+#include "Core/NostalgiaSnapshot.h"
 #include <algorithm>
 #include <cmath>
 #include <functional>
@@ -421,6 +422,135 @@ int main()
             state = saved;
             Check(Apply(state, Action::EnterPlayhouse) && Validate(state), "restored final action failed");
             Check(state.history[0].count == 1 && state.history[1].count == 1, "delivery history wrong");
+        }},
+        {"all authored transition landings support valid restore regions", [] {
+            for (const auto point : {Layout::Spawn, Layout::LoopLockedLanding, Layout::HouseEntryLanding,
+                                   Layout::HouseReturnLanding, Layout::StreetReturnLanding})
+                Check(Layout::CanRestoreAt(point, Stage::Arrival), "ordinary landing outside region");
+            Check(Layout::CanRestoreAt(Layout::LoopUnlockedLanding, Stage::RoadUnlocked), "unlocked landing");
+            Check(Layout::CanRestoreAt(Layout::PlayhouseReturnLanding, Stage::RoadUnlocked), "lamp return landing");
+            Check(Layout::CanRestoreAt(Layout::PlayhouseLanding, Stage::DarkLampFound), "corridor landing");
+        }},
+        {"restore cannot bypass the birthday loop or dark lamp", [] {
+            for (const auto stage : {Stage::Arrival, Stage::PhotoFound, Stage::DiscrepancySeen, Stage::BirthdayRestored})
+                Check(!Layout::CanRestoreAt(Layout::LoopUnlockedLanding, stage), "early finale restore");
+            Check(!Layout::CanRestoreAt(Layout::PlayhouseLanding, Stage::RoadUnlocked), "early corridor restore");
+            Check(Layout::CanRestoreAt(Layout::PlayhouseLanding, Stage::Complete), "complete corridor restore");
+        }},
+        {"voids between interiors and outdoors are excluded from restore", [] {
+            for (const auto p : {Layout::Point{1000,3200,96}, Layout::Point{6400,0,96},
+                                 Layout::Point{8000,2000,96}, Layout::Point{-2200,0,96}, Layout::Point{9900,0,96}})
+                Check(!Layout::CanRestoreAt(p, Stage::Complete), "old broad rectangle accepted empty region");
+        }},
+        {"restore regions leave room for the player capsule at edges", [] {
+            const double edge = Layout::NeighborhoodXY.minY + Layout::PlayerRadius;
+            Check(Layout::CanRestoreAt({1000,edge,96}, Stage::Arrival), "valid margin rejected");
+            Check(!Layout::CanRestoreAt({1000,edge-.01,96}, Stage::Arrival), "capsule crosses boundary");
+            Check(!Layout::Contains(Layout::NeighborhoodXY, {0,0,96}, -1), "negative margin");
+        }},
+        {"saved capsules overlapping the loop are rejected before teleport", [] {
+            const auto p = Layout::LoopOrigin;
+            Check(Layout::OverlapsLoopTrigger(p), "trigger center missed");
+            Check(!Layout::CanRestoreAt(p, Stage::BirthdayRestored), "load could trigger a loop");
+            Check(!Layout::CanRestoreAt({p.x+133.9,p.y,96}, Stage::RoadUnlocked), "capsule expansion missing");
+            Check(!Layout::CanRestoreAt({p.x,p.y+503.9,96}, Stage::RoadUnlocked), "side capsule expansion missing");
+            Check(Layout::CanRestoreAt({p.x,p.y+505,96}, Stage::Arrival), "unrelated side yard rejected");
+        }},
+        {"neighborhood floor covers side yards and the complete bounded rectangle", [] {
+            const auto center = Layout::NeighborhoodGroundCenter;
+            const auto size = Layout::NeighborhoodGroundSize;
+            const Layout::Bounds floor{center.x-size.x/2, center.x+size.x/2, center.y-size.y/2, center.y+size.y/2};
+            for (const double x : {Layout::NeighborhoodXY.minX, Layout::NeighborhoodXY.maxX})
+                for (const double y : {Layout::NeighborhoodXY.minY, Layout::NeighborhoodXY.maxY})
+                    Check(Layout::Contains(floor, {x,y,0}), "bounded neighborhood has no floor");
+            Check(Layout::Contains(floor, {-1200,1200,0}), "rear garden floor missing");
+            Check(Layout::Contains(floor, {-1000,-1500,0}), "side garden floor missing");
+            Check(center.z + size.z/2 == -20, "lawn surface height changed");
+        }},
+        {"district classification uses bounded authored rooms", [] {
+            Check(DistrictAt(-1000,3200) == District::Interior, "house region");
+            Check(DistrictAt(-1000,5000) == District::Street, "unbounded interior classification");
+            Check(DistrictAt(-5000,0) == District::Street, "unbounded safe home classification");
+            Check(DistrictAt(8000,2000) == District::Street, "unbounded finale classification");
+        }},
+        {"snapshot validates a new game and normal quest progression", [] {
+            SaveSnapshot snapshot;
+            Check(ValidateSnapshot(snapshot), "new snapshot invalid");
+            for (const auto action : {Action::Photo, Action::ComparePhoto, Action::RestoreBirthday}) {
+                Check(Apply(snapshot.state, action), "quest action");
+                Check(ValidateSnapshot(snapshot), "valid progress snapshot rejected");
+            }
+            Check(TraverseLoop(snapshot.state), "loop");
+            snapshot.position = Layout::LoopUnlockedLanding;
+            Check(ValidateSnapshot(snapshot), "valid finale snapshot rejected");
+            Apply(snapshot.state, Action::ExamineLamp); snapshot.position = Layout::PlayhouseLanding;
+            Check(ValidateSnapshot(snapshot), "valid corridor snapshot rejected");
+            Apply(snapshot.state, Action::EnterPlayhouse);
+            Check(ValidateSnapshot(snapshot), "complete snapshot rejected");
+        }},
+        {"snapshot rejects corrupt position, rotation and progression", [] {
+            for (const double bad : {std::nan(""), std::numeric_limits<double>::infinity()}) {
+                SaveSnapshot s; s.position.x = bad; Check(!ValidateSnapshot(s), "bad x");
+                s = SaveSnapshot{}; s.rotation.y = bad; Check(!ValidateSnapshot(s), "bad yaw");
+            }
+            SaveSnapshot s; s.position.z = 801; Check(!ValidateSnapshot(s), "bad height");
+            s = SaveSnapshot{}; s.rotation.x = 361; Check(!ValidateSnapshot(s), "unbounded rotation");
+            s = SaveSnapshot{}; s.state = RestoredBirthday(); s.state.minute = 1000;
+            Check(!ValidateSnapshot(s), "birthday clock reversal accepted");
+            s = SaveSnapshot{}; s.state.loops = 1;
+            Check(!ValidateSnapshot(s), "loop without transition timestamp");
+            s = SaveSnapshot{}; s.state.lastTransition = 0;
+            Check(!ValidateSnapshot(s), "transition timestamp without loop");
+        }},
+        {"snapshot accepts wrapped and signed Unreal view angles", [] {
+            SaveSnapshot s;
+            for (const double angle : {-360., -90., 0., 270., 360.}) {
+                s.rotation = {angle, angle, 0};
+                Check(ValidateSnapshot(s), "valid UE angle rejected");
+            }
+        }},
+        {"door preflight distinguishes saved open and closed poses", [] {
+            const Layout::Point hinge{-200,-110,0};
+            Check(CapsuleOverlapsDoor({-200,0,96}, hinge, false), "closed panel missed");
+            Check(!CapsuleOverlapsDoor({-200,0,96}, hinge, true), "valid open doorway blocked");
+            Check(CapsuleOverlapsDoor({-90,-110,96}, hinge, true), "open panel missed");
+            Check(!CapsuleOverlapsDoor({-90,-110,96}, hinge, false), "closed pose incorrectly uses open panel");
+        }},
+        {"door preflight handles capsule edges and overhead clearance", [] {
+            const Layout::Point hinge{0,0,0};
+            Check(CapsuleOverlapsDoor({43.9,110,96}, hinge, false), "capsule side missed");
+            Check(!CapsuleOverlapsDoor({44.1,110,96}, hinge, false), "capsule side false overlap");
+            Check(CapsuleOverlapsDoor({0,110,327.9}, hinge, false), "capsule lower cap missed");
+            Check(!CapsuleOverlapsDoor({0,110,328.1}, hinge, false), "capsule above door blocked");
+            // Rounded lower cap does not fill the enclosing AABB's corners.
+            Check(!CapsuleOverlapsDoor({43,110,327}, hinge, false), "box approximation blocks clear cap corner");
+        }},
+        {"door collision model is equivalent under the authored ninety degree rotation", [] {
+            const Layout::Point hinge{600,-110,0};
+            for (int x=-80; x<=300; x+=10)
+                for (int y=-80; y<=300; y+=10) {
+                    const Layout::Point p{hinge.x+x,hinge.y+y,96};
+                    const Layout::Point rotated{hinge.x-y,hinge.y+x,96};
+                    Check(CapsuleOverlapsDoor(p, hinge, true) == CapsuleOverlapsDoor(rotated, hinge, false),
+                        "open pose rotation differs from panel geometry");
+                }
+        }},
+        {"malformed collision dimensions fail closed", [] {
+            const Layout::Point p{0,0,96}, hinge{0,0,0};
+            Check(CapsuleOverlapsDoor(p, hinge, false, -1,88), "negative radius");
+            Check(CapsuleOverlapsDoor(p, hinge, false, 34,10), "invalid capsule height");
+            Check(CapsuleOverlapsDoor({std::nan(""),0,96}, hinge, true), "bad position");
+        }},
+        {"persisted snapshot keeps director history, RNG and door states", [] {
+            SaveSnapshot original; original.state = RestoredBirthday(); original.state.openDoors = 3;
+            SelectEvent(original.state, At(District::Street));
+            TraverseLoop(original.state); Apply(original.state, Action::ExamineLamp);
+            original.position = Layout::PlayhouseLanding;
+            const SaveSnapshot restored = original;
+            Check(ValidateSnapshot(restored), "snapshot invalid");
+            auto replay = restored.state; Advance(replay, 200);
+            Check(SelectEvent(replay, At(District::Street)) == EventId::Count, "consumed sighting replayed");
+            Check(replay.openDoors == 3 && replay.randomState == original.state.randomState, "saved state changed");
         }},
         {"every quest stage has an objective and a recovery hint", [] {
             for (int i=0; i<=6; ++i) {

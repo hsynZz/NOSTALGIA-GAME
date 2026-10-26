@@ -43,31 +43,47 @@ IMPLEMENT_SIMPLE_AUTOMATION_TEST(FNostalgiaSaveRoundtripTest, "Nostalgia.Save.Un
     EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
 bool FNostalgiaSaveRoundtripTest::RunTest(const FString& Parameters)
 {
+    Nostalgia::SaveSnapshot Expected;
+    Nostalgia::Advance(Expected.state, 12);
+    Nostalgia::Apply(Expected.state, Nostalgia::Action::Photo);
+    Nostalgia::Apply(Expected.state, Nostalgia::Action::ComparePhoto);
+    Nostalgia::Apply(Expected.state, Nostalgia::Action::RestoreBirthday);
+    Expected.state.randomState = 45678;
+    Expected.state.openDoors = 3;
+    const Nostalgia::Context Garden{Nostalgia::District::Garden, false, false, 10, 0};
+    Nostalgia::SelectEvent(Expected.state, Garden);
+    Expected.position = {2050, 900, 96};
+    Expected.rotation = {0, 90, 0};
     auto* Original = NewObject<UNostalgiaSaveGame>();
-    Original->Stage = 3;
-    Original->Minute = 1234;
-    Original->RandomState = 45678;
-    Original->OpenDoors = 1;
-    Original->PlayerLocation = FVector(1200, 42, 96);
-    FNostalgiaSavedEvent History;
-    History.Count = 1; History.LastTime = 12;
-    Original->Events.Add(History);
+    if (!TestTrue(TEXT("Encode validated production snapshot"), Original->FromSnapshot(Expected))) return false;
     TArray<uint8> Bytes;
     if (!TestTrue(TEXT("Serialize actual USaveGame"), UGameplayStatics::SaveGameToMemory(Original, Bytes))) return false;
     auto* Loaded = Cast<UNostalgiaSaveGame>(UGameplayStatics::LoadGameFromMemory(Bytes));
     if (!TestNotNull(TEXT("Deserialize class"), Loaded)) return false;
-    TestEqual(TEXT("Schema"), Loaded->Version, Nostalgia::SaveVersion);
-    TestEqual(TEXT("Chapter"), Loaded->Chapter, Original->Chapter);
-    TestEqual(TEXT("Quest"), Loaded->Stage, Original->Stage);
-    TestEqual(TEXT("Clock"), Loaded->Minute, Original->Minute);
-    TestEqual(TEXT("RNG"), Loaded->RandomState, Original->RandomState);
-    TestEqual(TEXT("Door"), Loaded->OpenDoors, Original->OpenDoors);
+    Nostalgia::SaveSnapshot Actual;
+    if (!TestTrue(TEXT("Decode actual Unreal serialization"), Loaded->ToSnapshot(Actual))) return false;
+    TestTrue(TEXT("Quest, clock, doors, history and RNG roundtrip"), Actual.state == Expected.state);
     TestEqual(TEXT("Position"), Loaded->PlayerLocation, Original->PlayerLocation);
-    if (TestEqual(TEXT("History size"), Loaded->Events.Num(), 1))
-    {
-        TestEqual(TEXT("Count"), Loaded->Events[0].Count, 1);
-        TestEqual(TEXT("Last event time"), Loaded->Events[0].LastTime, 12.0);
-    }
+    TestEqual(TEXT("View"), Loaded->PlayerRotation, Original->PlayerRotation);
+    TestEqual(TEXT("Event history count"), Loaded->Events.Num(), static_cast<int32>(Nostalgia::EventCount));
+    TestEqual(TEXT("Schema"), Loaded->Version, Nostalgia::SaveVersion);
+    Loaded->Stage = 255;
+    const auto Before = Actual;
+    TestFalse(TEXT("Reject corrupt reflected stage"), Loaded->ToSnapshot(Actual));
+    TestTrue(TEXT("Rejected decode preserves output"), Actual.state == Before.state && Actual.position.x == Before.position.x);
+    Loaded->FromSnapshot(Expected);
+    Loaded->Events[0].Count = -1;
+    TestFalse(TEXT("Reject negative reflected event count"), Loaded->ToSnapshot(Actual));
+    Loaded->FromSnapshot(Expected);
+    ++Loaded->Version;
+    TestFalse(TEXT("Reject incompatible schema"), Loaded->ToSnapshot(Actual));
+    Loaded->FromSnapshot(Expected);
+    Loaded->Chapter = TEXT("OtherChapter");
+    TestFalse(TEXT("Reject foreign chapter"), Loaded->ToSnapshot(Actual));
+    auto Invalid = Expected;
+    Invalid.position = {3000, 3200, 96};
+    TestFalse(TEXT("Reject unsupported position before encoding"), Original->FromSnapshot(Invalid));
+    TestEqual(TEXT("Rejected encode preserves original position"), Original->PlayerLocation, FVector(2050, 900, 96));
     return true;
 }
 
