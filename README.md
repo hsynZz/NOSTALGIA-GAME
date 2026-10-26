@@ -2,6 +2,8 @@
 
 **Jetzt ausprobieren:** [Spielbare Browser-Testversion herunterladen (ZIP)](https://github.com/hsynZz/NOSTALGIA-GAME/raw/refs/heads/main/BrowserPrototype/Delivery/NOSTALGIA-Browser-0.1.zip). Entpacken und `index.html` mit Edge/Chrome öffnen; kein Unreal, kein lokaler Server und keine zusätzliche Installation erforderlich. Aktueller Browser mit WebGL2 vorausgesetzt.
 
+**Ohne ZIP:** [Einzelne HTML-Datei auf GitHub](https://github.com/hsynZz/NOSTALGIA-GAME/blob/main/BrowserPrototype/Delivery/NOSTALGIA-0.1.html) → **Download raw file** (Pfeil nach unten) → gespeicherte Datei in Edge/Chrome öffnen.
+
 Die separate [Browserversion](BrowserPrototype/README.md) enthält einen bis zum Abschluss getesteten 3D-Testabschnitt mit Bewegung, Türen, Gartenereignis, Heimkehrer und Escape-Kette. **20 echte Chromium-/WebGL-Prüfungen und 13 Browser-Logik-/Physiktests bestanden**. Das ist ein zusätzlicher Konzepttest. Das Unreal-Projekt bleibt das langfristige Hauptprojekt; dessen Buildstatus folgt unten. [Lieferbericht und Grenzen](BrowserPrototype/VALIDATION.md).
 
 **Endless Summer (2004). Echtes Unreal-C++-Quellprojekt, Zielversion UE 5.8.0. Engine-Build und Spielbarkeit des Unreal-Projekts sind unverifiziert.**

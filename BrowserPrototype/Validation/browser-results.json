@@ -1,6 +1,6 @@
 {
   "result": "passed",
-  "completed_utc": "2026-10-26T11:02:11.974Z",
+  "completed_utc": "2026-10-26T13:22:42.259Z",
   "checks": [
     "Actual WebGL2 startup, mouse look, pause/resume and user-gesture audio activation",
     "Actual Shift sprint input increases movement speed",
@@ -34,8 +34,8 @@
     "gardenStarts": 1,
     "knockStarts": 0,
     "activeSources": 1,
-    "rms": 0.00872394856228086,
-    "peak": 0.03184853866696358,
+    "rms": 0.005119845725751247,
+    "peak": 0.02169833332300186,
     "sampleRate": 44100,
     "lastError": null
   },

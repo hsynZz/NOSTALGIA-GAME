@@ -1,14 +1,14 @@
 {
-  "base_commit": "2ef77a34987ab0c951c3b6b7217aee74ac4d40ee",
+  "base_commit": "2dd5f08b65d737c131ea8a8742b812bf8d6ca671",
   "build": {
     "name": "NOSTALGIA Browser Prototype",
     "version": "0.1.0",
-    "source_base_commit": "2ef77a34987ab0c951c3b6b7217aee74ac4d40ee",
-    "html_sha256": "88729567782b6aa85c3fe348e266a9f48cfdbfcdfa3e3713b509318199181839",
+    "source_base_commit": "2dd5f08b65d737c131ea8a8742b812bf8d6ca671",
+    "html_sha256": "4ed41e92b64a95026736fdbf0fd78654e3de1ac9a50034ea49a6fc3b28c5ed52",
     "runtime": "standalone HTML / WebGL2",
     "unreal_build": false
   },
-  "zip_bytes": 146974,
+  "zip_bytes": 146979,
   "node_tests": 13,
   "browser_checks": 20,
   "native_tests": 62,
@@ -17,7 +17,7 @@
   "input_sha256": {
     "BrowserPrototype/src/audio.js": "d3887af08d4954725f96b4dd80d619a90fd0f915c1eeabc6c24a5ae7e19a069f",
     "BrowserPrototype/src/core.js": "54be656e5c0e4c25a3fe00ba3296bb7eb4247058e367733f978cb3fc977fb06a",
-    "BrowserPrototype/src/main.js": "1fed87d8a579f3e52db8d31301cbcd8a84cefed41587ee2ef8f54ad10ea9b228",
+    "BrowserPrototype/src/main.js": "78fa703caa4baa280d751b221b7f7ca3bc3fe951e38e61e240db5a3abcaa7295",
     "BrowserPrototype/src/physics.js": "458af76aba5b8ac009ec26166af90e3be449cbdd31bc730091197b659080af0b",
     "BrowserPrototype/src/style.css": "20d2e0586dff8dc45b78d4f8c4cdb73c0da9fecf27f8a895f427fb6700a99c16",
     "BrowserPrototype/src/world.js": "5f20a6aace08009ea56ab82b1b6cc61f72acb0858a0440ba5dda9fe464291919",
@@ -27,7 +27,8 @@
     "BrowserPrototype/tests/browser.mjs": "cbd9041f7b367e043257edfc70726b89bc4b25c7ca42a6636df054c28ded90b0",
     "BrowserPrototype/tests/core.test.mjs": "1a34be389158e363178395d86512976e2ecfa06ac1dbaca88d01868eabd3ae3e",
     "BrowserPrototype/tests/physics.test.mjs": "ceee6469e80758676d13b2cff718cb659ff554dd290b4b0848e7285714eeeb50",
-    "BrowserPrototype/scripts/build.mjs": "1f1de10cb17fbed020ae91a90033a14e186130a82bb6b241ec1baf6c29a3a89c",
-    "BrowserPrototype/Delivery/NOSTALGIA-Browser-0.1.zip": "720886bce7d13dc9705763a68dda524eb96759c23d7095c86c0c00f36aff93ed"
+    "BrowserPrototype/scripts/build.mjs": "b374272d56920b90b7a1dbdf1a233a300aef15d10d2f0b29868d2c158dc977ca",
+    "BrowserPrototype/Delivery/NOSTALGIA-0.1.html": "4ed41e92b64a95026736fdbf0fd78654e3de1ac9a50034ea49a6fc3b28c5ed52",
+    "BrowserPrototype/Delivery/NOSTALGIA-Browser-0.1.zip": "843e1450fad47349febe4dc25f83331c5adc43b70c8b052a6a538794ed008573"
   }
 }

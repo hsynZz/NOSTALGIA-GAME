@@ -178,7 +178,9 @@ function tick(dt){
   if(performance.now()>toastUntil)$('toast').style.opacity=0;
 }
 function frame(stamp){requestAnimationFrame(frame);const dt=Math.min(.05,(stamp-lastStamp)/1000);lastStamp=stamp;renderAccumulator+=dt;
-  if(document.hidden)return;tick(dt);
+  if(document.hidden)return;
+  // Test drivers advance gameplay explicitly; rendering speed on CI must not change their input timing.
+  if(testing){setCamera();world.update(state,state.elapsed);}else tick(dt);
   if(renderAccumulator>1/30){renderer.render(scene,camera);renderAccumulator=0;}
 }
 function look(dx,dy){if(!running||photoOpen)return;player.yaw-=dx*.0023;player.pitch=THREE.MathUtils.clamp(player.pitch-dy*.0023,-1.48,1.48);}

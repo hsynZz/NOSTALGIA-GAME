@@ -4,6 +4,8 @@ Diese separate Three.js-Testversion setzt Endless Summer (2004) als kleine, loka
 
 ## Ohne Installation ausprobieren
 
+**Alternative ohne ZIP:** [Einzelne HTML-Datei öffnen](https://github.com/hsynZz/NOSTALGIA-GAME/blob/main/BrowserPrototype/Delivery/NOSTALGIA-0.1.html). Auf der GitHub-Dateiseite **Download raw file** (Pfeil nach unten) wählen. Die gespeicherte Datei `NOSTALGIA-0.1.html` auf Windows mit Edge/Chrome öffnen. Es muss nichts entpackt werden.
+
 1. [Testversion als ZIP herunterladen](https://github.com/hsynZz/NOSTALGIA-GAME/raw/refs/heads/main/BrowserPrototype/Delivery/NOSTALGIA-Browser-0.1.zip).
 2. ZIP vollständig entpacken.
 3. `index.html` mit Microsoft Edge oder Chrome öffnen und im Spiel auf Start klicken.

@@ -6,6 +6,8 @@ Stand: 26.10.2026. Grundlage: bestehendes Repository `2ef77a3`. Das Unreal-Proje
 
 [NOSTALGIA-Browser-0.1.zip herunterladen](https://github.com/hsynZz/NOSTALGIA-GAME/raw/refs/heads/main/BrowserPrototype/Delivery/NOSTALGIA-Browser-0.1.zip), entpacken, `index.html` im aktuellen Edge/Chrome öffnen und **Aufwachen** wählen. Die etwa 147 KB große ZIP enthält das vollständige Spiel als eigenständige HTML-Datei, Anleitung, Lizenz und Build-Prüfsumme. Es werden keine Modelle, Klänge, Bibliotheken oder Schriftarten aus dem Netz nachgeladen. Ein WebGL2-fähiger Browser wird benötigt.
 
+Zusätzlich liegt dieselbe getestete Auslieferung ohne ZIP unter `Delivery/NOSTALGIA-0.1.html`. Der Build prüft die Bytegleichheit mit dem HTML in der ZIP; auf GitHub kann die Datei über **Download raw file** heruntergeladen werden.
+
 Eine GitHub-Pages-Veröffentlichung ist mit [.github/workflows/browser-pages.yml](../.github/workflows/browser-pages.yml) vorbereitet. Die Cloud konnte die Pages-Einstellungen wegen gesperrtem API-Zugriff nicht lesen/ändern; die Pages-Adresse konnte wegen des Netzwerkproxys nicht überprüft werden. **Kein bestätigter Live-Link.** Die ZIP ist die unmittelbar gelieferte Testversion. Die konkreten einmaligen Pages-Einstellungen stehen in [README.md](README.md#github-pages).
 
 ## Implementierter Spielumfang
@@ -45,3 +47,5 @@ Der Browser verwendet einen ausdrücklich getrennten JavaScript-Port. Direkte C+
 Unreal-Zentimeter werden in Browser-Meter mit Y als Höhe und Z als zweiter Bodenachse übertragen. Physik ist vereinfacht: vertikale Figur gegen feste rechteckige Flächen, ebener Grund, vereinfachte Tür-Kollision statt Unreal-Capsule-Sweeps. Offene Türblätter blockieren nicht dynamisch. Die Heimkehrer-Darstellung ist ein eigener begrenzter Browser-Ablauf, kein Port der vollständigen Unreal-KI. Räumliches Browseraudio nutzt Abstand/Panorama; echte Wand-Occlusion fehlt. Browser-Saves nutzen einen eigenen lokalen Speicherplatz und sind nicht mit Unreal-Saves austauschbar; private Browsereinstellungen können Speicherung verhindern.
 
 Die Gartenstimme ist ein eigener synthetischer Testklang, keine Aufnahme von Kindern. Hochwertige Modelle, fotorealistische Grafik, Hände/Animationen, echte Stimmen, vollständige Verfolgung, weitere Kapitel, Steam-/Konsolenbuild und der erste tatsächliche Unreal-Lauf fehlen weiterhin. Die Browserversion bleibt der spielbare Konzepttest neben dem Unreal-Hauptprojekt.
+
+Der Testmodus taktet die Spielsimulation ausdrücklich über den Testfahrer; die Rendergeschwindigkeit verändert dadurch nicht mehr zwischen zwei Eingabeschritten den Testzustand. Der normale Spielmodus bleibt an die Echtzeit gekoppelt. Die erneuten 20 lokalen Browser-Prüfgruppen bestanden. Der erste öffentliche GitHub-Actions-Lauf hatte im Browser-Prüfschritt abgebrochen; ein lokaler Erfolg wird nicht als erfolgreicher Remote-Deploy ausgegeben.

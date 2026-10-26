@@ -30,6 +30,8 @@ await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
 await mkdir(delivery, { recursive: true });
 await writeFile(resolve(dist, 'index.html'), html);
+// Direct single-file alternative for users whose browser/app blocks ZIP downloads.
+await writeFile(resolve(delivery, 'NOSTALGIA-0.1.html'), html);
 await writeFile(resolve(dist, '.nojekyll'), '');
 await writeFile(resolve(dist, 'README_STEUERUNG.txt'), `NOSTALGIA - Prototype 0.1 / Endless Summer 2004\n\n1. Das ZIP vollstaendig entpacken.\n2. index.html mit Microsoft Edge oder Google Chrome oeffnen.\n3. Im Spiel auf Aufwachen klicken. Zum Umschauen Mausklick ins Spiel; Esc gibt die Maus frei.\n\nWASD: bewegen. Maus: umsehen. Shift: sprinten. Leertaste: springen. C: ducken.\nE: interagieren. J: Foto. H: Hinweis. F5: speichern. F9: laden.\nAuf Touch-Geraeten: Bildschirmsteuerung; Safari verlangt den Start per Beruehrung fuer Audio.\n\nDie gesamte Testversion liegt in index.html. Kein Unreal Editor, Python, Node oder Internet erforderlich.\nWebGL2 muss im Browser verfuegbar sein. Bei einer WebGL-Fehlermeldung Hardwarebeschleunigung im Browser pruefen.\n\nDies ist die separate Browser-Testversion. Das Unreal-Projekt bleibt das langfristige Hauptprojekt.\nAlle Modelle und Klaenge sind einfache Testdarstellungen. Der Gartenklang ist synthetisch erzeugt.\nUnterstuetzung und Quellen: https://github.com/hsynZz/NOSTALGIA-GAME\n`);
 const license = await readFile(resolve(root, 'node_modules/three/LICENSE'), 'utf8');
